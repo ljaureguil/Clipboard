@@ -75,6 +75,16 @@
         ta.href = decodedText;
         ta.innerHTML = decodedText;
         tx.value = decodedText;
+        
+        var d=true;
+        if(d){
+       var pp=tx.value.split(" ");
+          getPart(pp[0],function(r){
+              alert(r.des)
+          });
+        }
+
+
         document.getElementsByTagName("style")[0].innerHTML = s.innerHTML;
         var st = document.createElement("style");
         st.innerHTML = s;
@@ -109,7 +119,18 @@ function setupinventario(){
     })
 }
 
+function getPart(pn,callback){
+    GetJ(linkp,function(obj){
+        p=obj.parts;
+        for(var i=0;i<p.length;i++){
+           if(pn===p.pn) callback( p.pn,obj);
+           return p.pn
 
+        }
+     
+    })
+
+}
     function GetJ(url, callback) {
 
 //var url  = "http://localhost:8080/api/v1/users";
