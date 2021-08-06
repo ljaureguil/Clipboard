@@ -1,0 +1,154 @@
+<html>
+
+<head id="h1">
+    <meta name="viewport" content="width=device-width">
+</head>
+
+<style id="s1">
+    body {
+        text-align: center;
+        font-size: 35px;
+        margin: 20px;
+        background:white;
+    }
+    code# {
+        margin: 5%;
+        width: 10%;
+        position: absolute;
+        bottom:2%;
+        right:1%;
+    }
+    button {
+        font-size: 35px;
+        border-radius: 10px;
+        background: blue;
+        color: white;
+    }
+    #reader {
+        width: 100%;
+        color: white;
+        font-size: 25px;
+    }
+    #ta {
+        width: 95%;
+        display: none;
+    }
+    #tx {
+        margin: 5%;
+        width: 90%;
+        font-size: 35px;
+        height: 20%;
+        background-color: turquoise;
+    }
+</style>
+<div id="reader"></div>
+<br>
+
+<div id="res">
+    Resultado:
+    <br>
+    <a id="ta" href="" target="_blank"></a>
+    <br>
+    <br>
+    <textarea id="tx"></textarea>
+</div>
+
+<script src="html5-qrcode.min.js"></script>
+
+
+<script>
+     var linkp = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb'
+ 
+    
+    var s = document.getElementsByTagName("style")[0];
+    var html5QrcodeScanner = new Html5QrcodeScanner(
+        "reader", {
+            fps: 10,
+            qrbox: 250
+        });
+    html5QrcodeScanner.render(onScanSuccess, onScanError);
+
+    function onScanSuccess(decodedText, decodedResult) {
+        alert(decodedText);
+        if (decodedText.indexOf("http") > -1) ta.style.display = "block";
+        else ta.style.display = "none";
+        ta.href = decodedText;
+        ta.innerHTML = decodedText;
+        tx.value = decodedText;
+        document.getElementsByTagName("style")[0].innerHTML = s.innerHTML;
+        var st = document.createElement("style");
+        st.innerHTML = s;
+        document.body.getElementsByTagName("style")[0] = st;
+        }
+
+    function onScanError(errorMessage) {
+        // handle on error condition, with error message
+    }
+
+
+    function loadDoc(url, callback) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", url, false);
+        xhttp.send();
+        callback(xhttp.responseText);
+
+    }
+  //  setupinventario();
+function setupinventario(){
+
+    GetJ(linkp,function(obj){
+     
+      for(var i=0;i<obj.parts.length;i++){
+          var s=obj.parts[i].pn;
+    
+          s.replace(/ /g,"_");
+
+      }
+      UpdateJ(linkp,obj,function(){alert("done")})
+
+    })
+}
+
+
+    function GetJ(url, callback) {
+
+//var url  = "http://localhost:8080/api/v1/users";
+var xhr = new XMLHttpRequest()
+xhr.open('GET', url + '/1', true)
+xhr.onload = function() {
+    //         (xhr.responseText)
+    var users = JSON.parse(xhr.responseText);
+    //     var obb=decoding(users.prim);
+
+    if (xhr.readyState == 4 && xhr.status == "200") {
+        callback(users);
+    } else {
+        console.error(users);
+    }
+}
+xhr.send(null);
+}
+
+// Update a user
+function UpdateJ(url, ob, callback) {
+//   var o={};
+//   o.prim=encoding(ob);
+json = JSON.stringify(ob);
+var xhr = new XMLHttpRequest();
+xhr.open("PUT", url + '/12', true);
+xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+xhr.onload = function() {
+    var users = JSON.parse(xhr.responseText);
+    if (xhr.readyState == 4 && xhr.status == "200") {
+        //  alert("Tu Forma ha sido Enviada");
+        if (callback != undefined) callback(users);
+    } else {
+        (users);
+    }
+}
+xhr.send(json);
+}
+
+</script>
+
+</html>
