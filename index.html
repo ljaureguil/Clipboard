@@ -38,7 +38,22 @@
         width: 90%;
         font-size: 35px;
         height: 20%;
-        background-color: turquoise;
+        background-color: rgb(14, 236, 118);
+    }
+    #dor{
+        padding:12px;
+        position: absolute;
+        top:20%;
+        left: 35%;
+        width: auto;
+        text-align: right;
+        border-style: solid;
+        background-color: rgb(14, 236, 118);
+        display: none;
+    }
+    #de{
+        height: auto;
+
     }
 </style>
 <div id="reader"></div>
@@ -52,14 +67,33 @@
     <br>
     <textarea id="tx"></textarea>
 </div>
+    <div id="dor"> 
+           Qty: <input id="qt" type="number"><br><br>
+        Job No. <input id="jn" type="text"><br><br>
 
+        Part No. <input id="pno" type="text"><br><br>
+        dsesc: <input id="de" type="text"><br><br>
+         Mech <input id="me" type="text"><br> <br>  
+        Date <input id="da" type="date"><br></br>
+        <button onclick="dor.style.display='none'">Close</button>
+        <button onclick="dor.style.display='none';send()">Send To Clipboard</button>        
+    </div>
 <script src="html5-qrcode.min.js"></script>
 
 
 <script>
      var linkp = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb'
- 
-    
+      var mecanico=""
+       mecanico=localStorage.getItem("mec");
+     
+                if(mecanico===null || mecanico===""){
+                    mecanico=prompt("Type your Name");
+                    localStorage.setItem("mec",mecanico);
+                       }
+                else{
+                    alert("Hi "+mecanico);
+
+                }
     var s = document.getElementsByTagName("style")[0];
     var html5QrcodeScanner = new Html5QrcodeScanner(
         "reader", {
@@ -70,6 +104,7 @@
 
     function onScanSuccess(decodedText, decodedResult) {
         alert(decodedText);
+         dor.style.display="block"
         if (decodedText.indexOf("http") > -1) ta.style.display = "block";
         else ta.style.display = "none";
         ta.href = decodedText;
@@ -79,8 +114,12 @@
         var d=true;
         if(d){
        var pp=tx.value.split(" ");
-          getPart(pp[0],function(r){
-              alert(r.des)
+          getPart(pp[0],function(r,obj){
+             pno.value=r.pn
+             de.value=r.des;
+             me.value=mecanico;
+
+    
           });
         }
 
@@ -120,16 +159,24 @@ function setupinventario(){
 }
 
 function getPart(pn,callback){
+  //  alert(pn)
     GetJ(linkp,function(obj){
         p=obj.parts;
         for(var i=0;i<p.length;i++){
-           if(pn===p.pn) callback( p.pn,obj);
-           return p.pn
+           if(pn===p[i].pn){
+             callback( p[i],obj);
+             return p[i]
 
+            }
+         //  
         }
      
     })
 
+}
+function send(){
+
+    
 }
     function GetJ(url, callback) {
 
