@@ -39,17 +39,19 @@
         font-size: 35px;
         height: 20%;
         background-color: rgb(14, 236, 118);
+        display: none;
     }
     #dor{
         padding:12px;
-        position: absolute;
-        top:20%;
-        left: auto;
+ 
         width: auto;
-        text-align: right;
+   
         border-style: solid;
         background-color: rgb(14, 236, 118);
         display: none;
+    }
+    .cin{
+        text-align: right;     
     }
     #de{
         height: auto;
@@ -60,21 +62,19 @@
 <br>
 
 <div id="res">
-    Resultado:
-    <br>
+  
     <a id="ta" href="" target="_blank"></a>
-    <br>
-    <br>
+
     <textarea id="tx"></textarea>
 </div>
     <div id="dor"> 
-           Qty: <input id="qt" type="number"><br><br>
-        Job No. <input id="jn" type="text"><br><br>
+           Qty: <input id="qt" type="number" class="cin"><br><br>
+        Job No. <input id="jn" type="text" class="cin"><br><br>
 
-        Part No. <input id="pno" type="text"><br><br>
-        dsesc: <input id="de" type="text"><br><br>
-         Mech <input id="me" type="text"><br> <br>  
-        Date <input id="da" type="date"><br></br>
+        Part No. <input id="pno" type="text" class="cin"><br><br>
+        dsesc: <input id="de" type="text" class="cin"><br><br>
+         Mech <input id="me" type="text" class="cin"><br> <br>  
+        Date <input id="da" type="date" class="cin"><br></br>
         <button onclick="dor.style.display='none'">Close</button>
         <button onclick="dor.style.display='none';send()">Send To Clipboard</button>        
     </div>
@@ -176,7 +176,7 @@ function getPart(pn,callback){
 }
 function send(){
 
-    
+
 }
     function GetJ(url, callback) {
 
