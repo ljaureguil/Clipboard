@@ -21,7 +21,7 @@
     button {
         font-size: 35px;
         border-radius: 10px;
-        background: blue;
+        background: rgb(253, 81, 28);
         color: white;
     }
     #reader {
@@ -42,12 +42,15 @@
         display: none;
     }
     #dor{
-        padding:12px;
+        position: relative;
+        text-align: right;
+        padding:15px;
  
-        width: auto;
+        width: 40%;
+        left: 30%;
    
         border-style: solid;
-        background-color: rgb(14, 236, 118);
+        background-color: rgb(154, 209, 180);
         display: none;
     }
     .cin{
@@ -57,7 +60,33 @@
         height: auto;
 
     }
+    #todo{
+        text-align: center;
+        width: 100%;
+    }
+    .cin{
+        font-size: 18px;
+        background-color: rgb(10, 248, 224);
+        font-weight: bold;
+    }
 </style>
+<div id="todo">
+
+    <div id="dor"> 
+        Qty: <input id="qt" type="number" class="cin"><br><br>
+     Job No. <input id="jn" type="text" class="cin"><br><br>
+
+     Part No. <input id="pno" type="text" class="cin"><br><br>
+     desc: <input id="de" type="text" class="cin"><br><br>
+      Mech <input id="me" type="text" class="cin"><br> <br>  
+ 
+     Note <input id="no" type="text" class="cin"><br><br>     
+     <button onclick="dor.style.display='none';send('pull')"   style="background-color: rgb(39, 221, 39);">Send To Clipboard (Pull)</button><br><br>
+     <button onclick="dor.style.display='none';send('return')">Send To Clipboard (Return)</button><br><br>
+     <button onclick="dor.style.display='none'">Close</button>
+       
+ </div>
+
 <div id="reader"></div>
 <br>
 
@@ -67,22 +96,15 @@
 
     <textarea id="tx"></textarea>
 </div>
-    <div id="dor"> 
-           Qty: <input id="qt" type="number" class="cin"><br><br>
-        Job No. <input id="jn" type="text" class="cin"><br><br>
-
-        Part No. <input id="pno" type="text" class="cin"><br><br>
-        dsesc: <input id="de" type="text" class="cin"><br><br>
-         Mech <input id="me" type="text" class="cin"><br> <br>  
-        Date <input id="da" type="date" class="cin" value='today'><br></br>
-        Note <input id="no" type="text" class="cin"><br><br>          
-        <button onclick="dor.style.display='none'">Close</button>
-        <button onclick="dor.style.display='none';send()">Send To Clipboard</button>        
-    </div>
+ 
+</div>
 <script src="html5-qrcode.min.js"></script>
-
+<script>/*
+        Date <input id="da" type="date" class="cin" value='today'><br></br>
+*/</script>
 
 <script>
+
      var linkp = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';
      var linkc = 'https://jsonblob.com/api/0da2d184-f931-11eb-a6a9-8d2736c2c513'
       var mecanico=""
@@ -112,7 +134,7 @@
         no.value="";
         me.value="";
         de.value="";
-        da.value="";
+     //   da.value="";
 
 
              de.value="";
@@ -196,7 +218,7 @@ function getPart(pn,callback){
     })
 
 }
-function send(){
+function send(move){
    GetJ(linkc,function(obj){
     var o={}; 
     o.qty=qt.value;
@@ -204,8 +226,9 @@ function send(){
     o.partN=pno.value;
     o.desc=de.value;
     o.mechanic=me.value;
-    o.date=da.value;
+  //  o.date=da.value;
     o.nota=no.value;
+    o.move=move;
     o.created=new Date().toString();
     obj.pulls.push(o);
  
@@ -258,4 +281,4 @@ xhr.send(json);
 
 </script>
 
-</html>
+</html> 
