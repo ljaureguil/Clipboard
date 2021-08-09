@@ -105,7 +105,11 @@
     function onScanSuccess(decodedText, decodedResult) {
         alert(decodedText);
          dor.style.display="block"
-        if (decodedText.indexOf("http") > -1) ta.style.display = "block";
+        if (decodedText.indexOf("http") > -1){
+             ta.style.display = "block";
+        ta.click();
+        }
+
         else ta.style.display = "none";
         ta.href = decodedText;
         ta.innerHTML = decodedText;
@@ -115,10 +119,14 @@
         if(d){
        var pp=tx.value.split(" ");
           getPart(pp[0],function(r,obj){
+              if(r!=null){
              pno.value=r.pn
              de.value=r.des;
              me.value=mecanico;
-
+              }
+             else{
+               tx.style.display="block";
+                  }
     
           });
         }
@@ -168,6 +176,8 @@ function getPart(pn,callback){
              return p[i]
 
             }
+            callback(null,null)
+        
          //  
         }
      
