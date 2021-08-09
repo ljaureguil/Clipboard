@@ -74,7 +74,8 @@
         Part No. <input id="pno" type="text" class="cin"><br><br>
         dsesc: <input id="de" type="text" class="cin"><br><br>
          Mech <input id="me" type="text" class="cin"><br> <br>  
-        Date <input id="da" type="date" class="cin"><br></br>
+        Date <input id="da" type="date" class="cin" value='today'><br></br>
+        Note <input id="no" type="text" class="cin"><br><br>          
         <button onclick="dor.style.display='none'">Close</button>
         <button onclick="dor.style.display='none';send()">Send To Clipboard</button>        
     </div>
@@ -82,7 +83,8 @@
 
 
 <script>
-     var linkp = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb'
+     var linkp = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';
+     var linkc = 'https://jsonblob.com/api/0da2d184-f931-11eb-a6a9-8d2736c2c513'
       var mecanico=""
        mecanico=localStorage.getItem("mec");
      
@@ -104,22 +106,32 @@
 
     function onScanSuccess(decodedText, decodedResult) {
         alert(decodedText);
-         dor.style.display="block"
+        pno.value=""
+        qt.value="";
+        jn.value="";
+        no.value="";
+        me.value="";
+        de.value="";
+        da.value="";
+
+
+             de.value="";
+             me.value="";
         if (decodedText.indexOf("http") > -1){
              ta.style.display = "block";
-        ta.click();
-        }
-
+      //  ta.click();
+            ta.href = decodedText;
+        ta.innerHTML = decodedText;  
+    }
         else ta.style.display = "none";
-        ta.href = decodedText;
-        ta.innerHTML = decodedText;
         tx.value = decodedText;
-        
         var d=true;
         if(d){
        var pp=tx.value.split(" ");
           getPart(pp[0],function(r,obj){
               if(r!=null){
+                tx.style.display="none";
+                dor.style.display="block"   
              pno.value=r.pn
              de.value=r.des;
              me.value=mecanico;
@@ -185,7 +197,23 @@ function getPart(pn,callback){
 
 }
 function send(){
+   GetJ(linkc,function(obj){
+    var o={}; 
+    o.qty=qt.value;
+    o.jobNo=jn.value;
+    o.partN=pno.value;
+    o.desc=de.value;
+    o.mechanic=me.value;
+    o.date=da.value;
+    o.nota=no.value;
+    o.created=new Date().toString();
+    obj.pulls.push(o);
+ 
 
+    UpdateJ(linkc,obj,function(){alert("Part/s sent to Clipboard...")})
+
+
+   })
 
 }
     function GetJ(url, callback) {
@@ -211,6 +239,7 @@ xhr.send(null);
 function UpdateJ(url, ob, callback) {
 //   var o={};
 //   o.prim=encoding(ob);
+ // alert(obj.pulls);
 json = JSON.stringify(ob);
 var xhr = new XMLHttpRequest();
 xhr.open("PUT", url + '/12', true);
