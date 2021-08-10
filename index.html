@@ -63,16 +63,29 @@
         width: 100%;
     }
     .cin{
-        width: auto;
+        width: 98%;
           text-align: right; 
         font-size: 18px;
         background-color: rgb(10, 248, 224);
         font-weight: bold;
     }
+    #qi{
+        position: relative;
+        top:1%;
+        left:1%;
+        color:white;
+        background-color: red;;
+        border-radius: 100px;
+        opacity: .75;
+        font-weight: bold;
+        padding:15px;
+    }
+    #qt{width: 50%;}
 </style>
 <div id="todo">
 
     <div id="dor"> 
+        <span id="qi"></span> . . . 
         Qty: <input id="qt" type="number" class="cin"><br><br>
      Job No. <input id="jn" type="text" class="cin"><br><br>
 
@@ -86,7 +99,7 @@
      <button onclick="dor.style.display='none'">Close</button>
        
  </div>
-
+<br><br>
 <div id="reader"></div>
 <br>
 
@@ -157,6 +170,7 @@
              pno.value=r.pn
              de.value=r.des;
              me.value=mecanico;
+             qi.innerHTML=r.qty;
               }
              else{
                tx.style.display="block";
@@ -221,7 +235,7 @@ function getPart(pn,callback){
 function send(move){
    GetJ(linkc,function(obj){
     var o={}; 
-    o.qty=qt.value;
+    o.qty=qt.value*1;
     o.jobNo=jn.value;
     o.partN=pno.value;
     o.desc=de.value;
