@@ -70,7 +70,7 @@
         font-weight: bold;
     }
     #qi{
-        position: relative;
+        position: absolute;
         top:1%;
         left:1%;
         color:white;
@@ -79,13 +79,20 @@
         opacity: .75;
         font-weight: bold;
         padding:15px;
+    //    width:8vw;
+   // height:8vw; /* same as width */
+
+
     }
-    #qt{width: 50%;}
+    #qt{
+  
+       width: 50%;
+    }
 </style>
 <div id="todo">
 
     <div id="dor"> 
-        <span id="qi"></span> . . . 
+        <button id="qi" onclick="alert('This is what Inventory has '+this.innerHTML+' Pcs.')"></button> . . . 
         Qty: <input id="qt" type="number" class="cin"><br><br>
      Job No. <input id="jn" type="text" class="cin"><br><br>
 
@@ -117,7 +124,8 @@
 */</script>
 
 <script>
-
+  //  qi.style.width=qi.offsetHeight+"px";
+ //   alert(qi.style.width+"\n\n"+qi.style.height)
      var linkp = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';
      var linkc = 'https://jsonblob.com/api/0da2d184-f931-11eb-a6a9-8d2736c2c513'
       var mecanico=""
@@ -171,6 +179,11 @@
              de.value=r.des;
              me.value=mecanico;
              qi.innerHTML=r.qty;
+
+             qi.style.width=qi.offsetHeight+"px";
+             qi.style.height=qi.style.width;
+   // alert(qi.style.width+"...\n\n..."+qi.style.height)
+
               }
              else{
                tx.style.display="block";
