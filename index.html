@@ -182,22 +182,23 @@ Qty Obs: <input id="obs" type="number" class="cin"><br>
         mec.value="";
         de.value="";
         da.value="";
-
-
              de.value="";
              me.value="";
         if (decodedText.indexOf("http") > -1){
- //            ta.style.display = "block";
-      //  ta.click();
+             ta.style.display = "block";
+            
+   
             ta.href = decodedText;
-        ta.innerHTML = decodedText;  
+        ta.innerHTML = decodedText;
+            ta.click();
     }
         else ta.style.display = "none";
        tx.value = decodedText;
         var d=true;
         if(d){
        var pp=tx.value.split(" ");
-          getPart(pp[0],function(r,obj){
+            search(pp[0]);
+      /*    getPart(pp[0],function(r,obj){
               if(r!=null){
                 tx.style.display="none";
                 dor.style.display="block"   
@@ -209,7 +210,7 @@ Qty Obs: <input id="obs" type="number" class="cin"><br>
                tx.style.display="block";
                   }
     
-          });
+          });*/
         }
 
 
