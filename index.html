@@ -7,7 +7,7 @@
 <style id="s1">
     body {
         text-align: center;
-        font-size: 35px;
+        font-size: 25px;
         margin: 20px;
         background:white;
     }
@@ -19,9 +19,10 @@
         right:1%;
     }
     button {
-        font-size: 35px;
+        font-size: 25px;
         border-radius: 10px;
-        background: rgb(253, 81, 28);
+        background: orange;
+        margin:4px;
         color: white;
     }
     #reader {
@@ -41,72 +42,62 @@
         background-color: rgb(14, 236, 118);
         display: none;
     }
-    #dor{
-        position: relative;
-        text-align: right;
+  #dor{
+        position: absolute;
+        text-align: left;
         padding:15px;
- 
-        width: 80%;
-        left: 10%;
-   
+        top:5%;
+        width: 50%;
+        left: 25%;
+        z-index: 2;
         border-style: solid;
         background-color: rgb(154, 209, 180);
         display: none;
+        height:130%;
     }
-  
+    .cin{
+        text-align: right;     
+    }
     #de{
         height: auto;
 
     }
-    #todo{
-        text-align: center;
-        width: 100%;
-    }
-    .cin{
-        width: 98%;
-          text-align: right; 
-        font-size: 18px;
-        background-color: rgb(10, 248, 224);
-        font-weight: bold;
-    }
-    #qi{
-        position: absolute;
-        top:1%;
-        left:1%;
-        color:white;
-        background-color: red;;
-        border-radius: 100px;
-        opacity: .75;
-        font-weight: bold;
-        padding:15px;
-    //    width:8vw;
-   // height:8vw; /* same as width */
-
-
-    }
-    #qt{
-  
-       width: 50%;
-    }
+    
+    #tfil{
+       width:60%; 
+       height:4%;
+           text-align: left;
+           margin:5px;;
+           
+        
+   }  
+  .ctt{
+   width:90%;
+   margin:5%;
+   border:solid;
+   font-size: 14px;
+   display: block;
+       background:white;
+   
+}  
+      #dinv{
+       width: 70%;
+       height:40%;
+       overflow: auto;
+       border-radius: 5px;;
+       border-style: solid;
+       display:none;
+    //   background:black;
+   }
+   #scla{
+       display:none;
+   }
+   
 </style>
-<div id="todo">
-
-    <div id="dor"> 
-        <button id="qi" onclick="alert('This is what Inventory has '+this.innerHTML+' Pcs.')"></button> . . . 
-        Qty: <input id="qt" type="number" class="cin"><br><br>
-     Job No. <input id="jn" type="text" class="cin"><br><br>
-
-     Part No. <input id="pno" type="text" class="cin"><br><br>
-     desc: <input id="de" type="text" class="cin"><br><br>
-      Mech <input id="me" type="text" class="cin"><br> <br>  
- 
-     Note <input id="no" type="text" class="cin"><br><br>     
-     <button onclick="dor.style.display='none';send('pull')"   style="background-color: rgb(39, 221, 39);">Send To Clipboard (Pull)</button><br><br>
-     <button onclick="dor.style.display='none';send('return')">Send To Clipboard (Return)</button><br><br>
-     <button onclick="dor.style.display='none'">Close</button>
-       
- </div>
-<br><br>
+-- Search/Manually...<br>
+ <textarea id="tfil" oninput="search(this.value)"></textarea><br>
+    
+<div id="dinv"></div><div id="dparts"></div>
 <div id="reader"></div>
 <br>
 
@@ -116,18 +107,54 @@
 
     <textarea id="tx"></textarea>
 </div>
+
+ <div id="dor"> 
+    Job No. <input id="jn" type="text" class="cin"><br>
+    Qty: <input id="qt" type="number" class="cin"><br>
+ Inv. Class:<input id="cla" type="text" class="cin"><br>
+  <Select id="scla" type="text" class="cin">
+  <option>inv</option>
+  <option>misc</option>
+   <option>other</option>
+   
+  </select>
+
  
+ 
+Kw: <input id="kw" type="text" class="cin"><br>
+Qty Obs: <input id="obs" type="number" class="cin"><br>
+
+ Part No. <input id="pno" type="text" class="cin"><br>
+ desc: <input id="de" type="text" class="cin"><br>
+  Mech <input id="mec" type="text" class="cin"><br> 
+ Loc <input id="loc" type="text" class="cin"><br> 
+ Note <input id="no" type="text" class="cin"><br>     
+  <button class="cpu" onclick="dor.style.display='none';send('other',dor.name)">Send To Clipboard</button><br>
+ <button class="cpu" onclick="dor.style.display='none'">Close</button>
+   
 </div>
-<script src="html5-qrcode.min.js"></script>
-<script>/*
-        Date <input id="da" type="date" class="cin" value='today'><br></br>
-*/</script>
+
+<script src="Misc/html5-qrcode.min.js"></script>
+
 
 <script>
-  //  qi.style.width=qi.offsetHeight+"px";
- //   alert(qi.style.width+"\n\n"+qi.style.height)
+//var user=localStorage.getItem("mec");
+//if(user===null) { user=prompt("Type your name");localStorage.setItem("mec",user);
      var linkp = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';
      var linkc = 'https://jsonblob.com/api/0da2d184-f931-11eb-a6a9-8d2736c2c513'
+     var linkme='http://jsonblob.com/api/893891925422391296';//my clipboard
+     
+        var linkm = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';//miselanius
+    linkb="https://jsonblob.com/api/893339508880457728";//basquet
+    linkp="https://jsonblob.com/api/892533157149294592";//main
+    linko="https://jsonblob.com/api/893246438927253504";//other
+    linkt='https://jsonblob.com/api/893855119448489984';//trash
+    var Parts=[],Psel=[];
+    
+     getInventories();
+     
+     
+     
       var mecanico=""
        mecanico=localStorage.getItem("mec");
      
@@ -155,19 +182,19 @@
         no.value="";
         me.value="";
         de.value="";
-     //   da.value="";
+        da.value="";
 
 
              de.value="";
              me.value="";
         if (decodedText.indexOf("http") > -1){
-             ta.style.display = "block";
+ //            ta.style.display = "block";
       //  ta.click();
             ta.href = decodedText;
         ta.innerHTML = decodedText;  
     }
         else ta.style.display = "none";
-        tx.value = decodedText;
+       tx.value = decodedText;
         var d=true;
         if(d){
        var pp=tx.value.split(" ");
@@ -177,13 +204,7 @@
                 dor.style.display="block"   
              pno.value=r.pn
              de.value=r.des;
-             me.value=mecanico;
-             qi.innerHTML=r.qty;
-
-             qi.style.width=qi.offsetHeight+"px";
-             qi.style.height=qi.style.width;
-   // alert(qi.style.width+"...\n\n..."+qi.style.height)
-
+             mec.value=mecanico;
               }
              else{
                tx.style.display="block";
@@ -212,6 +233,30 @@
 
     }
   //  setupinventario();
+  
+  function getInventories(){
+
+    GetJ(linkp,function(obp){
+        Parts=obp.parts;
+     GetJ(linkm,function(obm){
+         for(var i=0;i<obm.parts.length;i++){
+             Parts.push(obm.parts[i])
+         }
+   
+      GetJ(linko,function(obo){
+          for(var ia=0;ia<obo.parts.length;ia++){
+             Parts.push(obo.parts[ia])
+         }
+    
+       filter();
+       
+      }); 
+      });
+      });  
+ 
+      }
+ 
+  
 function setupinventario(){
 
     GetJ(linkp,function(obj){
@@ -245,22 +290,38 @@ function getPart(pn,callback){
     })
 
 }
-function send(move){
-   GetJ(linkc,function(obj){
-    var o={}; 
-    o.qty=qt.value*1;
+function send(){alert("ok");
+   GetJ(linkme,function(obj){
+ /*   var o={}; 
+    o.qty=qt.value;
     o.jobNo=jn.value;
     o.partN=pno.value;
     o.desc=de.value;
-    o.mechanic=me.value;
-  //  o.date=da.value;
+    o.date=da.value;
     o.nota=no.value;
-    o.move=move;
-    o.created=new Date().toString();
-    obj.pulls.push(o);
+     o.created=new Date().toString();  */
+          var o={
+        "Job No.":jn.value,
+      "pn": pno.value,
+      "des": de.value,
+      "qtyInv": qt.value,
+      "qtyObs": obs.value,
+      "kw": kw.value,
+      "clase": cla.value,
+      "createdBy": mec.value,
+      "location": loc.value,
+      "note": no.value,
+      "created": new Date().toString()
+    }; 
+    
+    obj.parts.push(o);
+    
+    
+    
+  //  obj.pulls.push(o);
  
 
-    UpdateJ(linkc,obj,function(){alert("Part/s sent to Clipboard...")})
+    UpdateJ(linkme,obj,function(){alert("Part/s sent to Clipboard...")})
 
 
    })
@@ -306,6 +367,135 @@ xhr.onload = function() {
 xhr.send(json);
 }
 
+function search(v){
+   
+        if(v===""){
+            dinv.style.display="none";
+            }
+        else{
+            dinv.style.display="block";
+            var pa=document.getElementsByClassName("ctt");
+            for(var i=0;i<pa.length;i++){
+                var s=JSON.stringify(pa[i]);
+                s=s.toUpperCase();
+                v=v.toUpperCase();
+                if(s.indexOf(v)>-1){
+                    pa[i].style.display="block"
+                 //   ar.push(pa[i]);
+                 }
+                else{ pa[i].style.display="none"}
+            }
+ 
+}
+   
+ }
+
+
+function filter(op){
+  
+                    for(var i=0;i<Parts.length;i++){
+                    var p=document.createElement("p");
+                    p.setAttribute("class","ctt");
+                    p.style.display="block";
+                    p.style.background="white";
+                    p.setAttribute("onclick","sel(this);");
+                    p.name=Parts[i];
+                    p.id=Parts[i].pn;
+                    p.innerHTML="P/N: "+Parts[i].pn+ ", Desc.: "+Parts[i].des;
+                    dinv.appendChild(p);// fil.appendChild(p)
+                }
+              //  UpdateJ(link,obj,function(){alert('updated...')})
+   }
+
+    function sel(e){
+  dor.style.display="none";
+   //     alert(e.style.background)
+    var enc=false; 
+    
+    if(e.style.background==="white"){
+        for(var i=0;i<Parts.length;i++){
+            if(Parts[i].pn===e.name.pn){    enc=true; 
+   
+                e.style.background="#0f0";
+                 i=Parts.length+2;
+                 
+                 pno.value=e.name.pn;
+                 de.value=e.name.des;
+                 qt.value=e.name.qty;
+                 cla.value=e.name.clase;
+                 loc.value=e.name.location;
+                 no.value=e.name.note;
+                 mec.value=mecanico;
+                 
+                 
+                  dor.style.display="block";
+ 
+             }
+        }
+        if(!enc){
+     e.style.background='white';
+     Psel.push(e.name);
+     
+        }
+        else{
+            
+        }
+    }
+   else    e.style.background='white';
+    
+}
+
+
 </script>
+
+
+<script>
+
+/*
+<div id="dor"> 
+    Qty: <input id="qt" type="number" class="cin"><br>
+ Inv. Class: <input id="cla" type="text" class="cin"><br>
+Kw: <input id="kw" type="text" class="cin"><br>
+Qty Obs: <input id="obs" type="number" class="cin"><br>
+
+ Part No. <input id="pno" type="text" class="cin"><br>
+ desc: <input id="de" type="text" class="cin"><br>
+  Mech <input id="mec" type="text" class="cin"><br> 
+ Loc <input id="loc" type="text" class="cin"><br> 
+ Note <input id="no" type="text" class="cin"><br>     
+ <button class="cpu" onclick="dor.style.display='none';send('main',dor.name)"   style="background-color: rgb(39, 221, 39);">Send To Main Inventory</button><br>
+ <button class="cpu" onclick="dor.style.display='none';send('miselanius',dor.name)">Send To Miselanius</button><br>
+  <button class="cpu" onclick="dor.style.display='none';send('other',dor.name)">Send To Other</button><br>
+ <button class="cpu" onclick="dor.style.display='none'">Close</button>
+   
+</div>
+
+
+
+
+    <div id="dor"> 
+           Qty: <input id="qt" type="number" class="cin"><br><br>
+        Job No. <input id="jn" type="text" class="cin"><br><br>
+
+        Part No. <input id="pno" type="text" class="cin"><br><br>
+        dsesc: <input id="de" type="text" class="cin"><br><br>
+         Mech <input id="me" type="text" class="cin"><br> <br>  
+        Date <input id="da" type="date" class="cin" value='today'><br></br>
+        Note <input id="no" type="text" class="cin"><br><br>          
+        <button onclick="dor.style.display='none'">Close</button>
+        <button onclick="dor.style.display='none';send()">Send To Clipboard</button>        
+    </div>
+
+
+
+
+
+*/
+
+</script>
+
+
+
+
 
 </html>
