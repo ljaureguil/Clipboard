@@ -9,21 +9,27 @@
         text-align: center;
         font-size: 25px;
         margin: 20px;
-        background:white;
+        background: white;
     }
-    code# {
+    code {
         margin: 5%;
         width: 10%;
         position: absolute;
-        bottom:2%;
-        right:1%;
+        bottom: 2%;
+        right: 1%;
     }
     button {
-        font-size: 25px;
+        transition: background-color 1s, transform 1s;
+        font-size: 20px;
         border-radius: 10px;
-        background: orange;
-        margin:4px;
+        background-color: orange;
+        margin: 4px;
         color: white;
+    }
+    button:hover{
+        transform:scale(1.5,2);
+        background-color: red;
+
     }
     #reader {
         width: 100%;
@@ -37,134 +43,146 @@
     #tx {
         margin: 5%;
         width: 90%;
-        font-size: 35px;
+        font-size: 14px;
         height: 20%;
-        background-color: rgb(14, 236, 118);
-        display: none;
+        // background-color: rgb(14, 236, 118);
+        // display: none;
     }
-  #dor{
+    #dor {
+      
         position: absolute;
         text-align: left;
-        padding:15px;
-        top:5%;
+        padding: 15px;
+        top: 110%;
         width: 50%;
         left: 25%;
         z-index: 2;
         border-style: solid;
         background-color: rgb(154, 209, 180);
-        display: none;
-        height:130%;
+      //  display: none;
+        height: 130%;
+            transition: top 1s;
     }
-    .cin{
-        text-align: right;     
+    .cin {
+        text-align: right;
+        width: 90%;
     }
-    #de{
+    #de {
         height: auto;
-
     }
-    
-    #tfil{
-       width:60%; 
-       height:4%;
-           text-align: left;
-           margin:5px;;
-           
-        
-   }  
-  .ctt{
-   width:90%;
-   margin:5%;
-   border:solid;
-   font-size: 14px;
-   display: block;
-       background:white;
-   
-}  
-      #dinv{
-       width: 100%;
-       height:40%;
-       overflow: auto;
-       border-radius: 5px;;
-       border-style: solid;
-       display:none;
-    //   background:black;
-   }
-   #scla{
-       display:none;
-   }
-   
+    #tfil {
+        width: 60%;
+        height: 4%;
+        text-align: left;
+        margin: 5px;
+        ;
+    }
+    .ctt {
+        width: 90%;
+        margin: 5%;
+        border: solid;
+        font-size: 14px;
+        display: block;
+        background: white;
+    }
+    #dinv {
+        width: 100%;
+        height: 40%;
+        overflow: auto;
+        border-radius: 5px;
+        ;
+        border-style: solid;
+        display: none;
+        // background: black;
+    }
+    #scla {
+        display: none;
+    }
+    #todo{
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+    }
 </style>
--- Search/Manually...<br>
- <textarea id="tfil" oninput="search(this.value)"></textarea><br>
-    
-<div id="dinv"></div><div id="dparts"></div>
+<dov id="todo">
+-- Search/Manually...
+<br>
+<textarea id="tfil" oninput="search(this.value)"></textarea>
+<button onclick="openClip()">Open My Clipb.</button>
+<br>
+
+<div id="dinv"></div>
+<div id="dparts"></div>
 <div id="reader"></div>
 <br>
 
-<div id="res">
-  
-    <a id="ta" href="" target="_blank"></a>
+<a id="ta" href="" target="_blank"></a>
 
-    <textarea id="tx"></textarea>
+
+
+<div id="dor">
+    Job No.
+    <input id="jn" type="text" class="cin">
+    <br>Qty:
+    <input id="qt" type="number" class="cin" value=1>
+    <br>Qty Obs:
+    <input id="obs" type="number" class="cin" placeholder=0>
+    <br>Part No.
+    <input id="pno" type="text" class="cin">
+    <br>desc:
+    <input id="de" type="text" class="cin">
+    <br>Mech
+    <input id="mec" type="text" class="cin">
+    <br>Inv. Class:
+    <input id="cla" type="text" class="cin">
+    <br>Kw:
+    <input id="kw" type="text" class="cin">
+    <br>Loc
+    <input id="loc" type="text" class="cin">
+    <br>Note
+    <input id="no" type="text" class="cin">
+    <br>
+    <button class="cpu" onclick="dor.style.top='100%';send('pull')">Pull</button>
+    <button class="cpu" onclick="dor.style.top='100%';send('return')">Return</button>
+    <button class="cpu" onclick="dor.style.top='100%'">Close</button>
+
 </div>
+<textarea id="tx" readonly></textarea>
+<button onclick='tx.select();document.execCommand("copy");'>Copy</button>
 
- <div id="dor"> 
-    Job No. <input id="jn" type="text" class="cin"><br>
-    Qty: <input id="qt" type="number" class="cin"><br>
- Inv. Class:<input id="cla" type="text" class="cin"><br>
-  <Select id="scla" type="text" class="cin">
-  <option>inv</option>
-  <option>misc</option>
-   <option>other</option>
-   
-  </select>
-
- 
- 
-Kw: <input id="kw" type="text" class="cin"><br>
-Qty Obs: <input id="obs" type="number" class="cin"><br>
-
- Part No. <input id="pno" type="text" class="cin"><br>
- desc: <input id="de" type="text" class="cin"><br>
-  Mech <input id="mec" type="text" class="cin"><br> 
- Loc <input id="loc" type="text" class="cin"><br> 
- Note <input id="no" type="text" class="cin"><br>     
-  <button class="cpu" onclick="dor.style.display='none';send('other',dor.name)">Send To Clipboard</button><br>
- <button class="cpu" onclick="dor.style.display='none'">Close</button>
-   
-</div>
-
+</dov>
 <script src="html5-qrcode.min.js"></script>
 
 <script>
-//var user=localStorage.getItem("mec");
-//if(user===null) { user=prompt("Type your name");localStorage.setItem("mec",user);
-     var linkp = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';
-     var linkc = 'https://jsonblob.com/api/0da2d184-f931-11eb-a6a9-8d2736c2c513'
-     var linkme='https://jsonblob.com/api/893891925422391296';//my clipboard
-     
-        var linkm = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';//miselanius
-    linkb="https://jsonblob.com/api/893339508880457728";//basquet
-    linkp="https://jsonblob.com/api/892533157149294592";//main
-    linko="https://jsonblob.com/api/893246438927253504";//other
-    linkt='https://jsonblob.com/api/893855119448489984';//trash
-    var Parts=[],Psel=[];
-    
-     getInventories();
-     
-     
-     
-      var mecanico=""
-       mecanico=localStorage.getItem("mec");
-     
-                if(mecanico===null || mecanico===""){
-                    mecanico=prompt("Type your Name");
-                    localStorage.setItem("mec",mecanico);
-                       }
-                else{
-                    alert("Hi "+mecanico);
+    //var user=localStorage.getItem("mec");
+    //if(user===null) { user=prompt("Type your name");localStorage.setItem("mec",user);
+    var linkp = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';
+    var linkc = 'https://jsonblob.com/api/0da2d184-f931-11eb-a6a9-8d2736c2c513'
+    var linkme = 'https://jsonblob.com/api/893891925422391296'; //my clipboard
 
-                }
+    var linkm = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb'; //miselanius
+    linkb = "https://jsonblob.com/api/893339508880457728"; //basquet
+    linkp = "https://jsonblob.com/api/892533157149294592"; //main
+    linko = "https://jsonblob.com/api/893246438927253504"; //other
+    linkt = 'https://jsonblob.com/api/893855119448489984'; //trash
+    var Parts = [],
+        Psel = [],
+        partsClip = [];
+
+    getInventories();
+
+
+
+    var mecanico = ""
+    mecanico = localStorage.getItem("mec");
+
+    if (mecanico === null || mecanico === "") {
+        mecanico = prompt("Type your Name");
+        localStorage.setItem("mec", mecanico);
+    } else {
+        alert("Hi " + mecanico);
+
+    }
     var s = document.getElementsByTagName("style")[0];
     var html5QrcodeScanner = new Html5QrcodeScanner(
         "reader", {
@@ -175,42 +193,29 @@ Qty Obs: <input id="obs" type="number" class="cin"><br>
 
     function onScanSuccess(decodedText, decodedResult) {
         alert(decodedText);
-        pno.value=""
-        qt.value="";
-        jn.value="";
-        no.value="";
-        mec.value="";
-        de.value="";
-        da.value="";
-             de.value="";
-             me.value="";
-        if (decodedText.indexOf("http") > -1){
-             ta.style.display = "block";
-            
-   
+        pno.value = ""
+        qt.value = "";
+        jn.value = "";
+        no.value = "";
+        mec.value = "";
+        de.value = "";
+        da.value = "";
+        de.value = "";
+        me.value = "";
+        if (decodedText.indexOf("http") > -1) {
+            ta.style.display = "block";
+
+
             ta.href = decodedText;
-        ta.innerHTML = decodedText;
+            ta.innerHTML = decodedText;
             ta.click();
-    }
-        else ta.style.display = "none";
-       tx.value = decodedText;
-        var d=true;
-        if(d){
-       var pp=tx.value.split(" ");
+        } else ta.style.display = "none";
+        tx.value = decodedText;
+        var d = true;
+        if (d) {
+            var pp = tx.value.split(" ");
             search(pp[0]);
-      /*    getPart(pp[0],function(r,obj){
-              if(r!=null){
-                tx.style.display="none";
-                dor.style.display="block"   
-             pno.value=r.pn
-             de.value=r.des;
-             mec.value=mecanico;
-              }
-             else{
-               tx.style.display="block";
-                  }
-    
-          });*/
+   
         }
 
 
@@ -218,7 +223,7 @@ Qty Obs: <input id="obs" type="number" class="cin"><br>
         var st = document.createElement("style");
         st.innerHTML = s;
         document.body.getElementsByTagName("style")[0] = st;
-        }
+    }
 
     function onScanError(errorMessage) {
         // handle on error condition, with error message
@@ -232,226 +237,255 @@ Qty Obs: <input id="obs" type="number" class="cin"><br>
         callback(xhttp.responseText);
 
     }
-  //  setupinventario();
-  
-  function getInventories(){
+    //  setupinventario();
 
-    GetJ(linkp,function(obp){
-        Parts=obp.parts;
-     GetJ(linkm,function(obm){
-         for(var i=0;i<obm.parts.length;i++){
-             Parts.push(obm.parts[i])
-         }
-   
-      GetJ(linko,function(obo){
-          for(var ia=0;ia<obo.parts.length;ia++){
-             Parts.push(obo.parts[ia])
-         }
-    
-       filter();
-       
-      }); 
-      });
-      });  
- 
-      }
- 
-  
-function setupinventario(){
+    function getInventories() {
 
-    GetJ(linkp,function(obj){
-     
-      for(var i=0;i<obj.parts.length;i++){
-          var s=obj.parts[i].pn;
-    
-          s.replace(/ /g,"_");
+        GetJ(linkp, function(obp) {
+            Parts = obp.parts;
+            GetJ(linkm, function(obm) {
+                for (var i = 0; i < obm.parts.length; i++) {
+                    Parts.push(obm.parts[i])
+                }
 
-      }
-      UpdateJ(linkp,obj,function(){alert("done")})
+                GetJ(linko, function(obo) {
+                    for (var ia = 0; ia < obo.parts.length; ia++) {
+                        Parts.push(obo.parts[ia])
+                    }
 
-    })
-}
+                    filter(Parts);
 
-function getPart(pn,callback){
-  //  alert(pn)
-    GetJ(linkp,function(obj){
-        p=obj.parts;
-        for(var i=0;i<p.length;i++){
-           if(pn===p[i].pn){
-             callback( p[i],obj);
-             return p[i]
+                });
+            });
+        });
+
+    }
+
+
+    function setupinventario() {
+
+        GetJ(linkp, function(obj) {
+
+            for (var i = 0; i < obj.parts.length; i++) {
+                var s = obj.parts[i].pn;
+
+                s.replace(/ /g, "_");
 
             }
-            callback(null,null)
-        
-         //  
-        }
-     
-    })
+            UpdateJ(linkp, obj, function() {
+                alert("done")
+            })
 
-}
-function send(){
-   GetJ(linkme,function(obj){
- /*   var o={}; 
-    o.qty=qt.value;
-    o.jobNo=jn.value;
-    o.partN=pno.value;
-    o.desc=de.value;
-    o.date=da.value;
-    o.nota=no.value;
-     o.created=new Date().toString();  */
-          var o={
-        "Job No.":jn.value,
-      "pn": pno.value,
-      "des": de.value,
-      "qtyInv": qt.value,
-      "qtyObs": obs.value,
-      "kw": kw.value,
-      "clase": cla.value,
-      "createdBy": mec.value,
-      "location": loc.value,
-      "note": no.value,
-      "created": new Date().toString()
-    }; 
-    
-    obj.parts.push(o);
-    
-    
-    
-  //  obj.pulls.push(o);
- 
+        })
+    }
 
-    UpdateJ(linkme,obj,function(){alert("Part/s sent to Clipboard...")})
+    function getPart(pn, callback) {
+        //  alert(pn)
+        GetJ(linkp, function(obj) {
+            p = obj.parts;
+            for (var i = 0; i < p.length; i++) {
+                if (pn === p[i].pn) {
+                    callback(p[i], obj);
+                    return p[i]
+
+                }
+                callback(null, null)
+
+                //  
+            }
+
+        })
+
+    }
+
+    function send(to) {
+        GetJ(linkme, function(obj) {
+   
+            var o = {
+                "Job No.": jn.value,
+                "pn": pno.value,
+                "des": de.value,
+                "qty": qt.value,
+                "qtyObs": obs.value,
+                "move":"",
+                "kw": kw.value,
+                "clase": cla.value,
+                "mec": mec.value,
+                "location": loc.value,
+                "note": no.value,
+                "created": new Date().toString().split("GMT")[0]
+            };
+            if(to==="pull") o.move="pull"
+            else o.move="return"
 
 
-   })
+            obj.parts.push(o);
 
-}
+
+
+            //  obj.pulls.push(o);
+
+
+            UpdateJ(linkme, obj, function() {
+                alert("Part/s sent to Clipboard...")
+            })
+
+
+        })
+
+    }
+
     function GetJ(url, callback) {
 
-//var url  = "http://localhost:8080/api/v1/users";
-var xhr = new XMLHttpRequest()
-xhr.open('GET', url + '/1', true)
-xhr.onload = function() {
-    //         (xhr.responseText)
-    var users = JSON.parse(xhr.responseText);
-    //     var obb=decoding(users.prim);
+        //var url  = "http://localhost:8080/api/v1/users";
+        var xhr = new XMLHttpRequest()
+        xhr.open('GET', url + '/1', true)
+        xhr.onload = function() {
+            //         (xhr.responseText)
+            var users = JSON.parse(xhr.responseText);
+            //     var obb=decoding(users.prim);
 
-    if (xhr.readyState == 4 && xhr.status == "200") {
-        callback(users);
-    } else {
-        console.error(users);
-    }
-}
-xhr.send(null);
-}
-
-// Update a user
-function UpdateJ(url, ob, callback) {
-//   var o={};
-//   o.prim=encoding(ob);
- // alert(obj.pulls);
-json = JSON.stringify(ob);
-var xhr = new XMLHttpRequest();
-xhr.open("PUT", url + '/12', true);
-xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-xhr.onload = function() {
-    var users = JSON.parse(xhr.responseText);
-    if (xhr.readyState == 4 && xhr.status == "200") {
-        //  alert("Tu Forma ha sido Enviada");
-        if (callback != undefined) callback(users);
-    } else {
-        (users);
-    }
-}
-xhr.send(json);
-}
-
-function search(v){
-   
-        if(v===""){
-            dinv.style.display="none";
+            if (xhr.readyState == 4 && xhr.status == "200") {
+                callback(users);
+            } else {
+                console.error(users);
             }
-        else{
-            dinv.style.display="block";
-            var pa=document.getElementsByClassName("ctt");
-            for(var i=0;i<pa.length;i++){
-                var s=JSON.stringify(pa[i]);
-                s=s.toUpperCase();
-                v=v.toUpperCase();
-                if(s.indexOf(v)>-1){
-                    pa[i].style.display="block"
-                 //   ar.push(pa[i]);
-                 }
-                else{ pa[i].style.display="none"}
+        }
+        xhr.send(null);
+    }
+
+    // Update a user
+    function UpdateJ(url, ob, callback) {
+        //   var o={};
+        //   o.prim=encoding(ob);
+        // alert(obj.pulls);
+        json = JSON.stringify(ob);
+        var xhr = new XMLHttpRequest();
+        xhr.open("PUT", url + '/12', true);
+        xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+        xhr.onload = function() {
+            var users = JSON.parse(xhr.responseText);
+            if (xhr.readyState == 4 && xhr.status == "200") {
+                //  alert("Tu Forma ha sido Enviada");
+                if (callback != undefined) callback(users);
+            } else {
+                (users);
             }
- 
-}
-   
- }
+        }
+        xhr.send(json);
+    }
 
+    function search(v) {
 
-function filter(op){
-  
-                    for(var i=0;i<Parts.length;i++){
-                    var p=document.createElement("p");
-                    p.setAttribute("class","ctt");
-                    p.style.display="block";
-                    p.style.background="white";
-                    p.setAttribute("onclick","sel(this);");
-                    p.name=Parts[i];
-                    p.id=Parts[i].pn;
-                    p.innerHTML="P/N: "+Parts[i].pn+ ", Desc.: "+Parts[i].des;
-                    dinv.appendChild(p);// fil.appendChild(p)
+        if (v === "") {
+            dinv.style.display = "none";
+        } else {
+            dinv.style.display = "block";
+            var pa = document.getElementsByClassName("ctt");
+            for (var i = 0; i < pa.length; i++) {
+                var s = JSON.stringify(pa[i]);
+                s = s.toUpperCase();
+                v = v.toUpperCase();
+                if (s.indexOf(v) > -1) {
+                    pa[i].style.display = "block"
+                    //   ar.push(pa[i]);
+                } else {
+                    pa[i].style.display = "none"
                 }
-              //  UpdateJ(link,obj,function(){alert('updated...')})
-   }
+            }
 
-    function sel(e){
-  dor.style.display="none";
-   //     alert(e.style.background)
-    var enc=false; 
-    
-    if(e.style.background==="white"){
-        for(var i=0;i<Parts.length;i++){
-            if(Parts[i].pn===e.name.pn){    enc=true; 
-   
-                e.style.background="#0f0";
-                 i=Parts.length+2;
-                 
-                 pno.value=e.name.pn;
-                 de.value=e.name.des;
-                 qt.value=e.name.qty;
-                 cla.value=e.name.clase;
-                 loc.value=e.name.location;
-                 no.value=e.name.note;
-                 mec.value=mecanico;
-                 
-                 
-                  dor.style.display="block";
- 
-             }
         }
-        if(!enc){
-     e.style.background='white';
-     Psel.push(e.name);
-     
-        }
-        else{
-            
-        }
+
     }
-   else    e.style.background='white';
-    
-}
 
 
+    function filter(pa) {
+
+        while (dinv.firstChild) {
+            dinv.removeChild(dinv.firstChild);
+
+        }
+        for (var i = 0; i < pa.length; i++) {
+            var p = document.createElement("p");
+            p.setAttribute("class", "ctt");
+            p.style.display = "block";
+            p.style.background = "white";
+            p.setAttribute("onclick", "sel(this);");
+            p.name = pa[i];
+            p.id = pa[i].pn;
+            p.innerHTML = "P/N: " + pa[i].pn + ", Desc.: " + pa[i].des;
+            dinv.appendChild(p); // fil.appendChild(p)
+        }
+        dinv.appendChild(document.createElement("p")); 
+
+        //  UpdateJ(link,obj,function(){alert('updated...')})
+    }
+
+    function sel(e) {
+       dor.style.top='1%';
+        //     alert(e.style.background)
+        var enc = false;
+
+        if (e.style.background === "white") {
+            for (var i = 0; i < Parts.length; i++) {
+                if (Parts[i].pn === e.name.pn) {
+                    enc = true;
+
+                    e.style.background = "#0f0";
+                    i = Parts.length + 2;
+
+                    pno.value = e.name.pn;
+                    de.value = e.name.des;
+                    qt.value = e.name.qty;
+                    cla.value = e.name.clase;
+                    loc.value = e.name.location;
+                    no.value = e.name.note;
+                    mec.value = mecanico;
+
+
+                    dor.style.top='1%';
+
+                }
+            }
+            if (!enc) {
+                e.style.background = 'white';
+                Psel.push(e.name);
+
+            } else {
+
+            }
+        } else e.style.background = 'white';
+
+    }
+
+    function openClip() {
+        GetJ(linkme, function(ob) {
+            var ps = ob.parts; //alert(ps)
+            //var e=charCodeAt(9);
+            var e = "    ";
+            var c="";
+            for (i = 0; i < ps.length; i++) {
+                var p = ps[i]
+                var t = JSON.stringify(p);
+                //alert(t)
+           //     t = t.replace(/{/g, "\n").replace(/}/g, "\n").replace(/,/g, "\n").replace(/"/g, "");
+               c+= p.qty + e + p.pn + e + p.des + e + p.mec + e + p.created + e + p.move + e + p.qtyObs+"\n";
+                //alert(c)
+
+            }
+
+
+            tx.value = c
+
+
+        })
+        /**/
+    }
 </script>
 
 
 <script>
-
-/*
+    /*
 <div id="dor"> 
     Qty: <input id="qt" type="number" class="cin"><br>
  Inv. Class: <input id="cla" type="text" class="cin"><br>
@@ -491,7 +525,6 @@ Qty Obs: <input id="obs" type="number" class="cin"><br>
 
 
 */
-
 </script>
 
 
