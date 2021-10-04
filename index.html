@@ -20,15 +20,16 @@
     }
     button {
         transition: background-color 1s, transform 1s;
-        font-size: 20px;
+        font-size: 18px;
         border-radius: 10px;
         background-color: orange;
-        margin: 4px;
+        margin: 2px;
         color: white;
     }
     button:hover{
-        transform:scale(1.5,2);
-        background-color: red;
+        transform:scale(1.5,1.5);
+        background-color: greenyellow;
+        color:black;
 
     }
     #reader {
@@ -45,8 +46,7 @@
         width: 90%;
         font-size: 14px;
         height: 20%;
-        // background-color: rgb(14, 236, 118);
-        // display: none;
+        
     }
     #dor {
       
@@ -59,9 +59,8 @@
         z-index: 2;
         border-style: solid;
         background-color: rgb(154, 209, 180);
-      //  display: none;
         height: 130%;
-            transition: top 1s;
+            transition: opacity 1s, top 1s;
     }
     .cin {
         text-align: right;
@@ -99,26 +98,21 @@
         display: none;
     }
     #todo{
+        position: absolute;
         width: 100%;
         height: 100%;
-        overflow: auto;
-    }
+        overflow: hidden;
+     }
 </style>
-<dov id="todo">
+<div id="todo">
 -- Search/Manually...
 <br>
 <textarea id="tfil" oninput="search(this.value)"></textarea>
 <button onclick="openClip()">Open My Clipb.</button>
-<br>
-
 <div id="dinv"></div>
 <div id="dparts"></div>
 <div id="reader"></div>
-<br>
-
 <a id="ta" href="" target="_blank"></a>
-
-
 
 <div id="dor">
     Job No.
@@ -142,19 +136,19 @@
     <br>Note
     <input id="no" type="text" class="cin">
     <br>
-    <button class="cpu" onclick="dor.style.top='100%';send('pull')">Pull</button>
-    <button class="cpu" onclick="dor.style.top='100%';send('return')">Return</button>
-    <button class="cpu" onclick="dor.style.top='100%'">Close</button>
+    <button class="cpu" onclick="send('pull')">Pull</button>
+    <button class="cpu" onclick="send('return')">Return</button>
+    <button class="cpu" onclick="dor.style.top='100%';dor.name.style.background='white'">Close</button>
 
 </div>
 <textarea id="tx" readonly></textarea>
 <button onclick='tx.select();document.execCommand("copy");'>Copy</button>
 
-</dov>
+</div>
 <script src="html5-qrcode.min.js"></script>
 
 <script>
-    //var user=localStorage.getItem("mec");
+     //var user=localStorage.getItem("mec");
     //if(user===null) { user=prompt("Type your name");localStorage.setItem("mec",user);
     var linkp = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';
     var linkc = 'https://jsonblob.com/api/0da2d184-f931-11eb-a6a9-8d2736c2c513'
@@ -299,6 +293,11 @@
     }
 
     function send(to) {
+        if(qt.value===0 || qt.value===null || jn.value===""){
+            alert("No Quantity or Job number");
+        }
+        else{
+            dor.style.top='100%';
         GetJ(linkme, function(obj) {
    
             var o = {
@@ -313,25 +312,19 @@
                 "mec": mec.value,
                 "location": loc.value,
                 "note": no.value,
-                "created": new Date().toString().split("GMT")[0]
+                "created": new Date().toString()
             };
             if(to==="pull") o.move="pull"
             else o.move="return"
 
 
             obj.parts.push(o);
-
-
-
-            //  obj.pulls.push(o);
-
-
             UpdateJ(linkme, obj, function() {
                 alert("Part/s sent to Clipboard...")
             })
 
 
-        })
+        })}
 
     }
 
@@ -423,6 +416,7 @@
 
     function sel(e) {
        dor.style.top='1%';
+       dor.name=e;
         //     alert(e.style.background)
         var enc = false;
 
@@ -433,10 +427,10 @@
 
                     e.style.background = "#0f0";
                     i = Parts.length + 2;
-
+                    qt.value=1;
                     pno.value = e.name.pn;
                     de.value = e.name.des;
-                    qt.value = e.name.qty;
+                    
                     cla.value = e.name.clase;
                     loc.value = e.name.location;
                     no.value = e.name.note;
@@ -462,17 +456,14 @@
         GetJ(linkme, function(ob) {
             var ps = ob.parts; //alert(ps)
             //var e=charCodeAt(9);
-            var e = "    ";
+            var e = String.fromCharCode(9);
             var c="";
             for (i = 0; i < ps.length; i++) {
                 var p = ps[i]
                 var t = JSON.stringify(p);
-                //alert(t)
-           //     t = t.replace(/{/g, "\n").replace(/}/g, "\n").replace(/,/g, "\n").replace(/"/g, "");
-               c+= p.qty + e + p.pn + e + p.des + e + p.mec + e + p.created + e + p.move + e + p.qtyObs+"\n";
-                //alert(c)
-
-            }
+          var f=getFe(p.created);
+                 c+= p.qty + e + p.pn + e + p.des + e + p.mec + e + f.fecha +e + f.tiempo + e + p.move + e + p.qtyObs+ + e + p.note+"\n";
+             }
 
 
             tx.value = c
@@ -481,50 +472,22 @@
         })
         /**/
     }
+    function getFe(fr){
+             var f=new Date()
+           var v=Date.parse(fr);
+           f.setTime(v);
+           var fe=f.getMonth()+"-"+f.getDate()+"-"+f.getFullYear();
+           var t=f.getHours()+":"+f.getMinutes();
+         return {fecha:fe,tiempo:t};
+
+
+}
+
 </script>
 
 
 <script>
-    /*
-<div id="dor"> 
-    Qty: <input id="qt" type="number" class="cin"><br>
- Inv. Class: <input id="cla" type="text" class="cin"><br>
-Kw: <input id="kw" type="text" class="cin"><br>
-Qty Obs: <input id="obs" type="number" class="cin"><br>
-
- Part No. <input id="pno" type="text" class="cin"><br>
- desc: <input id="de" type="text" class="cin"><br>
-  Mech <input id="mec" type="text" class="cin"><br> 
- Loc <input id="loc" type="text" class="cin"><br> 
- Note <input id="no" type="text" class="cin"><br>     
- <button class="cpu" onclick="dor.style.display='none';send('main',dor.name)"   style="background-color: rgb(39, 221, 39);">Send To Main Inventory</button><br>
- <button class="cpu" onclick="dor.style.display='none';send('miselanius',dor.name)">Send To Miselanius</button><br>
-  <button class="cpu" onclick="dor.style.display='none';send('other',dor.name)">Send To Other</button><br>
- <button class="cpu" onclick="dor.style.display='none'">Close</button>
-   
-</div>
-
-
-
-
-    <div id="dor"> 
-           Qty: <input id="qt" type="number" class="cin"><br><br>
-        Job No. <input id="jn" type="text" class="cin"><br><br>
-
-        Part No. <input id="pno" type="text" class="cin"><br><br>
-        dsesc: <input id="de" type="text" class="cin"><br><br>
-         Mech <input id="me" type="text" class="cin"><br> <br>  
-        Date <input id="da" type="date" class="cin" value='today'><br></br>
-        Note <input id="no" type="text" class="cin"><br><br>          
-        <button onclick="dor.style.display='none'">Close</button>
-        <button onclick="dor.style.display='none';send()">Send To Clipboard</button>        
-    </div>
-
-
-
-
-
-*/
+ 
 </script>
 
 
