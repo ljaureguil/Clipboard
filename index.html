@@ -187,15 +187,15 @@
 
     function onScanSuccess(decodedText, decodedResult) {
         alert(decodedText);
-        pno.value = ""
+     /*   pno.value = ""
         qt.value = "";
         jn.value = "";
         no.value = "";
         mec.value = "";
         de.value = "";
         da.value = "";
-        de.value = "";
-     
+     de.value = "";
+     */
       if (decodedText.indexOf("http") > -1) {
             ta.style.display = "block";
 
@@ -204,7 +204,7 @@
             ta.innerHTML = decodedText;
             ta.click();
         }
-         else ta.style.display = "none";
+  //       else ta.style.display = "none";
  /* */
         tx.value = decodedText;
        // var d = true;
