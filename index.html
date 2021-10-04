@@ -205,14 +205,17 @@
             ta.click();
         }
          else ta.style.display = "none";
+
         tx.value = decodedText;
-        var d = true;
-        if (d) {
+       // var d = true;
+       // if (d) {
+        alert("decodificado................"+decodedText);
+
             var pp = tx.value.split(" ");
             aler("pprrnn......"+pp[0])
             search(pp[0]);
    
-        }
+       // }
 
 
         document.getElementsByTagName("style")[0].innerHTML = s.innerHTML;
