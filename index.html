@@ -101,7 +101,7 @@
         position: absolute;
         width: 100%;
         height: 100%;
-        overflow: hidden;
+        overflow: auto;
      }
 </style>
 <div id="todo">
@@ -209,12 +209,12 @@
         tx.value = decodedText;
        // var d = true;
        // if (d) {
-   //     alert("decodificado................"+decodedText);
+        alert("decodificado................"+decodedText);
 
             var pp = decodedText.split(" ");
-     //       alert("pprrnn......"+pp[0]);
+            alert("pprrnn......"+pp[0]);
             tfil.value=pp[0];
-          //  search(pp[0]);
+            search(pp[0]);
    
        // }
 
