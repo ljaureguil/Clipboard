@@ -53,7 +53,7 @@
         position: absolute;
         text-align: left;
         padding: 15px;
-        top: 110%;
+        top: 2%;
         width: 50%;
         left: 25%;
         z-index: 2;
@@ -61,6 +61,7 @@
         background-color: rgb(154, 209, 180);
         height: 130%;
             transition: opacity 1s, top 1s;
+            display:none;
     }
     .cin {
         text-align: right;
@@ -138,7 +139,7 @@
     <br>
     <button class="cpu" onclick="send('pull')">Pull</button>
     <button class="cpu" onclick="send('return')">Return</button>
-    <button class="cpu" onclick="dor.style.top='100%';dor.name.style.background='white'">Close</button>
+    <button class="cpu" onclick="dor.style.display='none';dor.name.style.background='white'">Close</button>
 
 </div>
 <textarea id="tx" readonly></textarea>
@@ -303,7 +304,7 @@
             alert("No Quantity or Job number");
         }
         else{
-            dor.style.top='100%';
+            dor.style.display='none';
         GetJ(linkme, function(obj) {
    
             var o = {
@@ -421,7 +422,7 @@
     }
 
     function sel(e) {
-       dor.style.top='1%';
+       dor.style.display='block';
        dor.name=e;
         //     alert(e.style.background)
         var enc = false;
@@ -443,7 +444,7 @@
                     mec.value = mecanico;
 
 
-                    dor.style.top='1%';
+                    dor.style.display='block';
 
                 }
             }
