@@ -307,7 +307,7 @@
         GetJ(linkme, function(obj) {
    
             var o = {
-                "Job No.": jn.value,
+                "job": jn.value,
                 "pn": pno.value,
                 "des": de.value,
                 "qty": qt.value,
@@ -468,7 +468,7 @@
                 var p = ps[i]
                 var t = JSON.stringify(p);
           var f=getFe(p.created);
-                 c+= p.qty + e + p.pn + e + p.des + e + p.mec + e + f.fecha +e + f.tiempo + e + p.move + e + p.qtyObs+e + p.qtyObs+ e + p.note+"\n";
+                 c+= p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha +e + f.tiempo + e + p.move + e + p.qtyObs+e + p.qtyObs+ e + p.note+"\n";
              }
 
 
