@@ -109,7 +109,7 @@
 -- Search/Manually...
 <br>
 <textarea id="tfil" oninput="search(this.value)"></textarea>
-<button onclick="openClip()">Open My Clipb.</button>
+<button onclick="openClip()">Load Clipb.</button>
 <div id="dinv"></div>
 <div id="dparts"></div>
 <div id="reader"></div>
@@ -460,20 +460,7 @@
     }
 
     function openClip() {
-            
-
-     /*     var ch=reader.children;
-
-        for(var i=0;i<ch.length;i++){
-        alert(ch[i].innerHTML)
-    }      
-          var ch=reader.getElementsByTagName("button");
-
-        for(var i=0;i<ch.length;i++){
-        alert(ch[i].innerHTML)
-    }  
-       ch[i].click(); 
-        */
+       
         GetJ(linkme, function(ob) {
             var ps = ob.parts; //alert(ps)
             //var e=charCodeAt(9);
@@ -483,7 +470,7 @@
                 var p = ps[i]
                 var t = JSON.stringify(p);
           var f=getFe(p.created);
-                 c+= p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha +e + f.tiempo + e + p.move + e + p.qtyObs+e + p.qtyObs+ e + p.note+"\n";
+                 c+= p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha +e + f.tiempo + e + p.move + e + p.qtyObs+e + p.note+"\n";
              }
 
 
