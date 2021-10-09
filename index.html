@@ -109,7 +109,7 @@
 -- Search/Manually...
 <br>
 <textarea id="tfil" oninput="search(this.value)"></textarea>
-<button onclick="openClip()">Load Clipb.</button>
+<button onclick="openClip()">Load Clipboard</button>
 <div id="dinv"></div>
 <div id="dparts"></div>
 <div id="reader"></div>
@@ -176,7 +176,6 @@
         mecanico = prompt("Type your Name");
         localStorage.setItem("mec", mecanico);
     } else {
-  
         if(mecanico.toUpperCase().indexOf('LAURO')<0){linkme=linkcl;}
               alert("Hi " + mecanico);
     }
@@ -190,15 +189,7 @@
 
     function onScanSuccess(decodedText, decodedResult) {
         alert(decodedText);
-     /*   pno.value = ""
-        qt.value = "";
-        jn.value = "";
-        no.value = "";
-        mec.value = "";
-        de.value = "";
-        da.value = "";
-     de.value = "";
-     */
+   
       if (decodedText.indexOf("http") > -1) {
             ta.style.display = "block";
 
@@ -208,21 +199,11 @@
             ta.click();
         }
          else ta.style.display = "none";
- /* */
         tx.value = decodedText;
-       // var d = true;
-       // if (d) {
-        alert("decodificado................"+decodedText);
-
-            var pp = decodedText.split(" ");
-            alert("pprrnn......"+pp[0]);
-            tfil.value=pp[0];
+             var pp = decodedText.split(" ");
+             tfil.value=pp[0];
             search(pp[0]);
-   
-       // }
-
-
-        document.getElementsByTagName("style")[0].innerHTML = s.innerHTML;
+         document.getElementsByTagName("style")[0].innerHTML = s.innerHTML;
         var st = document.createElement("style");
         st.innerHTML = s;
         document.body.getElementsByTagName("style")[0] = st;
@@ -283,8 +264,7 @@
     }
 
     function getPart(pn, callback) {
-        //  alert(pn)
-        GetJ(linkp, function(obj) {
+       GetJ(linkp, function(obj) {
             p = obj.parts;
             for (var i = 0; i < p.length; i++) {
                 if (pn === p[i].pn) {
@@ -462,28 +442,25 @@
     }
 
     function openClip() {
+       var h="";
        
+       var e = String.fromCharCode(9);
+       var c="";
+       if(confirm("Include Headers?"))h="QTY"+e + "Job No." + e +"P/N" + e + "Description" + e + "Mechanic" + e +"Date" +e + "Time" + e + "Move" + e + "Qty. Obs."+ e + "Note"+"\n";
+
         GetJ(linkme, function(ob) {
             var ps = ob.parts; //alert(ps)
-            //var e=charCodeAt(9);
-            var e = String.fromCharCode(9);
-            var c="";
-            for (i = 0; i < ps.length; i++) {
+             for (i = 0; i < ps.length; i++) {
+                 if(ps[i].mec.toUpperCase()===mecanico.toUpperCase()){
                 var p = ps[i]
                 var t = JSON.stringify(p);
           var f=getFe(p.created);
                  c+= p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha +e + f.tiempo + e + p.move + e + p.qtyObs+e + p.note+"\n";
              }
-
-
-            tx.value = c;
-            
-       //     tx.value=reader.innerHTML;
-
-
-        })
-        /**/
-    }
+}
+            tx.value = h+c;
+          })
+     }
     function getFe(fr){
              var f=new Date()
            var v=Date.parse(fr);
