@@ -154,6 +154,7 @@
     var linkp = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';
     var linkc = 'https://jsonblob.com/api/0da2d184-f931-11eb-a6a9-8d2736c2c513'
     var linkme = 'https://jsonblob.com/api/893891925422391296'; //my clipboard
+    var linkcl='http://jsonblob.com/896389790531076096'; //clip demas
 
     var linkm = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb'; //miselanius
     linkb = "https://jsonblob.com/api/893339508880457728"; //basquet
@@ -175,8 +176,9 @@
         mecanico = prompt("Type your Name");
         localStorage.setItem("mec", mecanico);
     } else {
-        alert("Hi " + mecanico);
-
+  
+        if(mecanico.toUpperCase().indexOf('LAURO')<0){linkme=linkcl;}
+              alert("Hi " + mecanico);
     }
     var s = document.getElementsByTagName("style")[0];
     var html5QrcodeScanner = new Html5QrcodeScanner(
