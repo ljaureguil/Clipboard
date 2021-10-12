@@ -26,16 +26,12 @@
         margin: 2px;
         color: white;
     }
-    button:hover{
-        transform:scale(1.5,1.5);
-        background-color: greenyellow;
-        color:black;
-
-    }
+   
     #reader {
         width: 100%;
         color: white;
         font-size: 25px;
+        display:none;
     }
     #ta {
         width: 95%;
@@ -72,10 +68,10 @@
     }
     #tfil {
         width: 60%;
-        height: 4%;
+      //  height: 4%;
         text-align: left;
         margin: 5px;
-        ;
+        font-size: 35px;
     }
     .ctt {
         width: 90%;
@@ -106,13 +102,16 @@
      }
 </style>
 <div id="todo">
--- Search/Manually...
-<br>
+
+<button onclick="reader.style.display='block'">Open Scanner</button>
+<div id="reader"></div><br>
+<button onclick="reader.style.display='none'">Close Scanner</button>
+<br>-- Search/Manually...<br>
 <textarea id="tfil" oninput="search(this.value)"></textarea>
 <button onclick="openClip()">Load Clipboard</button>
 <div id="dinv"></div>
 <div id="dparts"></div>
-<div id="reader"></div>
+
 <a id="ta" href="" target="_blank"></a>
 
 <div id="dor">
