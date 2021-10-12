@@ -83,6 +83,7 @@
         font-size: 14px;
         display: block;
         background: white;
+  
     }
     #dinv {
         width: 100%;
@@ -119,25 +120,25 @@
 
 <div id="dor">
     Job No.
-    <input id="jn" type="text" class="cin">
+    <input id="jn" type="text" class="cin" value="">
     <br>Qty:
     <input id="qt" type="number" class="cin" value=1>
     <br>Qty Obs:
-    <input id="obs" type="number" class="cin" placeholder=0>
+    <input id="obs" type="number" class="cin" >
     <br>Part No.
-    <input id="pno" type="text" class="cin">
+    <input id="pno" type="text" class="cin" value="">
     <br>desc:
-    <input id="de" type="text" class="cin">
+    <input id="de" type="text" class="cin" value="" readonly>
     <br>Mech
-    <input id="mec" type="text" class="cin">
+    <input id="mec" type="text" class="cin" value="" readonly>
     <br>Inv. Class:
-    <input id="cla" type="text" class="cin">
+    <input id="cla" type="text" class="cin" value="" readonly>
     <br>Kw:
-    <input id="kw" type="text" class="cin">
+    <input id="kw" type="text" class="cin" value="" readonly>
     <br>Loc
-    <input id="loc" type="text" class="cin">
+    <input id="loc" type="text" class="cin" value="" readonly>
     <br>Note
-    <input id="no" type="text" class="cin">
+    <input id="no" type="text" class="cin" value="">
     <br>
     <button class="cpu" onclick="send('pull')">Pull</button>
     <button class="cpu" onclick="send('return')">Return</button>
@@ -407,6 +408,7 @@
 
     function sel(e) {
        dor.style.display='block';
+       pno.value=e.name.pn;
        dor.name=e;
         //     alert(e.style.background)
         var enc = false;
@@ -426,8 +428,6 @@
                     loc.value = e.name.location;
                     no.value = e.name.note;
                     mec.value = mecanico;
-
-
                     dor.style.display='block';
 
                 }
