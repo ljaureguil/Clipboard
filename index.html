@@ -104,10 +104,17 @@
         height: 100%;
         overflow: auto;
      }
+     #rn{
+         background: red;
+         position: absolute;
+         top:1%;
+         right:5%;
+     }
 </style>
 <div id="todo">
-
+    
 <button onclick="reader.style.display='block'">Open Scanner</button>
+<button  id="rn" onclick="localStorage.removeItem('mec');window.location.reload()">RN</button>
 <div id="reader"></div><br>
 <button onclick="reader.style.display='none'">Close Scanner</button>
 <br>-- Search/Manually...<br>
