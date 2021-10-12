@@ -114,7 +114,7 @@
 <div id="todo">
     
 <button onclick="reader.style.display='block'">Open Scanner</button>
-<button  id="rn" onclick="localStorage.removeItem('mec');window.location.reload()">RN</button>
+<button  id="rn" onclick="if(confirm('Are you sure you want to Reset your user name?')){localStorage.removeItem('mec');window.location.reload()}">RN</button>
 <div id="reader"></div><br>
 <button onclick="reader.style.display='none'">Close Scanner</button>
 <br>-- Search/Manually...<br>
@@ -184,6 +184,8 @@
 
     if (mecanico === null || mecanico === "") {
         mecanico = prompt("Type your Name");
+        mecanico=mecanico.replace(/ /g,"-");
+        mecanico=mecanico.toLocaleUpperCase();
         localStorage.setItem("mec", mecanico);
     } else {
         if(mecanico.toUpperCase().indexOf('LAURO')<0){linkme=linkcl;}
