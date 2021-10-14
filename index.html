@@ -8,8 +8,9 @@
     body {
         text-align: center;
         font-size: 25px;
-        margin: 20px;
-        background: white;
+        margin: 5px;
+        background: url(https://4.bp.blogspot.com/-5xNMmxVjWKg/UA5bNp_0jaI/AAAAAAAAB4s/QXcwBUUPPKw/s1600/Seamless+wall+white+paint+stucco+plaster+texture.jpg);
+       background-size:100% 100%;
     }
     code {
         margin: 5%;
@@ -41,7 +42,7 @@
         display: none;
     }
     #tx {
-        margin: 5%;
+        margin: 1%;
         width: 90%;
         font-size: 14px;
         height: 20%;
@@ -49,18 +50,23 @@
     }
     #dor {
       
+      font-weight:2px;
         position: absolute;
         text-align: left;
         padding: 15px;
         top: 2%;
-        width: 50%;
-        left: 25%;
+        width: 80%;
+        left: 5%;
         z-index: 2;
         border-style: solid;
-        background-color: rgb(154, 209, 180);
+        background-color: rgba(154, 209, 180,1);
         height: 130%;
             transition: opacity 1s, top 1s;
             display:none;
+            border-radius:10px;
+              box-shadow: -4px 4px 10px 1px rgba(0, 0, 0, .51);   
+          
+              
     }
     .cin {
         text-align: right;
@@ -70,11 +76,12 @@
         height: auto;
     }
     #tfil {
-        width: 99%;
+        width: 94%;
         box-shadow: -10px 10px 15px 1px rgba(0, 0, 0, .51);
         text-align: left;
         margin: 3px;
-        font-size: 35px;
+        font-size: 25px;
+        border-radius:10px;
     }
     .ctt {
         width: 90%;
@@ -83,17 +90,17 @@
         font-size: 14px;
         display: block;
         background: white;
-  
+       box-shadow: -4px 4px 10px 1px rgba(0, 0, 0, .51);
     }
     #dinv {
-        width: 100%;
+        width: 96%;
         height: 40%;
         overflow: auto;
         border-radius: 5px;
         ;
         border-style: solid;
         display: none;
-        // background: black;
+        background: rgba(255,255,255,1);
     }
     #scla {
         display: none;
@@ -110,15 +117,19 @@
          top:1%;
          right:5%;
      }
+     .cpu{
+         background:#600;
+         width:90%;
+     }
 </style>
 <div id="todo">
     
 <button onclick="reader.style.display='block'">Open Scanner</button>
 <button  id="rn" onclick="if(confirm('Are you sure you want to Reset your user name?')){localStorage.removeItem('mec');window.location.reload()}">RN</button>
 <div id="reader"></div><br>
-<button onclick="reader.style.display='none'">Close Scanner</button>
+<button onclick="reader.style.display='none'">Close Scanner</button><br>
 <br>-- Search/Manually...<br>
-<textarea id="tfil" oninput="search(this.value)"></textarea><br>
+<textarea id="tfil" oninput="search(this.value)" placeholder="Type Key Word..."></textarea><br><br>
 <button onclick="openClip()">Load Clipboard</button>
 <div id="dinv"></div>
 <div id="dparts"></div>
@@ -136,19 +147,19 @@
     <input id="pno" type="text" class="cin" value="">
     <br>desc:
     <input id="de" type="text" class="cin" value="" readonly>
-    <br>Mech
+    <br>Mech:
     <input id="mec" type="text" class="cin" value="" readonly>
     <br>Inv. Class:
     <input id="cla" type="text" class="cin" value="" readonly>
     <br>Kw:
     <input id="kw" type="text" class="cin" value="" readonly>
-    <br>Loc
+    <br>Loc:
     <input id="loc" type="text" class="cin" value="" readonly>
-    <br>Note
+    <br>Note:
     <input id="no" type="text" class="cin" value="">
-    <br>
-    <button class="cpu" onclick="send('pull')">Pull</button>
-    <button class="cpu" onclick="send('return')">Return</button>
+    <br><br>
+    <button class="cpu" onclick="send('pull')">Pull</button><br><br>
+    <button class="cpu" onclick="send('return')">Return</button><br><br>
     <button class="cpu" onclick="dor.style.display='none';dor.name.style.background='white'">Close</button>
 
 </div>
