@@ -36,6 +36,8 @@
         color: white;
         font-size: 25px;
         display:none;
+        background-color: rgba(36, 248, 135,.6);
+
     }
     #ta {
         width: 95%;
@@ -115,19 +117,31 @@
          background: red;
          position: absolute;
          top:1%;
-         right:5%;
+         left:5%;
      }
      .cpu{
          background:#600;
          width:90%;
      }
+     #ord{
+         position: absolute;
+         top:1%;
+         right:1%;
+         background: red;
+     }
+     #bor{
+        background: red;
+     }
 </style>
 <div id="todo">
     
-<button onclick="reader.style.display='block'">Open Scanner</button>
+<button onclick="reader.style.display='block';openScaner()">Open Scanner</button>
 <button  id="rn" onclick="if(confirm('Are you sure you want to Reset your user name?')){localStorage.removeItem('mec');window.location.reload()}">RN</button>
+<button  id="ord" onclick="dor.style.display='block'">Order<br>parts</button>
+
+
 <div id="reader"></div><br>
-<button onclick="reader.style.display='none'">Close Scanner</button><br>
+<button onclick="reader.style.display='none';closeScaner()">Close Scanner</button><br>
 <br>-- Search/Manually...<br>
 <textarea id="tfil" oninput="search(this.value)" placeholder="Type Key Word..."></textarea><br><br>
 <button onclick="openClip()">Load Clipboard</button>
@@ -160,7 +174,8 @@
     <br><br>
     <button class="cpu" onclick="send('pull')">Pull</button><br><br>
     <button class="cpu" onclick="send('return')">Return</button><br><br>
-    <button class="cpu" onclick="dor.style.display='none';dor.name.style.background='white'">Close</button>
+       <button id="bor" class="cpu" onclick="send('order')">Order</button><br><br>
+    <button class="cpu" onclick="dor.style.display='none';">Close</button>
 
 </div>
 <textarea id="tx" readonly></textarea>
@@ -172,6 +187,7 @@
 <script>
      //var user=localStorage.getItem("mec");
     //if(user===null) { user=prompt("Type your name");localStorage.setItem("mec",user);
+    order=false;
     var linkp = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';
     var linkc = 'https://jsonblob.com/api/0da2d184-f931-11eb-a6a9-8d2736c2c513'
     var linkme = 'https://jsonblob.com/api/893891925422391296'; //my clipboard
@@ -182,6 +198,7 @@
     linkp = "https://jsonblob.com/api/892533157149294592"; //main
     linko = "https://jsonblob.com/api/893246438927253504"; //other
     linkt = 'https://jsonblob.com/api/893855119448489984'; //trash
+    linkord='https://jsonblob.com/api/898641969950244864'; //orders
     var Parts = [],
         Psel = [],
         partsClip = [];
@@ -305,10 +322,43 @@
     }
 
     function send(to) {
+            if(to==="order"){
+     alert(order);
+     dor.style.display='none';
+        GetJ(linkord, function(obj) {
+    
+     var o = {
+                "job": jn.value,
+                "pn": pno.value,
+                "des": de.value,
+                "qty": qt.value,
+                "qtyObs": obs.value,
+                "move":"",
+                "kw": kw.value,
+                "clase": cla.value,
+                "mec": mec.value,
+                "location": loc.value,
+                "note": no.value,
+                "created": new Date().toString()
+            };
+            obj.parts.push(o);
+            UpdateJ(linkord, obj, function() {
+                alert("Ordersent...")
+            })
+
+
+
+
+            });
+
+            }
+            else{
         if(qt.value===0 || qt.value===null || jn.value===""){
             alert("No Quantity or Job number");
         }
         else{
+ 
+            
             dor.style.display='none';
         GetJ(linkme, function(obj) {
    
@@ -336,7 +386,8 @@
             })
 
 
-        })}
+        })
+    }}
 
     }
 
@@ -493,16 +544,30 @@
 
 
 }
+function openScaner(){
+     var b=reader.children;
+     var bt=b[2].children[0].children[0].children[0].children[0].children[0];
+//     alert(bt.innerHTML);
+   bt.click();
+
+}
+function closeScaner(){
+     var b=reader.children;
+     var bt=b[2].children[0].children[0].children[0].children[0].children[0];
+     alert(bt.innerHTML);
+   bt.click();
+
+}
+function orderParts(){
+
+    if(confirm(" 'Ok' to Select it from the search bar...")){
+      order=true;
+      bor.style.display="block"
+    }
+    else   bor.style.display="none"
+
+}
+
 
 </script>
-
-
-<script>
- 
-</script>
-
-
-
-
-
 </html>
