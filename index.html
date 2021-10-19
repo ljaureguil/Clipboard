@@ -58,7 +58,7 @@
         padding: 15px;
         top: 2%;
         width: 60%;
-        left: 5%;
+        left: 20%;
         z-index: 2;
         border-style: solid;
       //     background-color: rgba(154, 209, 180,1);
@@ -141,7 +141,7 @@
     
 <button onclick="reader.style.display='block';openScaner()">Open Scanner</button>
 <button  id="rn" onclick="if(confirm('Are you sure you want to Reset your user name?')){localStorage.removeItem('mec');window.location.reload()}">RN</button>
-<button  id="ord" onclick="dor.style.display='block'">Order<br>parts</button>
+<button  id="ord" onclick="dor.style.display='block';mec.value=mecanico;">Request<br>parts</button>
 
 
 <div id="reader"></div><br>
@@ -159,12 +159,13 @@
     <input id="jn" type="text" class="cin" value="">
     <br>Qty:
     <input id="qt" type="number" class="cin" value=1>
-    <br>Qty Obs:
-    <input id="obs" type="number" class="cin" >
+
     <br>Part No.
     <input id="pno" type="text" class="cin" value="">
     <br>desc:
     <input id="de" type="text" class="cin" value="" readonly>
+    <br>Remaining:
+    <input id="obs" type="number" class="cin" >
     <br>Mech:
     <input id="mec" type="text" class="cin" value="" readonly>
   
@@ -328,6 +329,7 @@
 
     function send(to) {
             if(to==="order"){
+ 
      dor.style.display='none';
         GetJ(linkord, function(obj) {
     
@@ -340,7 +342,7 @@
                 "move":"",
                 "kw": kw.value,
                 "clase": cla.value,
-                "mec": mec.value,
+                "mec": mecanico,
                 "location": loc.value,
                 "note": no.value,
                 "created": new Date().toString()
@@ -375,7 +377,7 @@
                 "move":"",
                 "kw": kw.value,
                 "clase": cla.value,
-                "mec": mec.value,
+                "mec": mecanico,
                 "location": loc.value,
                 "note": no.value,
                 "created": new Date().toString()
@@ -523,7 +525,7 @@
        
        var e = String.fromCharCode(9);
        var c="";
-       if(confirm("Include Headers?"))h="QTY"+e + "Job No." + e +"P/N" + e + "Description" + e + "Mechanic" + e +"Date" +e + "Time" + e + "Move" + e + "Qty. Obs."+ e + "Note"+"\n";
+       if(confirm("Include Headers?"))h="QTY"+e + "Job No." + e +"P/N" + e + "Description" + e + "Mechanic" + e +"Date" +e + "Time" + e + "Move" + e + "Remaining"+ e + "Note"+"\n";
 
         GetJ(linkme, function(ob) {
             var ps = ob.parts; //alert(ps)
