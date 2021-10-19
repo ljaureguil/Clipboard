@@ -57,11 +57,12 @@
         text-align: left;
         padding: 15px;
         top: 2%;
-        width: 80%;
+        width: 60%;
         left: 5%;
         z-index: 2;
         border-style: solid;
-        background-color: rgba(154, 209, 180,1);
+      //     background-color: rgba(154, 209, 180,1);
+        background-color: rgb( 135,253, 67);
         height: 130%;
             transition: opacity 1s, top 1s;
             display:none;
@@ -72,7 +73,7 @@
     }
     .cin {
         text-align: right;
-        width: 90%;
+        width: 90%;font-size: 18px;
     }
     #de {
         height: auto;
@@ -132,6 +133,9 @@
      #bor{
         background: red;
      }
+     #cla{display:none}
+     #loc{display: none;}
+     #kw{display: none;}
 </style>
 <div id="todo">
     
@@ -163,12 +167,13 @@
     <input id="de" type="text" class="cin" value="" readonly>
     <br>Mech:
     <input id="mec" type="text" class="cin" value="" readonly>
-    <br>Inv. Class:
+  
     <input id="cla" type="text" class="cin" value="" readonly>
-    <br>Kw:
+ 
     <input id="kw" type="text" class="cin" value="" readonly>
-    <br>Loc:
+ 
     <input id="loc" type="text" class="cin" value="" readonly>
+
     <br>Note:
     <input id="no" type="text" class="cin" value="">
     <br><br>
