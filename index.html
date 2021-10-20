@@ -30,12 +30,14 @@
         box-shadow: -10px 10px 15px 1px rgba(0, 0, 0, .51);
 
     }
-   
+   #creader{
+             display:none; 
+   }
     #reader {
         width: 100%;
         color: white;
         font-size: 25px;
-        display:none;
+ 
         background-color: rgba(36, 248, 135,.6);
 
     }
@@ -139,13 +141,14 @@
 </style>
 <div id="todo">
     
-<button onclick="reader.style.display='block';openScaner()">Open Scanner</button>
+<button onclick="creader.style.display='block';openScaner()">Open Scanner</button>
 <button  id="rn" onclick="if(confirm('Are you sure you want to Reset your user name?')){localStorage.removeItem('mec');window.location.reload()}">RN</button>
 <button  id="ord" onclick="dor.style.display='block';mec.value=mecanico;">Request<br>parts</button>
 
+<div id="creader">
+<div id="reader"></div><br><button onclick="creader.style.display='none';closeScaner()">Close Scanner</button>
+</div><br>
 
-<div id="reader"></div><br>
-<button onclick="reader.style.display='none';closeScaner()">Close Scanner</button><br>
 <br>-- Search/Manually...<br>
 <textarea id="tfil" oninput="search(this.value)" placeholder="Type Key Word..."></textarea><br><br>
 <button onclick="openClip()">Load Clipboard</button>
@@ -184,7 +187,7 @@
     <button class="cpu" onclick="dor.style.display='none';">Close</button>
 
 </div>
-<textarea id="tx" readonly></textarea>
+<textarea id="tx" readonly></textarea><br>
 <button onclick='tx.select();document.execCommand("copy");'>Copy</button>
 
 </div>
