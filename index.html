@@ -208,6 +208,7 @@
     linko = "https://jsonblob.com/api/893246438927253504"; //other
     linkt = 'https://jsonblob.com/api/893855119448489984'; //trash
     linkord='https://jsonblob.com/api/898641969950244864'; //orders
+    linkusc='https://jsonblob.com/api/900759490673262592';//use
     var Parts = [],
         Psel = [],
         partsClip = [];
@@ -224,9 +225,25 @@
         mecanico=mecanico.replace(/ /g,"-");
         mecanico=mecanico.toLocaleUpperCase();
         localStorage.setItem("mec", mecanico);
+        GetJ(linkusc,function(ob){
+            var s=new Date().toString().split(" GMT")[0];
+            s=mecanico+" _ "+s;
+            ob.us.push(s);
+            UpdateJ(linkusc,ob);
+        })
     } else {
         if(mecanico.toUpperCase().indexOf('LAURO')<0){linkme=linkcl;}
-              alert("Hi " + mecanico);
+        GetJ(linkusc,function(ob){
+        var s=new Date().toString().split(" GMT")[0];
+            s=mecanico+" _ "+s;
+            ob.us.push(s);
+            UpdateJ(linkusc,ob);
+            alert("Hi " + mecanico);
+           
+             });
+             
+           
+
     }
     var s = document.getElementsByTagName("style")[0];
     var html5QrcodeScanner = new Html5QrcodeScanner(
