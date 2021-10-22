@@ -254,7 +254,7 @@
     html5QrcodeScanner.render(onScanSuccess, onScanError);
 
     function onScanSuccess(decodedText, decodedResult) {
-    window.scrollTo(0, window.innerHeight);
+       todo.scrollTop=innerHeight;
       if (decodedText.indexOf("http") > -1) {
             ta.style.display = "block";
 
