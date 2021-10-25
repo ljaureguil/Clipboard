@@ -169,8 +169,6 @@
     <input id="pno" type="text" class="cin" value="">
     <br>desc:
     <input id="de" type="text" class="cin" value="" readonly>
-    <br>Remaining:
-    <input id="obs" type="number" class="cin" >
     <br>Mech:
     <input id="mec" type="text" class="cin" value="" readonly>
   
@@ -179,6 +177,8 @@
     <input id="kw" type="text" class="cin" value="" readonly>
  
     <input id="loc" type="text" class="cin" value="" readonly>
+    <br>Remaining:
+    <input id="obs" type="number" class="cin" >
 
     <br>Note:
     <input id="no" type="text" class="cin" value="">
@@ -215,15 +215,20 @@
         Psel = [],
         partsClip = [];
 
-    getInventories();
+  
 
-
-
-    var mecanico = ""
+ //   localStorage.removeItem("mec")
+    var mecanico = "";
+    inicVerif();
+    function inicVerif(){
     mecanico = localStorage.getItem("mec");
-
     if (mecanico === null || mecanico === "") {
         mecanico = prompt("Type your Name");
+        if (mecanico === null || mecanico === "" || mecanico.length<3){
+            alert("Your name must be more than 2 characters")
+             inicVerif()
+             
+             }
         mecanico=mecanico.replace(/ /g,"-");
         mecanico=mecanico.toLocaleUpperCase();
         localStorage.setItem("mec", mecanico);
@@ -247,6 +252,11 @@
            
 
     }
+}
+    getInventories();
+
+
+
     var s = document.getElementsByTagName("style")[0];
     var html5QrcodeScanner = new Html5QrcodeScanner(
         "reader", {
@@ -294,8 +304,11 @@
 
         GetJ(linkp, function(obp) {
             Parts = obp.parts;
+            for(var b=0;b<Parts.length;b++){
+              }
             GetJ(linkm, function(obm) {
                 for (var i = 0; i < obm.parts.length; i++) {
+                    obm.parts[i]=obm.parts[i]*1
                     Parts.push(obm.parts[i])
                 }
 
@@ -358,8 +371,8 @@
                 "job": jn.value,
                 "pn": pno.value,
                 "des": de.value,
-                "qty": qt.value,
-                "qtyObs": obs.value,
+                "qty": qt.value*1,
+                "qtyObs": obs.value*1,
                 "move":"",
                 "kw": kw.value,
                 "clase": cla.value,
@@ -393,8 +406,8 @@
                 "job": jn.value,
                 "pn": pno.value,
                 "des": de.value,
-                "qty": qt.value,
-                "qtyObs": obs.value,
+                "qty": qt.value*1,
+                "qtyObs": obs.value*1,
                 "move":"",
                 "kw": kw.value,
                 "clase": cla.value,
@@ -521,7 +534,8 @@
                     qt.value=1;
                     pno.value = e.name.pn;
                     de.value = e.name.des;
-                    
+                    kw.value= e.name.kw;
+                 
                     cla.value = e.name.clase;
                     loc.value = e.name.location;
                     no.value = e.name.note;
