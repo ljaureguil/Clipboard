@@ -405,12 +405,12 @@
         else{
             var o = {
                 "job": jn.value,
-                "pn": pno.value,
-                "des": de.value,
+                "pn": pno.value.toUpperCase(),
+                "des": de.value.toUpperCase(),
                 "qty": qt.value*1,
                 "qtyObs": obs.value*1,
                 "move":"",
-                "kw": kw.value,
+                "kw": kw.value.toUpperCase(),
                 "clase": cla.value,
                 "mec": mecanico,
                 "location": loc.value,
