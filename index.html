@@ -425,7 +425,7 @@
                 GetJ(linko, function(obj) {
                     obj.parts.push(o);
             UpdateJ(linko, obj, function() {
-                alert("Part/s sent to Clipboard...")
+                alert("Part has been added to 'other'...")
             })              
 
                 });
@@ -614,7 +614,7 @@ function openScaner(){
 function closeScaner(){
      var b=reader.children;
      var bt=b[2].children[0].children[0].children[0].children[0].children[0];
-     alert(bt.innerHTML);
+  //   alert(bt.innerHTML);
    bt.click();
 
 }
