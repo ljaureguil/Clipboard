@@ -153,7 +153,7 @@
     
 <button onclick="creader.style.display='block';openScaner()">Open Scanner</button>
 <button  id="rn" onclick="if(confirm('Are you sure you want to Reset your user name?')){localStorage.removeItem('mec');window.location.reload()}">RN</button>
-<button  id="ord" onclick="dor.style.display='block';pno.value=tfil.value;mec.value=mecanico;">Request<br>parts</button>
+<button  id="ord" onclick="dor.style.display='block';pno.value=tfil.value.toUpperCase();mec.value=mecanico;">Request<br>parts</button>
 
 <div id="creader">
 <div id="reader"></div><br><button onclick="creader.style.display='none';closeScaner()">Close Scanner</button>
@@ -368,88 +368,91 @@
     }
 
     function send(to) {
-            if(to==="order"){
- 
-     dor.style.display='none';
-        GetJ(linkord, function(obj) {
-    
-     var o = {
-                "job": jn.value,
-                "pn": pno.value,
-                "des": de.value,
-                "qty": qt.value*1,
-                "qtyObs": obs.value*1,
-                "move":"",
-                "kw": kw.value,
-                "clase": cla.value,
-                "mec": mecanico,
-                "location": loc.value,
-                "note": no.value,
-                "created": new Date().toString()
-            };
-            obj.parts.push(o);
-            UpdateJ(linkord, obj, function() {
-                alert("Ordersent...")
-            })
+       if (to === "order") {
 
+           dor.style.display = 'none';
+           GetJ(linkord, function(obj) {
 
+               var o = {
+                   "job": jn.value,
+                   "pn": pno.value.toUpperCase(),
+                   "des": de.value.toUpperCase(),
+                   "qty": qt.value * 1,
+                   "qtyObs": obs.value * 1,
+                   "move": "",
+                   "kw": kw.value,
+                   "clase": cla.value,
+                   "mec": mecanico,
+                   "location": loc.value,
+                   "note": no.value,
+                   "created": new Date().toString()
+               };
+               obj.parts.push(o);
+               UpdateJ(linkord, obj, function() {
+                   alert("Ordersent...")
+               })
+           });
 
+       } else {
+           if (qt.value === 0 || qt.value === null || jn.value === "" && !add) {
+               alert("No Quantity or Job number");
+           } else {
+               var o = {
+                   "job": jn.value,
+                   "pn": pno.value.toUpperCase(),
+                   "des": de.value.toUpperCase(),
+                   "qty": qt.value * 1,
+                   "qtyObs": obs.value * 1,
+                   "move": "",
+                   "kw": kw.value.toUpperCase(),
+                   "clase": cla.value,
+                   "mec": mecanico,
+                   "location": loc.value,
+                   "note": no.value,
+                   "created": new Date().toString()
+               };
 
-            });
-
-            }
-            else{
-        if(qt.value===0 || qt.value===null || jn.value==="" && !add){
-          alert("No Quantity or Job number");
-        }
-        else{
-            var o = {
-                "job": jn.value,
-                "pn": pno.value.toUpperCase(),
-                "des": de.value.toUpperCase(),
-                "qty": qt.value*1,
-                "qtyObs": obs.value*1,
-                "move":"",
-                "kw": kw.value.toUpperCase(),
-                "clase": cla.value,
-                "mec": mecanico,
-                "location": loc.value,
-                "note": no.value,
-                "created": new Date().toString()
-            };
-            
-            dor.style.display='none';
-            if(add){
-                if(pno.value=="" || pno.value==" " || de.value=="" || de.value==" " ) {alert("Not Part Number or Description")}
-                else{
-                GetJ(linko, function(obj) {
-                    obj.parts.push(o);
-            UpdateJ(linko, obj, function() {
-                alert("Part has been added to 'other'...")
-            })              
-
-                });
-                }
-            }
-            else{
-        GetJ(linkme, function(obj) {
-   
- 
-            if(to==="pull") o.move="pull"
-            else o.move="return"
-
-
-            obj.parts.push(o);
-            UpdateJ(linkme, obj, function() {
-                alert("Part/s sent to Clipboard...")
-            })
-
-
-        })}
-    }}
-
-    }
-
+               dor.style.display = 'none';
+               if (add) {
+                   if (pno.value == "" || pno.value == " " || de.value == "" || de.value == " ") {
+                       alert("Not Part Number or Description")
+                   } else {
+                       GetJ(linko, function(obj) {
+                           var u = 0;
+                           for (u = 0; u < obj.parts.length; u++) {
+                               if (obj.parts[u].pn.toUpperCase() === pno.value.toUpperCase()) {
+                             //   var ss = JSON.stringify(obj.parts[u]).replace(/}/g, "\n").replace(/{/g, "\n").replace(/,/g, "\n").replace(/"/g, " ")
+                                   var ss = "P/N: "+obj.parts[u].pn+"\nDesc.: "+obj.parts[u].des+"\n";
+                                   if (confirm(ss + "\n Already Exist, do you want to Replace it?")) {
+                                       obj.parts[u] = o;
+                                       UpdateJ(linko, obj, function() {
+                                           alert("Part has been replaced...");
+                                           return;
+                                       })
+                                   } else return;
+                               }
+                           }
+                           if (u >= obj.parts.length) {
+                               obj.parts.push(o);
+                               UpdateJ(linko, obj, function() {
+                                   alert("Part has been added to 'other'...")
+                               })
+                           }
+                       });
+                   }
+               } else {
+                   GetJ(linkme, function(obj) {
+                       if (to === "pull") o.move = "pull"
+                       else o.move = "return"
+                        obj.parts.push(o);
+                       UpdateJ(linkme, obj, function() {
+                           alert("Part/s sent to Clipboard...")
+                       })
+                   })
+               }
+           }
+       }
+   }
     function GetJ(url, callback) {
 
         //var url  = "http://localhost:8080/api/v1/users";
@@ -538,7 +541,7 @@
 
     function sel(e) {
        dor.style.display='block';
-       pno.value=e.name.pn;
+       pno.value=e.name.pn.toUpperCase();
        dor.name=e;
         //     alert(e.style.background)
         var enc = false;
@@ -551,8 +554,8 @@
                     e.style.background = "#0f0";
                     i = Parts.length + 2;
                     qt.value=1;
-                    pno.value = e.name.pn;
-                    de.value = e.name.des;
+                    pno.value = e.name.pn.toUpperCase();
+                    de.value = e.name.des.toUpperCase();
                     kw.value= e.name.kw;
                  
                     cla.value = e.name.clase;
