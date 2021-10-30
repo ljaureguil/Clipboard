@@ -442,12 +442,32 @@
                    }
                } else {
                    GetJ(linkme, function(obj) {
-                       if (to === "pull") o.move = "pull"
-                       else o.move = "return"
+                       if (to === "pull"){
+                           var ps=[];
+      for(var i=0;i<obj.parts.length;i++){
+           if(obj.parts[i].pn===o.pn && obj.parts[i].job===o.job)ps.push(obj.parts[i])
+        }
+      if(ps.length>0){
+          var sc="";
+          for(var i=0;i<ps.length;i++){
+              sc+="Job No.: "+ps[i].job+"\nP/N: "+ps[i].pn+"\nDesc: "+ps[i].des+"\nQty: "+ps[i].qty+"\n......................\n"
+          }
+        if(!confirm("--This is what I found for this Job :\n"+sc+"Do you still want to pull it?")) return
+
+      }
+                      o.move = "pull"
                         obj.parts.push(o);
                        UpdateJ(linkme, obj, function() {
                            alert("Part/s sent to Clipboard...")
-                       })
+                       })}
+                        else{ 
+                            o.move = "return";
+                            obj.parts.push(o);
+                       UpdateJ(linkme, obj, function() {
+                           alert("Part/s sent 'return' to Clipboard...")
+                       })   
+                            }
+                       /////
                    })
                }
            }
