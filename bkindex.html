@@ -7,138 +7,265 @@
 <style id="s1">
     body {
         text-align: center;
-        font-size: 35px;
-        margin: 20px;
-        background:white;
+        font-size: 25px;
+        margin: 5px;
+
     }
-    code# {
+    code {
         margin: 5%;
         width: 10%;
         position: absolute;
-        bottom:2%;
-        right:1%;
+        bottom: 2%;
+        right: 1%;
     }
     button {
-        font-size: 35px;
+   
+        font-size: 25px;
+        font-weight: bolder;
         border-radius: 10px;
-        background: rgb(253, 81, 28);
+        background-color: rgb(8, 38, 212);
+        margin: 2px;
         color: white;
+        box-shadow: -10px 10px 15px 1px rgba(0, 0, 0, .51);
+
     }
+   #creader{
+             display:none; 
+   }
     #reader {
         width: 100%;
         color: white;
         font-size: 25px;
+ 
+        background-color: rgba(36, 248, 135,.6);
+
     }
     #ta {
         width: 95%;
         display: none;
     }
     #tx {
-        margin: 5%;
+        margin: 1%;
         width: 90%;
-        font-size: 35px;
+        font-size: 14px;
         height: 20%;
-        background-color: rgb(14, 236, 118);
-        display: none;
+        
     }
-    #dor{
-        position: relative;
-        text-align: right;
-        padding:15px;
- 
-        width: 80%;
-        left: 10%;
-   
+    #dor {
+      
+      font-weight:2px;
+        position: absolute;
+        text-align: left;
+        padding: 15px;
+        top: 2%;
+        width: 60%;
+        left: 20%;
+        z-index: 2;
         border-style: solid;
-        background-color: rgb(154, 209, 180);
-        display: none;
+      //     background-color: rgba(154, 209, 180,1);
+        background-color: rgb( 135,253, 67);
+        height: 130%;
+            transition: opacity 1s, top 1s;
+            display:none;
+            border-radius:10px;
+              box-shadow: -4px 4px 10px 1px rgba(0, 0, 0, .51);   
+          
+              
     }
-  
-    #de{
+    .cin {
+        text-align: right;
+        width: 90%;font-size: 18px;
+    }
+    #de {
         height: auto;
-
+    }
+    #tfil {
+        width: 94%;
+        box-shadow: -10px 10px 15px 1px rgba(0, 0, 0, .51);
+        text-align: left;
+        margin: 3px;
+        font-size: 25px;
+        border-radius:10px;
+    }
+    .ctt {
+        width: 90%;
+        margin: 5%;
+        border: solid;
+        font-size: 14px;
+        display: block;
+        background: white;
+       box-shadow: -4px 4px 10px 1px rgba(0, 0, 0, .51);
+    }
+    #dinv {
+        width: 96%;
+        height: 40%;
+        overflow: auto;
+        border-radius: 5px;
+        ;
+        border-style: solid;
+        display: none;
+        background: rgba(255,255,255,1);
+    }
+    #scla {
+        display: none;
     }
     #todo{
-        text-align: center;
-        width: 100%;
-    }
-    .cin{
-        width: 98%;
-          text-align: right; 
-        font-size: 18px;
-        background-color: rgb(10, 248, 224);
-        font-weight: bold;
-    }
-    #qi{
         position: absolute;
-        top:1%;
-        left:1%;
-        color:white;
-        background-color: red;;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+    transition: scroll 1s, transform 2s;
+        
+     }
+     #rn{
+         background: red;
+         position: absolute;
+         top:1%;
+         left:5%;
+     }
+     .cpu{
+         background:#600;
+         width:90%;
+     }
+     #ord{
+         position: absolute;
+         top:1%;
+         right:1%;
+         background: red;
+     }
+     #bor{
+        background: red;
+     }
+     #cla{display:none}
+     #loc{display: none;}
+     #kw{display: none;}
+     #plus{
+         text-align: right;
+        width: 55px;
+        height: 55px;
+        margin-left: 90%;
+        
         border-radius: 100px;
-        opacity: .75;
-        font-weight: bold;
-        padding:15px;
-    //    width:8vw;
-   // height:8vw; /* same as width */
-
-
-    }
-    #qt{
-  
-       width: 50%;
-    }
+        display: block;
+     }
 </style>
 <div id="todo">
+    
+<button onclick="creader.style.display='block';openScaner()">Open Scanner</button>
+<button  id="rn" onclick="if(confirm('Are you sure you want to Reset your user name?')){localStorage.removeItem('mec');window.location.reload()}">RN</button>
+<button  id="ord" onclick="dor.style.display='block';pno.value=tfil.value.toUpperCase();mec.value=mecanico;">Request<br>parts</button>
 
-    <div id="dor"> 
-        <button id="qi" onclick="alert('This is what Inventory has '+this.innerHTML+' Pcs.')"></button> . . . 
-        Qty: <input id="qt" type="number" class="cin"><br><br>
-     Job No. <input id="jn" type="text" class="cin"><br><br>
+<div id="creader">
+<div id="reader"></div><br><button onclick="creader.style.display='none';closeScaner()">Close Scanner</button>
+</div><br>
 
-     Part No. <input id="pno" type="text" class="cin"><br><br>
-     desc: <input id="de" type="text" class="cin"><br><br>
-      Mech <input id="me" type="text" class="cin"><br> <br>  
- 
-     Note <input id="no" type="text" class="cin"><br><br>     
-     <button onclick="dor.style.display='none';send('pull')"   style="background-color: rgb(39, 221, 39);">Send To Clipboard (Pull)</button><br><br>
-     <button onclick="dor.style.display='none';send('return')">Send To Clipboard (Return)</button><br><br>
-     <button onclick="dor.style.display='none'">Close</button>
-       
- </div>
-<br><br>
-<div id="reader"></div>
-<br>
+<br><span id="hi">-- Search/Manually...</span></span><br>
+<textarea id="tfil" oninput="search(this.value)" placeholder="Type Key Word..."></textarea><br><br>
+<button onclick="openClip()">Load Clipboard</button>
+<div id="dinv"></div>
+<div id="dparts"></div>
 
-<div id="res">
+<a id="ta" href="" target="_blank"></a>
+
+<div id="dor">
+    Job No.
+    <input id="jn" type="text" class="cin" value="">
+    <br>Qty:
+    <input id="qt" type="number" class="cin" value=1>
+
+    <br>Part No.
+    <input id="pno" type="text" class="cin" value="">
+    <br>desc:
+    <input id="de" type="text" class="cin" value="" >
+    <br>Mech:
+    <input id="mec" type="text" class="cin" value="" readonly>
   
-    <a id="ta" href="" target="_blank"></a>
-
-    <textarea id="tx"></textarea>
-</div>
+    <input id="cla" type="text" class="cin" value="" readonly>
  
+    <input id="kw" type="text" class="cin" value="" readonly>
+ 
+    <input id="loc" type="text" class="cin" value="" readonly>
+    <br>Remaining:
+    <input id="obs" type="number" class="cin" >
+
+    <br>Note:
+    <input id="no" type="text" class="cin" value="">
+    <br><br>
+    <button class="cpu" onclick="send('pull')">Pull</button><br><br>
+    <button class="cpu" onclick="send('return')">Return</button><br><br>
+       <button id="bor" class="cpu" onclick="send('order')">Request</button><br><br>
+    <button class="cpu" onclick="dor.style.display='none';">Close</button><br><br>
+    <img id="plus" class="cpu" onclick="add=true;send('pull')" src="https://findicons.com/files/icons/1014/ivista/256/plus.png">
+
+</div>
+<textarea id="tx" readonly></textarea><br>
+<button onclick='tx.select();document.execCommand("copy");'>Copy</button>
+
 </div>
 <script src="html5-qrcode.min.js"></script>
-<script>/*
-        Date <input id="da" type="date" class="cin" value='today'><br></br>
-*/</script>
 
 <script>
-  //  qi.style.width=qi.offsetHeight+"px";
- //   alert(qi.style.width+"\n\n"+qi.style.height)
-     var linkp = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';
-     var linkc = 'https://jsonblob.com/api/0da2d184-f931-11eb-a6a9-8d2736c2c513'
-      var mecanico=""
-       mecanico=localStorage.getItem("mec");
-     
-                if(mecanico===null || mecanico===""){
-                    mecanico=prompt("Type your Name");
-                    localStorage.setItem("mec",mecanico);
-                       }
-                else{
-                    alert("Hi "+mecanico);
+     //var user=localStorage.getItem("mec");
+    //if(user===null) { user=prompt("Type your name");localStorage.setItem("mec",user);
+    order=false,add=false;
+    var linkp = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';
+    var linkc = 'https://jsonblob.com/api/0da2d184-f931-11eb-a6a9-8d2736c2c513'
+    var linkme = 'https://jsonblob.com/api/893891925422391296'; //my clipboard
+    var linkcl='http://jsonblob.com/896389790531076096'; //clip demas
 
-                }
+    var linkm = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb'; //miselanius
+    linkb = "https://jsonblob.com/api/893339508880457728"; //basquet
+    linkp = "https://jsonblob.com/api/892533157149294592"; //main
+    linko = "https://jsonblob.com/api/893246438927253504"; //other
+    linkt = 'https://jsonblob.com/api/893855119448489984'; //trash
+    linkord='https://jsonblob.com/api/898641969950244864'; //orders
+    linkusc='https://jsonblob.com/api/900759490673262592';//use
+    var Parts = [],
+        Psel = [],
+        partsClip = [];
+
+ //   localStorage.removeItem("mec")
+    var mecanico = "";
+    inicVerif();
+    function inicVerif(){
+    mecanico = localStorage.getItem("mec");
+    if (mecanico === null || mecanico === "") {
+        mecanico = prompt("Type your Name");
+        if (mecanico === null || mecanico === "" || mecanico.length<3){
+            alert("Your name must be more than 2 characters")
+             inicVerif()
+             
+             }
+        mecanico=mecanico.replace(/ /g,"-");
+        mecanico=mecanico.toLocaleUpperCase();
+        localStorage.setItem("mec", mecanico);
+        GetJ(linkusc,function(ob){
+            var s=new Date().toString().split(" GMT")[0];
+            s=mecanico+" _ "+s;
+            ob.us.push(s);
+            UpdateJ(linkusc,ob);
+        })
+    } else {
+        if(mecanico.toUpperCase().indexOf('LAURO')<0){linkme=linkcl;}
+        GetJ(linkusc,function(ob){
+        var s=new Date().toString().split(" GMT")[0];
+            s=mecanico+" _ "+s;
+            ob.us.push(s);
+            UpdateJ(linkusc,ob);
+     hi.innerHTML="Hi " + mecanico+hi.innerHTML;
+           
+             });
+             
+           
+
+    }
+}
+
+  if(mecanico.toUpperCase().indexOf("LAURO")>=0) plus.style.display="block";
+    else plus.style.display="none"
+
+    getInventories();
+  
     var s = document.getElementsByTagName("style")[0];
     var html5QrcodeScanner = new Html5QrcodeScanner(
         "reader", {
@@ -148,56 +275,23 @@
     html5QrcodeScanner.render(onScanSuccess, onScanError);
 
     function onScanSuccess(decodedText, decodedResult) {
-        alert(decodedText);
-        pno.value=""
-        qt.value="";
-        jn.value="";
-        no.value="";
-        me.value="";
-        de.value="";
-     //   da.value="";
-
-
-             de.value="";
-             me.value="";
-        if (decodedText.indexOf("http") > -1){
-             ta.style.display = "block";
-      //  ta.click();
+       todo.scrollTop=innerHeight;
+      if (decodedText.indexOf("http") > -1) {
+            ta.style.display = "block";
             ta.href = decodedText;
-        ta.innerHTML = decodedText;  
-    }
-        else ta.style.display = "none";
-        tx.value = decodedText;
-        var d=true;
-        if(d){
-       var pp=tx.value.split(" ");
-          getPart(pp[0],function(r,obj){
-              if(r!=null){
-                tx.style.display="none";
-                dor.style.display="block"   
-             pno.value=r.pn
-             de.value=r.des;
-             me.value=mecanico;
-             qi.innerHTML=r.qty;
-
-             qi.style.width=qi.offsetHeight+"px";
-             qi.style.height=qi.style.width;
-   // alert(qi.style.width+"...\n\n..."+qi.style.height)
-
-              }
-             else{
-               tx.style.display="block";
-                  }
-    
-          });
+            ta.innerHTML = decodedText;
+            ta.click();
         }
-
-
-        document.getElementsByTagName("style")[0].innerHTML = s.innerHTML;
+         else ta.style.display = "none";
+        tx.value = decodedText;
+             var pp = decodedText.split(" ");
+             tfil.value=pp[0];
+            search(pp[0]);
+         document.getElementsByTagName("style")[0].innerHTML = s.innerHTML;
         var st = document.createElement("style");
         st.innerHTML = s;
         document.body.getElementsByTagName("style")[0] = st;
-        }
+    }
 
     function onScanError(errorMessage) {
         // handle on error condition, with error message
@@ -211,101 +305,336 @@
         callback(xhttp.responseText);
 
     }
-  //  setupinventario();
-function setupinventario(){
+    //  setupinventario();
 
-    GetJ(linkp,function(obj){
-     
-      for(var i=0;i<obj.parts.length;i++){
-          var s=obj.parts[i].pn;
-    
-          s.replace(/ /g,"_");
+    function getInventories() {
 
-      }
-      UpdateJ(linkp,obj,function(){alert("done")})
+        GetJ(linkp, function(obp) {
+            Parts = obp.parts;
+   
+            GetJ(linkm, function(obm) {
+                for (var i = 0; i < obm.parts.length; i++) {
+                 
+                    Parts.push(obm.parts[i])
+                }
 
-    })
-}
+                GetJ(linko, function(obo) {
+                    for (var ia = 0; ia < obo.parts.length; ia++) {
+                        Parts.push(obo.parts[ia])
+                    }
 
-function getPart(pn,callback){
-  //  alert(pn)
-    GetJ(linkp,function(obj){
-        p=obj.parts;
-        for(var i=0;i<p.length;i++){
-           if(pn===p[i].pn){
-             callback( p[i],obj);
-             return p[i]
+                    filter(Parts);
+
+                });
+            });
+        });
+
+    }
+
+
+    function setupinventario() {
+
+        GetJ(linkp, function(obj) {
+
+            for (var i = 0; i < obj.parts.length; i++) {
+                var s = obj.parts[i].pn;
+
+                s.replace(/ /g, "_");
 
             }
-            callback(null,null)
-        
-         //  
-        }
-     
-    })
+            UpdateJ(linkp, obj, function() {
+                alert("done")
+            })
 
-}
-function send(move){
-   GetJ(linkc,function(obj){
-    var o={}; 
-    o.qty=qt.value*1;
-    o.jobNo=jn.value;
-    o.partN=pno.value;
-    o.desc=de.value;
-    o.mechanic=me.value;
-  //  o.date=da.value;
-    o.nota=no.value;
-    o.move=move;
-    o.created=new Date().toString();
-    obj.pulls.push(o);
- 
+        })
+    }
 
-    UpdateJ(linkc,obj,function(){alert("Part/s sent to Clipboard...")})
+    function getPart(pn, callback) {
+       GetJ(linkp, function(obj) {
+            p = obj.parts;
+            for (var i = 0; i < p.length; i++) {
+                if (pn === p[i].pn) {
+                    callback(p[i], obj);
+                    return p[i]
 
+                }
+                callback(null, null)
 
-   })
+                //  
+            }
 
-}
+        })
+
+    }
+
+    function send(to) {
+       if (to === "order") {
+
+           dor.style.display = 'none';
+           GetJ(linkord, function(obj) {
+
+               var o = {
+                   "job": jn.value,
+                   "pn": pno.value.toUpperCase(),
+                   "des": de.value.toUpperCase(),
+                   "qty": qt.value * 1,
+                   "qtyObs": obs.value * 1,
+                   "move": "",
+                   "kw": kw.value,
+                   "clase": cla.value,
+                   "mec": mecanico,
+                   "location": loc.value,
+                   "note": no.value,
+                   "created": new Date().toString()
+               };
+               obj.parts.push(o);
+               UpdateJ(linkord, obj, function() {
+                   alert("Ordersent...")
+               })
+           });
+
+       } else {
+           if (qt.value === 0 || qt.value === null || jn.value === "" && !add) {
+               alert("No Quantity or Job number");
+           } else {
+               var o = {
+                   "job": jn.value,
+                   "pn": pno.value.toUpperCase(),
+                   "des": de.value.toUpperCase(),
+                   "qty": qt.value * 1,
+                   "qtyObs": obs.value * 1,
+                   "move": "",
+                   "kw": kw.value.toUpperCase(),
+                   "clase": cla.value,
+                   "mec": mecanico,
+                   "location": loc.value,
+                   "note": no.value,
+                   "created": new Date().toString()
+               };
+
+               dor.style.display = 'none';
+               if (add) {
+                   if (pno.value == "" || pno.value == " " || de.value == "" || de.value == " ") {
+                       alert("Not Part Number or Description")
+                   } else {
+                       GetJ(linko, function(obj) {
+                           var u = 0;
+                           for (u = 0; u < obj.parts.length; u++) {
+                               if (obj.parts[u].pn.toUpperCase() === pno.value.toUpperCase()) {
+                             //   var ss = JSON.stringify(obj.parts[u]).replace(/}/g, "\n").replace(/{/g, "\n").replace(/,/g, "\n").replace(/"/g, " ")
+                                   var ss = "P/N: "+obj.parts[u].pn+"\nDesc.: "+obj.parts[u].des+"\n";
+                                   if (confirm(ss + "\n Already Exist, do you want to Replace it?")) {
+                                       obj.parts[u] = o;
+                                       UpdateJ(linko, obj, function() {
+                                           alert("Part has been replaced...");
+                                           return;
+                                       })
+                                   } else return;
+                               }
+                           }
+                           if (u >= obj.parts.length) {
+                               obj.parts.push(o);
+                               UpdateJ(linko, obj, function() {
+                                   alert("Part has been added to 'other'...")
+                               })
+                           }
+                       });
+                   }
+               } else {
+                   GetJ(linkme, function(obj) {
+                       if (to === "pull") o.move = "pull"
+                       else o.move = "return"
+                        obj.parts.push(o);
+                       UpdateJ(linkme, obj, function() {
+                           alert("Part/s sent to Clipboard...")
+                       })
+                   })
+               }
+           }
+       }
+   }
     function GetJ(url, callback) {
 
-//var url  = "http://localhost:8080/api/v1/users";
-var xhr = new XMLHttpRequest()
-xhr.open('GET', url + '/1', true)
-xhr.onload = function() {
-    //         (xhr.responseText)
-    var users = JSON.parse(xhr.responseText);
-    //     var obb=decoding(users.prim);
+        //var url  = "http://localhost:8080/api/v1/users";
+        var xhr = new XMLHttpRequest()
+        xhr.open('GET', url + '/1', true)
+        xhr.onload = function() {
+            //         (xhr.responseText)
+            var users = JSON.parse(xhr.responseText);
+            //     var obb=decoding(users.prim);
 
-    if (xhr.readyState == 4 && xhr.status == "200") {
-        callback(users);
-    } else {
-        console.error(users);
+            if (xhr.readyState == 4 && xhr.status == "200") {
+                callback(users);
+            } else {
+                console.error(users);
+            }
+        }
+        xhr.send(null);
     }
+
+    // Update a user
+    function UpdateJ(url, ob, callback) {
+        //   var o={};
+        //   o.prim=encoding(ob);
+        // alert(obj.pulls);
+        json = JSON.stringify(ob);
+        var xhr = new XMLHttpRequest();
+        xhr.open("PUT", url + '/12', true);
+        xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+        xhr.onload = function() {
+            var users = JSON.parse(xhr.responseText);
+            if (xhr.readyState == 4 && xhr.status == "200") {
+                //  alert("Tu Forma ha sido Enviada");
+                if (callback != undefined) callback(users);
+            } else {
+                (users);
+            }
+        }
+        xhr.send(json);
+    }
+
+    function search(v) {
+
+        if (v === "") {
+            dinv.style.display = "none";
+        } else {
+            dinv.style.display = "block";
+            var pa = document.getElementsByClassName("ctt");
+            for (var i = 0; i < pa.length; i++) {
+                var s = JSON.stringify(pa[i]);
+                s = s.toUpperCase();
+                v = v.toUpperCase();
+                if (s.indexOf(v) > -1) {
+                    pa[i].style.display = "block"
+                    //   ar.push(pa[i]);
+                } else {
+                    pa[i].style.display = "none"
+                }
+            }
+
+        }
+
+    }
+
+
+    function filter(pa) {
+
+        while (dinv.firstChild) {
+            dinv.removeChild(dinv.firstChild);
+
+        }
+        for (var i = 0; i < pa.length; i++) {
+            var p = document.createElement("p");
+            p.setAttribute("class", "ctt");
+            p.style.display = "block";
+            p.style.background = "white";
+            p.setAttribute("onclick", "sel(this);");
+            p.name = pa[i];
+            p.id = pa[i].pn;
+            p.innerHTML = "P/N: " + pa[i].pn + ", Desc.: " + pa[i].des;
+            dinv.appendChild(p); // fil.appendChild(p)
+        }
+        dinv.appendChild(document.createElement("p")); 
+
+        //  UpdateJ(link,obj,function(){alert('updated...')})
+    }
+
+    function sel(e) {
+       dor.style.display='block';
+       pno.value=e.name.pn.toUpperCase();
+       dor.name=e;
+        //     alert(e.style.background)
+        var enc = false;
+
+        if (e.style.background === "white") {
+            for (var i = 0; i < Parts.length; i++) {
+                if (Parts[i].pn === e.name.pn) {
+                    enc = true;
+
+                    e.style.background = "#0f0";
+                    i = Parts.length + 2;
+                    qt.value=1;
+                    pno.value = e.name.pn.toUpperCase();
+                    de.value = e.name.des.toUpperCase();
+                    kw.value= e.name.kw;
+                 
+                    cla.value = e.name.clase;
+                    loc.value = e.name.location;
+                    no.value = e.name.note;
+                    mec.value = mecanico;
+                    dor.style.display='block';
+
+                }
+            }
+            if (!enc) {
+                e.style.background = 'white';
+                Psel.push(e.name);
+
+            } else {
+
+            }
+        } else e.style.background = 'white';
+
+    }
+
+    function openClip() {
+       var h="";
+       
+       var e = String.fromCharCode(9);
+       var c="";
+       if(confirm("Include Headers?"))h="QTY"+e + "Job No." + e +"P/N" + e + "Description" + e + "Mechanic" + e +"Date" +e + "Time" + e + "Move" + e + "Remaining"+ e + "Note"+"\n";
+
+        GetJ(linkme, function(ob) {
+            var ps = ob.parts; //alert(ps)
+             for (i = 0; i < ps.length; i++) {
+                 if(ps[i].mec.toUpperCase()===mecanico.toUpperCase()){
+                var p = ps[i]
+                var t = JSON.stringify(p);
+          var f=getFe(p.created);
+                 c+= p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha +e + f.tiempo + e + p.move + e + p.qtyObs+e + p.note+"\n";
+             }
 }
-xhr.send(null);
+            tx.value = h+c;
+          })
+     }
+    function getFe(fr){
+             var f=new Date()
+           var v=Date.parse(fr);
+           f.setTime(v);
+           var fe=f.getMonth()+"-"+f.getDate()+"-"+f.getFullYear();
+           var t=f.getHours()+":"+f.getMinutes();
+         return {fecha:fe,tiempo:t};
+
+
+}
+function openScaner(){
+     var b=reader.children;
+     var bt=b[2].children[0].children[0].children[0].children[0].children[0];
+//     alert(bt.innerHTML);
+   bt.click();
+
+}
+function closeScaner(){
+     var b=reader.children;
+     var bt=b[2].children[0].children[0].children[0].children[0].children[0];
+  //   alert(bt.innerHTML);
+   bt.click();
+
+}
+function orderParts(){
+
+    if(confirm(" 'Ok' to Select it from the search bar...")){
+      order=true;
+      bor.style.display="block"
+    }
+    else   bor.style.display="none"
+
+}
+function addNewPart(){
+
+
 }
 
-// Update a user
-function UpdateJ(url, ob, callback) {
-//   var o={};
-//   o.prim=encoding(ob);
- // alert(obj.pulls);
-json = JSON.stringify(ob);
-var xhr = new XMLHttpRequest();
-xhr.open("PUT", url + '/12', true);
-xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-xhr.onload = function() {
-    var users = JSON.parse(xhr.responseText);
-    if (xhr.readyState == 4 && xhr.status == "200") {
-        //  alert("Tu Forma ha sido Enviada");
-        if (callback != undefined) callback(users);
-    } else {
-        (users);
-    }
-}
-xhr.send(json);
-}
 
 </script>
-
 </html>
