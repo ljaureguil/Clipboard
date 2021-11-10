@@ -451,7 +451,8 @@
       if(ps.length>0){
           var sc="";
           for(var i=0;i<ps.length;i++){
-              sc+="Job No.: "+ps[i].job+"\nP/N: "+ps[i].pn+"\nDesc: "+ps[i].des+"\nQty: "+ps[i].qty+"\nPulled by: "+pn.mec+"\n......................\n"
+         
+              sc+="Job No.: "+ps[i].job+"\nP/N: "+ps[i].pn+"\nDesc: "+ps[i].des+"\nQty: "+ps[i].qty+"\nPulled by: "+ps[i].mec+"\n......................\n"
           }
         if(!confirm("--This is what I found for this Job :\n"+sc+"Do you still want to pull it?")) return
 
