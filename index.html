@@ -171,7 +171,7 @@
 
 <div id="dor">
       <img id="plus" class="cpu" onclick="add=true;send('pull')" src="https://findicons.com/files/icons/1014/ivista/256/plus.png">
- 
+ <br>
     Job No.
     <input id="jn" type="text" class="cin" value="">
     <br>Qty:
@@ -229,6 +229,7 @@
 
  //   localStorage.removeItem("mec")
     var mecanico = "";
+
     inicVerif();
     function inicVerif(){
     mecanico = localStorage.getItem("mec");
@@ -239,6 +240,7 @@
              inicVerif()
              
              }
+           
         mecanico=mecanico.replace(/ /g,"-");
         mecanico=mecanico.toLocaleUpperCase();
         localStorage.setItem("mec", mecanico);
@@ -264,7 +266,7 @@
     }
 }
 
-  if(mecanico.toUpperCase().indexOf("LAURO")>=0) plus.style.display="block";
+  if(mecanico.toUpperCase()==="LAURO") plus.style.display="block";
     else plus.style.display="none"
 
     getInventories();
@@ -556,7 +558,7 @@
             p.setAttribute("onclick", "sel(this);");
             p.name = pa[i];
             p.id = pa[i].pn;
-            p.innerHTML = "P/N: " + pa[i].pn + ", Desc.: " + pa[i].des;
+            p.innerHTML = "P/N: " + pa[i].pn + ", Desc.: " + pa[i].des+", From: "+pa[i].clase;
             dinv.appendChild(p); // fil.appendChild(p)
         }
         dinv.appendChild(document.createElement("p")); 
