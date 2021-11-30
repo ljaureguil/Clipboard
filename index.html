@@ -216,9 +216,7 @@
     <br>
    
     <br>
-
-
-    <button class="cpu" onclick="addToBasquet()">Add<br>Basket</button>
+    <button class="cpu" onclick="addToBasquet()">Add Basket</button>
     <button class="cpu" onclick="send('pull')">Pull</button>
     <button class="cpu" onclick="send('return')">Return</button>
        <button id="bor" class="cpu" onclick="send('order')">Request</button>
@@ -693,7 +691,7 @@ function orderParts(){
 
 }
 function addToBasquet(){
-    if(basket.parts.length>0){
+
     var o = {
                    "job": jn.value,
                    "pn": pno.value.toUpperCase(),
@@ -713,12 +711,13 @@ function addToBasquet(){
                }
                else{
                basket.parts.push(o);
-             //  alert(JSON.stringify(basket));
+             ibas.innerHTML=basket.parts.length;
                
                localStorage.setItem("basquet",JSON.stringify(basket))
                dor.style.display = 'none';
+        
             }
-}
+
 }
 function sendBasket(ar){
     var arb=[];
@@ -751,8 +750,8 @@ function sendBasket(ar){
         
 }
 function swba(){
-    alert(JSON.stringify(basket.parts))
-    if(confirm("You have "+basket.parts.length+" parts in basket, do you wanto to send them to Clipboard?")){
+    if(basket.parts.length>0){
+     if(confirm("You have "+basket.parts.length+" parts in basket, do you wanto to send them to Clipboard?")){
      // alert("ready to send...")
 GetJ(linkme,function (obj){
        var pa=obj.parts;
@@ -776,17 +775,24 @@ GetJ(linkme,function (obj){
        }
        else  ptob.push(pb[i])
         }
-          alert(pa.length);
-        pa=pa.concat(ptob);
-        alert(pa.length);
-        alert(obj.parts.length)
-        obj.parts=pa;
-        alert(obj.parts.length);
-     //   UpdateJ(linkme,obj,function(){alert("checa esta listo...")})
+           pa=pa.concat(ptob);
+         obj.parts=pa;
+ 
+  
+       UpdateJ(linkme,obj,function(){
+         alert("Items send to Clipboard...");
+             basket.parts.length=0; 
+           localStorage.setItem("basquet",JSON.stringify(basket))
+           ibas.innerHTML="0";
+
+        
+        
+        })
 })
 
     }
-  
+}
+else alert("You don't have any item in basket jet...")
 }
 
 </script>
