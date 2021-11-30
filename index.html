@@ -19,8 +19,9 @@
         right: 1%;
     }
     button {
-   
-        font-size: 25px;
+        width: 100px;
+        height: 100px;
+        font-size: 18px;
         font-weight: bolder;
         border-radius: 10px;
         background-color: rgb(8, 38, 212);
@@ -124,8 +125,10 @@
          left:5%;
      }
      .cpu{
-         background:#600;
-         width:90%;
+         background:rgb(48, 77, 190);
+         border-radius: 100px;
+         margin: 10px;
+         box-shadow: -10px 10px 15px 1px rgba(0, 0, 0, .51), inset -10px 10px 20px 1px rgb(103, 135, 223)  , inset 10px -10px 20px 1px rgb(24, 4, 112);
      }
      #ord{
          position: absolute;
@@ -145,13 +148,27 @@
        top:0%;
         width: 55px;
         height: 55px;
-     //   margin-left: 90%;
-        
-        border-radius: 100px;
+          border-radius: 100px;
         display: block;
+     }
+     #ibas{
+         background:url(https://icon2.cleanpng.com/20180319/oaw/kisspng-area-text-symbol-brand-shopping-basket-add-5ab04291cd8722.0789780615215008178419.jpg);
+         background-size:  100% 100%;
+         width:30px;
+         height: 30px;
+         position: absolute;
+         left:3%;
+         bottom: 3%;
+         color:blue;
+         font-size: 16px;
+         font-weight: bold;
+         border-radius: 30px;
+         border-style: solid;
+         box-shadow: -10px 10px 15px 1px rgba(0, 0, 0, .51); 
      }
 </style>
 <div id="todo">
+    <button id="ibas" onclick="swba()"></button>
     
 <button onclick="creader.style.display='block';openScaner()">Open Scanner</button>
 <button  id="rn" onclick="if(confirm('Are you sure you want to Reset your user name?')){localStorage.removeItem('mec');window.location.reload()}">RN</button>
@@ -172,6 +189,7 @@
 <div id="dor">
       <img id="plus" class="cpu" onclick="add=true;send('pull')" src="https://findicons.com/files/icons/1014/ivista/256/plus.png">
  <br>
+
     Job No.
     <input id="jn" type="text" class="cin" value="">
     <br>Qty:
@@ -194,11 +212,17 @@
 
     <br>Note:
     <input id="no" type="text" class="cin" value="">
-    <br><br>
-    <button class="cpu" onclick="send('pull')">Pull</button><br><br>
-    <button class="cpu" onclick="send('return')">Return</button><br><br>
-       <button id="bor" class="cpu" onclick="send('order')">Request</button><br><br>
-    <button class="cpu" onclick="dor.style.display='none';">Close</button><br><br>
+    <br>
+    <br>
+   
+    <br>
+
+
+    <button class="cpu" onclick="addToBasquet()">Add<br>Basket</button>
+    <button class="cpu" onclick="send('pull')">Pull</button>
+    <button class="cpu" onclick="send('return')">Return</button>
+       <button id="bor" class="cpu" onclick="send('order')">Request</button>
+    <button class="cpu" onclick="dor.style.display='none';">Close</button>
  
 </div>
 <textarea id="tx" readonly></textarea><br>
@@ -208,12 +232,23 @@
 <script src="html5-qrcode.min.js"></script>
 
 <script>
-     //var user=localStorage.getItem("mec");
+    basket=localStorage.getItem("basquet")
+    if(basket===null && basket!=""){
+        basket={parts:[]}
+    }
+else{
+    basket=JSON.parse(basket)
+    ibas.innerHTML=basket.parts.length;
+   // alert(JSON.stringify(basket))
+}
+    //var user=localStorage.getItem("mec");
     //if(user===null) { user=prompt("Type your name");localStorage.setItem("mec",user);
     order=false,add=false;
     var linkp = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';
     var linkc = 'https://jsonblob.com/api/0da2d184-f931-11eb-a6a9-8d2736c2c513'
-    var linkme = 'https://jsonblob.com/api/893891925422391296'; //my clipboard
+     var linkme = 'https://jsonblob.com/api/893891925422391296'; //my clipboard
+ //   var linkme = 'https://jsonblob.com/api/915289952775061504'; //my clipboard
+   
     var linkcl='http://jsonblob.com/896389790531076096'; //clip demas
 
     var linkm = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb'; //miselanius
@@ -451,7 +486,7 @@
                        if (to === "pull"){
                            var ps=[];
       for(var i=0;i<obj.parts.length;i++){
-           if(obj.parts[i].pn===o.pn && obj.parts[i].job===o.job)ps.push(obj.parts[i])
+           if(obj.parts[i].pn===o.pn && obj.parts[i].job===o.job) ps.push(obj.parts[i])
         }
       if(ps.length>0){
           var sc="";
@@ -656,6 +691,102 @@ function orderParts(){
     }
     else   bor.style.display="none"
 
+}
+function addToBasquet(){
+    if(basket.parts.length>0){
+    var o = {
+                   "job": jn.value,
+                   "pn": pno.value.toUpperCase(),
+                   "des": de.value.toUpperCase(),
+                   "qty": qt.value * 1,
+                   "qtyObs": obs.value * 1,
+                   "move": "",
+                   "kw": kw.value.toUpperCase(),
+                   "clase": cla.value,
+                   "mec": mecanico,
+                   "location": loc.value,
+                   "note": no.value,
+                   "created": new Date().toString()
+               };
+               if(pno.value==="" || jn.value==="" || qt.value===0){
+                   alert("Not job number, part number or quatity")
+               }
+               else{
+               basket.parts.push(o);
+             //  alert(JSON.stringify(basket));
+               
+               localStorage.setItem("basquet",JSON.stringify(basket))
+               dor.style.display = 'none';
+            }
+}
+}
+function sendBasket(ar){
+    var arb=[];
+    var is=0;
+    GetJ(linkme,function(obj){
+             for(var ii=0;ii<ar.length;ii++){  
+        var ps=[];
+      for(var is=0;i<obj.parts.length;i++){
+           if(obj.parts[is].pn===ar[ii].pn && obj.parts[is].job===ar[ii].job) ps.push(obj.parts[is])
+        }
+      if(ps.length>0){
+          var sc="";
+          for(var i=0;i<ps.length;i++){
+                 sc+="Job No.: "+ps[i].job+"\nP/N: "+ps[i].pn+"\nDesc: "+ps[i].des+"\nQty: "+ps[i].qty+"\nPulled by: "+ps[i].mec+"\n......................\n"
+          }
+        if(confirm("--This is what I found for this Job :\n"+sc+"Do you still want to pull it?")){
+            arb.push(ar[ii])
+       
+        }
+        is++;
+        }
+        else{
+            arb.push(ar[ii]) 
+
+        }}
+
+        alert(JSON.stringify(ar))
+        alert("concatenar aqui y mandar")
+         })     
+        
+}
+function swba(){
+    alert(JSON.stringify(basket.parts))
+    if(confirm("You have "+basket.parts.length+" parts in basket, do you wanto to send them to Clipboard?")){
+     // alert("ready to send...")
+GetJ(linkme,function (obj){
+       var pa=obj.parts;
+            var pb=basket.parts;
+            var ptob=[]
+       for(var i=0;i<pb.length;i++){
+              var pf=[],tt;   
+        for(var ii=0;ii<pa.length;ii++){
+        if(pb[i].pn===pa[ii].pn && pb[i].job===pa[ii].job){
+             pf.push(pa[ii]);
+             tt+="Pn"
+             tt+="Job No.: "+pa[ii].job+"\nP/N: "+pa[ii].pn+"\nDesc: "+pa[ii].des+"\nQty: "+pa[ii].qty+"\nPulled by: "+pa[ii].mec+"\n......................\n"
+   
+            }
+ }
+      if(pf.length>0){
+        if(confirm("This is what I found: \n\n"+tt+"\n\n Do you want to add it anyways?")){
+           ptob.push(pb[i])
+        }
+
+       }
+       else  ptob.push(pb[i])
+        }
+          alert(pa.length);
+        pa=pa.concat(ptob);
+        alert(pa.length);
+        alert(obj.parts.length)
+        obj.parts=pa;
+        alert(obj.parts.length);
+     //   UpdateJ(linkme,obj,function(){alert("checa esta listo...")})
+})
+
+    }
+  
 }
 
 </script>
