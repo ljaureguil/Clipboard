@@ -154,8 +154,8 @@
      #ibas{
          background:url(https://icon2.cleanpng.com/20180319/oaw/kisspng-area-text-symbol-brand-shopping-basket-add-5ab04291cd8722.0789780615215008178419.jpg);
          background-size:  100% 100%;
-         width:30px;
-         height: 30px;
+         width:35px;
+         height: 35px;
          position: absolute;
          left:3%;
          bottom: 3%;
@@ -165,6 +165,14 @@
          border-radius: 30px;
          border-style: solid;
          box-shadow: -10px 10px 15px 1px rgba(0, 0, 0, .51); 
+     }
+     #tmove{
+         margin: 8px;
+         background: red;
+         color:white;
+         width: 90%;
+         font-size: 25px;
+         border-radius: 10px;
      }
 </style>
 <div id="todo">
@@ -212,14 +220,18 @@
 
     <br>Note:
     <input id="no" type="text" class="cin" value="">
+    <select id="tmove" value="Pull"> <br>
+<option>Pull</option>
+<option>Return</option>
+    </select>
     <br>
     <br>
    
     <br>
-    <button class="cpu" onclick="addToBasquet()">Add Basket</button>
-    <button class="cpu" onclick="send('pull')">Pull</button>
-    <button class="cpu" onclick="send('return')">Return</button>
+    <button class="cpu" onclick="addToBasquet()">Add to Basket</button>
        <button id="bor" class="cpu" onclick="send('order')">Request</button>
+       <button class="cpu" onclick="emptyBasket()">Empty Basket</button>
+
     <button class="cpu" onclick="dor.style.display='none';">Close</button>
  
 </div>
@@ -244,8 +256,8 @@ else{
     order=false,add=false;
     var linkp = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';
     var linkc = 'https://jsonblob.com/api/0da2d184-f931-11eb-a6a9-8d2736c2c513'
-     var linkme = 'https://jsonblob.com/api/893891925422391296'; //my clipboard
- //   var linkme = 'https://jsonblob.com/api/915289952775061504'; //my clipboard
+    var linkme = 'https://jsonblob.com/api/893891925422391296'; //my clipboard
+  //   var linkme = 'https://jsonblob.com/api/915289952775061504'; //my clipboard
    
     var linkcl='http://jsonblob.com/896389790531076096'; //clip demas
 
@@ -698,7 +710,7 @@ function addToBasquet(){
                    "des": de.value.toUpperCase(),
                    "qty": qt.value * 1,
                    "qtyObs": obs.value * 1,
-                   "move": "",
+                   "move": tmove.value,
                    "kw": kw.value.toUpperCase(),
                    "clase": cla.value,
                    "mec": mecanico,
@@ -794,6 +806,14 @@ GetJ(linkme,function (obj){
 }
 else alert("You don't have any item in basket jet...")
 }
+function emptyBasket(){
+    if(confirm("Are you sure, you will lose all items in basket")){
+        basket.length=0;
+        localStorage.setItem("basquet",basket);
+        ibas.innerHTML="0";
+        alert("All done")
+    }
 
+}
 </script>
 </html>
