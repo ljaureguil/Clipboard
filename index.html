@@ -168,9 +168,9 @@
      }
      #tmove{
          margin: 8px;
-         background: red;
-         color:white;
-         width: 90%;
+         background: rgb(136, 224, 141);
+         color:rgb(19, 18, 18);
+         width: 15%;
          font-size: 25px;
          border-radius: 10px;
      }
@@ -180,6 +180,7 @@
          font-size: 20px;
        background: rgb(238, 208, 200);
      }
+   
 </style>
 <div id="todo">
     <button id="ibas" onclick="swba()" ></button>
@@ -190,11 +191,22 @@
 
 <div id="creader">
 <div id="reader"></div><br><button onclick="creader.style.display='none';closeScaner()">Close Scanner</button>
-</div><br>
+</div>   <select id="kits" this.name="" oninput="kitaction(this)" value="Select A Kit">
+        <option>Select A Kit</option>
+       <option>Create Kit</option>
+       <option>Save Kit</option>
+     </select><br><br>
 
 <br><span id="hi">-- Search/Manually...</span></span><br>
 <textarea id="tfil" oninput="search(this.value)" placeholder="Type Key Word..."></textarea><br><br>
-<button onclick="openClip()">Load Clipboard</button>
+<select id="sjobs"oninput="jn.value=this.value"><option>Select a Job</option></select>.....
+<button onclick="openClip()">Load Clipboard</button>.....
+   <select id="kits" this.name="" oninput="kitaction(this)" value="Select A Kit">
+    <option>Sel Kit Action</option>
+   <option>Create Kit</option>
+   <option>Save Kit</option>
+   <optrion>Sen Kit To Basket</optrion>
+ </select><br>
 <div id="dinv"></div>
 <div id="dparts"></div>
 
@@ -205,7 +217,7 @@
  <br>
 
 
-
+ 
     Job No.................<select id="sjobs"oninput="jn.value=this.value"><option>Select a Job</option></select>
     <input id="jn" type="text" class="cin" value="">
     <br>Qty:
@@ -227,7 +239,7 @@
     <input id="obs" type="number" class="cin" >
 
     <br>Note:
-    <input id="no" type="text" class="cin" value="">
+    <input id="no" type="text" class="cin" class="" value=""><br>
     <select id="tmove" value="pull"> <br>
 <option>pull</option>
 <option>return</option>
@@ -250,6 +262,9 @@
 <script src="html5-qrcode.min.js"></script>
 
 <script>
+
+ var arkit=[], arkitn="", obkit={};
+    kitmode=false;
     basket=localStorage.getItem("basquet")
     if(basket===null && basket!=""){
         basket={parts:[]}
@@ -630,8 +645,9 @@ var Trabajos=[];
 
         //  UpdateJ(link,obj,function(){alert('updated...')})
     }
-
+   
     function sel(e) {
+        if(!kitmode){
        dor.style.display='block';
        pno.value=e.name.pn.toUpperCase();
        dor.name=e;
@@ -666,6 +682,31 @@ var Trabajos=[];
 
             }
         } else e.style.background = 'white';
+    }
+    else{  e.style.background = "#f00";
+        dor.style.display="none";
+        for (var i = 0; i < Parts.length; i++) {
+                if (Parts[i].pn === e.name.pn) {
+                    enc = true;
+                    var qty=prompt("Qty?");
+                    if(qty===null) return;
+                  
+                    if(isNaN(qty)) return;
+                      qty=qty*1;
+                   if(confirm("Are your sure you want to add "+Parts[i].pn+" To "+arkitn+"?")){
+                       var o=JSON.parse(Parts[i]);
+                        o.Qty=qty;
+                        arkit.push(o)
+                        e.style.background = "#fff";      
+                    }
+                  
+                    i = Parts.length + 2;
+       
+
+                }
+            }
+
+    }
 
     }
 
@@ -833,6 +874,33 @@ function emptyBasket(){
         ibas.innerHTML="0";
         alert("All done")
     }
+
+}
+function kitaction(k){
+ 
+    if(k.value==="Create Kit"){
+        kitmode=true;
+          dor.style.display="none";
+          arkitn=prompt("Type Kit Name");
+          if(arkitn===null || arkitn.length<2) return;
+
+    }
+    else kitmode=false;
+    if(k.value="Save Kit"){
+        if(arkit.length>0 && arkitn!=""){
+            obkit.name=arkitn;
+            obkit.parts=arkit;
+            alert(JSON.stringify(obkit))
+        }
+
+    }
+    if(k.name!=""){
+        alert("ready to select kit")
+
+
+    }
+
+
 
 }
 </script>
