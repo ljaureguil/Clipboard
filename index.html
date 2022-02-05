@@ -195,7 +195,7 @@
 
 <br><span id="hi">-- Search/Manually...</span></span><br>
 <textarea id="tfil" oninput="search(this.value)" placeholder="Type Key Word..."></textarea><br><br>
-<select id="sjobs"oninput="jn.value=this.value"><option>Select a Job</option></select>.....
+<select id="sjobs2"oninput="jn.value=this.value"><option>Select a Job</option></select>.....
 <button onclick="openClip()">Load Clipboard</button>.....
    <select id="kits" this.name="" oninput="kitaction(this)" value="Select A Kit">
     <option>Sel Kit Action</option>
@@ -219,7 +219,9 @@
     <br>Qty:
     <input id="qt" type="number" class="cin" value=1>
 
-    <br>Part No.
+    <br>Part No....<select id="chkit" oninput="selkit(this)">
+        <option>Choose a Kit</option>
+    </select>
     <input id="pno" type="text" class="cin" value="">
     <br>desc:
     <input id="de" type="text" class="cin" value="" >
@@ -259,7 +261,7 @@
 
 <script>
 
- var arkit=[], arkitn="", obkit={};
+ var arkit=[], arkitn="", obkit={}, KITS=[];
     kitmode=false;
     basket=localStorage.getItem("basquet")
     if(basket===null && basket!=""){
@@ -301,7 +303,8 @@ var Trabajos=[];
                 for (var i = 0; i < arj.length; i++) {
                     s+="<option>"+arj[i].job+"</option>";
                  }
-                        sjobs.innerHTML=s
+                        sjobs.innerHTML=s;
+                        sjobs2.innerHTML=s;
      
     })
 
@@ -344,6 +347,21 @@ var Trabajos=[];
 
   if(mecanico.toUpperCase()==="LAURO") plus.style.display="block";
     else plus.style.display="none"
+
+    GetJ(linkme,function(ob){
+     
+        if(ob.kits!=undefined){
+            KITS=ob.kits;
+            var s=chkit.innerHTML;;
+            for(var ik=0;ik<ob.kits.length;ik++){
+            
+                s+="<option>"+ob.kits[ik].name+"</option>";
+         
+            };
+            chkit.innerHTML=s;
+      
+        }
+    })
 
     getInventories();
   
@@ -577,9 +595,7 @@ var Trabajos=[];
 
     // Update a user
     function UpdateJ(url, ob, callback) {
-        //   var o={};
-        //   o.prim=encoding(ob);
-        // alert(obj.pulls);
+    
         json = JSON.stringify(ob);
         var xhr = new XMLHttpRequest();
         xhr.open("PUT", url + '/12', true);
@@ -690,8 +706,8 @@ var Trabajos=[];
                     if(isNaN(qty)) return;
                       qty=qty*1;
                    if(confirm("Are your sure you want to add "+Parts[i].pn+" To "+arkitn+"?")){
-                       var o=JSON.parse(Parts[i]);
-                        o.Qty=qty;
+                       var o=Parts[i];
+                        o.qty=qty;
                         arkit.push(o)
                         e.style.background = "#fff";      
                     }
@@ -882,11 +898,18 @@ function kitaction(k){
 
     }
     else kitmode=false;
-    if(k.value="Save Kit"){
-        if(arkit.length>0 && arkitn!=""){
-            obkit.name=arkitn;
-            obkit.parts=arkit;
-            alert(JSON.stringify(obkit))
+    if(k.value==="Save Kit"){
+            var obk={}
+    
+        if(arkitn!="" && arkit.length>0){
+            obk.name=arkitn;
+            obk.parts=arkit;
+                      GetJ(linkme,function(ob){
+                if(ob.kits===undefined) ob.kits=[];
+                ob.kits.push(obk);
+                UpdateJ(linkme,ob,function(){})
+
+            })
         }
 
     }
@@ -895,8 +918,17 @@ function kitaction(k){
 
 
     }
+}
+function selkit(e){
+    for(var i=0;i<KITS.length;i++){
+        if(KITS[i].name===e.value){
+            if(confirm("Are you sure you want to add the whole kit "+KITS[i].name)){
+                alert("ready to add parts to basket, make sure you have set a job number")
 
-
+                i=KITS.length;
+            }
+        }
+    }
 
 }
 </script>
