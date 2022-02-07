@@ -200,12 +200,19 @@
   
    }
    .cpp{
-       width: 15px;
+       width: 8%;
+       background-color: greenyellow;;
+       color:black;
+       font-size: 25px;
    }
    .ckk{
        margin: 10px;
        border-style: solid;
        padding: 5px;
+   }
+   .cbk{
+       margin:5px;
+       font-size: 18px;
    }
 </style>
 <div id="todo">
@@ -285,10 +292,10 @@
 
 <script src="html5-qrcode.min.js"></script>
 <div id="dkit">
-    <p id="titulo">Titulo</p><br><br>
+    <p id="titulo">Titulo</p><br>........... <button class="ck" onclick="dkit.style.display='none'">Close</button><br>
     <button id="beditar" class="ck" onclick="editark(this)">Edit</button>    <button class="ck" onclick="dkit.style.display='none'">Close</button><br><br>
     <div id="areak"></div><br><br>
-    <button class="ck" onclick="dkit.style.display='none'">Close</button>
+   
 </div>
 <script>
 
@@ -321,6 +328,8 @@ else{
     linkord='https://jsonblob.com/api/898641969950244864'; //orders
     linkusc='https://jsonblob.com/api/900759490673262592';//use
     linkj = "https://jsonblob.com/api/915690066303795200"//jobs
+    linkkits = "https://jsonblob.com/api/940340323222306816"//jobs
+  
     var Parts = [],
         Psel = [],
         partsClip = [];
@@ -379,7 +388,7 @@ var Trabajos=[];
   if(mecanico.toUpperCase()==="LAURO") plus.style.display="block";
     else plus.style.display="none"
 
-    GetJ(linkme,function(ob){
+    GetJ(linkkits,function(ob){
      
         if(ob.kits!=undefined){
             KITS=ob.kits;
@@ -926,6 +935,7 @@ function kitaction(k){
     if(k.value==="Create Kit"){
         kitmode=true;
           dor.style.display="none";
+          alert("Create kit mode is on, start selectin parts.")
           arkitn=prompt("Type Kit Name");
           if(arkitn===null || arkitn.length<2) return;
 
@@ -937,15 +947,19 @@ function kitaction(k){
         if(arkitn!="" && arkit.length>0){
             obk.name=arkitn;
             obk.parts=arkit;
-                      GetJ(linkme,function(ob){
+                      GetJ(linkkits,function(ob){
                 if(ob.kits===undefined) ob.kits=[];
                 ob.kits.push(obk);
-                UpdateJ(linkme,ob,function(){alert("Kit Saved..."); arkit=[];arkitn="";})
+                UpdateJ(linkkits,ob,function(){alert("Kit Saved..."); arkit=[];arkitn="";})
 
             })
         }
   
     }
+    while (areak.firstChild) {
+        areak.removeChild(areak.firstChild);
+        }
+
    for(var i=0;i<KITS.length;i++){
         // alert(KITS[i].name+"\n"+k.value);
          if(KITS[i].name===k.value){
@@ -955,12 +969,13 @@ function kitaction(k){
             for(var ii=0;ii<o.parts.length;ii++){
             var d=document.createElement("div");
             d.id="k"+o.parts[ii].pn;
-            d.name=JSON.stringify(o.parts[ii]);
-           // alert(d.name)
-           
-            d.setAttribute("class","ckk");
-             d.innerHTML="<input class='cpp' value='"+o.parts[ii].qty+"'></input> "+o.parts[ii].pn+" "+o.parts[ii].des+"<br><button id='bd' onclick='alert(this.parentElement.name);'>Delete</button>"+
-             "<button id='bu' onclick='alert(this.parentElement.name);'>Update Kit</button>"
+            d.value=ii;
+            d.name=JSON.stringify(o);
+           var sp=JSON.stringify(o.parts[ii])
+              d.setAttribute("class","ckk");
+                d.innerHTML="<input class='cpp' value='"+o.parts[ii].qty+"'>..........</input> P/N: "+o.parts[ii].pn+" ...... Desc: "+o.parts[ii].des+
+             "<br><button id='bd' class='cbk'  onclick='delpkit(this);'>Delete</button>"+
+             "<button id='bu' class='cbk' onclick='updatekit(this);'>Update Kit</button>";//  name="+sp+"  
                 areak.appendChild(d)
          }
          dkit.style.display="block";
@@ -968,7 +983,7 @@ function kitaction(k){
                     i=KITS.length; 
      }
    }
-
+// pcl.splice(0, pcl.length);
     if(k.name!=""){
         alert("ready to select kit")
 
@@ -991,7 +1006,48 @@ function selkit(e){
 
 function editark(e){
     alert(e.innerHTML)
-    alert("editar mode")
+    alert("editar mode");
+  
+}
+function delpkit(e){
+//alert(e.name)
+//alert(e.parentElement.name);
+//alert(e.parentElement.value);
+
+var o=JSON.parse(e.parentElement.name);
+    var i=e.parentElement.value;
+    o.parts.splice(i, 1);
+
+    GetJ(linkkits,function(ob){
+    for(var h=0;h<ob.kits.length;h++){
+        if(o.name===ob.kits[h].name){
+            ob.kits[h]=o;
+        }
+    }
+    alert(JSON.stringify(ob));
+ //   UpdateJ(linkkits,ob,function(){alert("Kit has been updated..."); window.location.reload();})
+
+})
+
+
+
+}
+
+function updatekit(e){
+var o=JSON.parse(e.parentElement.name);
+var i=e.parentElement.value;
+o.parts[i].qty=e.parentElement.getElementsByTagName("input")[0].value
+
+GetJ(linkkits,function(ob){
+    for(var h=0;h<ob.kits.length;h++){
+        if(o.name===ob.kits[h].name){
+            ob.kits[h]=o;
+        }
+    }
+    alert(JSON.stringify(ob));
+    UpdateJ(linkkits,ob,function(){alert("Kit has been updated..."); window.location.reload();})
+
+})
 }
 
 
