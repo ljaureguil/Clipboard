@@ -186,17 +186,20 @@
        position: absolute;
        top:15%;
          z-index: 4;
-       background-color: white;
-    width: 100%;
-    height: 60%;
+       background-color: #f00;
+    width: 96%;
+    height: 76%;
     border-style: solid;
     display: none;
     overflow: auto;
+    text-align: center;
    }
    #areak{
-   
+       overflow:auto;
        width: 100%;;
        height:75%;
+       background-color:white;
+       text-align: left;
   
    }
    .cpp{
@@ -292,9 +295,11 @@
 
 <script src="html5-qrcode.min.js"></script>
 <div id="dkit">
-    <p id="titulo">Titulo</p><br>........... <button class="ck" onclick="dkit.style.display='none'">Close</button><br>
-    <button id="beditar" class="ck" onclick="editark(this)">Edit</button>    <button class="ck" onclick="dkit.style.display='none'">Close</button><br><br>
+    <p id="titulo">Titulo</p><br>
+    <button id="beditar" class="ck" onclick="editark(this)">Edit</button>
+        <button class="ck" onclick=" addParts()">Add Parts</button><br><br>
     <div id="areak"></div><br><br>
+    <button class="ck" onclick="dkit.style.display='none'">Close</button>>
    
 </div>
 <script>
@@ -966,6 +971,7 @@ function kitaction(k){
              var o=KITS[i];
             // alert("eso es todo\n\n"+JSON.stringify(KITS[i]));
             titulo.innerHTML=k.value;
+            dkit.name=o;
             for(var ii=0;ii<o.parts.length;ii++){
             var d=document.createElement("div");
             d.id="k"+o.parts[ii].pn;
@@ -1048,6 +1054,11 @@ GetJ(linkkits,function(ob){
     UpdateJ(linkkits,ob,function(){alert("Kit has been updated..."); window.location.reload();})
 
 })
+}
+function addParts(){
+    kitmode=true;
+    alert("Ready to Select parts");
+    dkit.style.display="none"
 }
 
 
