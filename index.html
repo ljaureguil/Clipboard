@@ -181,6 +181,7 @@
        background: rgb(238, 208, 200);
      }
    #dkit{ 
+       color:white;
             font-size: 14px;
           text-align: left;
        position: absolute;
@@ -195,6 +196,7 @@
     text-align: center;
    }
    #areak{
+       color:black;
        overflow:auto;
        width: 100%;;
        height:75%;
@@ -203,7 +205,7 @@
   
    }
    .cpp{
-       width: 8%;
+       width: 12%;
        background-color: greenyellow;;
        color:black;
        font-size: 25px;
@@ -219,7 +221,7 @@
    }
 </style>
 <div id="todo">
-    <button id="ibas" onclick="swba()" ></button>
+    <button id="ibas" onclick="openBask()" ></button>
     
 <button onclick="creader.style.display='block';openScaner()">Open Scanner</button>
 <button  id="rn" onclick="if(confirm('Are you sure you want to Reset your user name?')){localStorage.removeItem('mec');window.location.reload()}">RN</button>
@@ -296,9 +298,19 @@
 <script src="html5-qrcode.min.js"></script>
 <div id="dkit">
     <p id="titulo">Titulo</p><br> 
+
+    <div id="btnsbask">
+ 
+       <button id="bdelkit" class="ck"  onclick="swba()"">Send To Clipboard</button><br>
+      
+   </div>
+
+
+    <div id="btnskit">
      <button id="bdelkit" class="ck" onclick="delKit(this)">Delete Kit</button>
     <button id="bdelkit" class="ck" onclick="sendKit(this)">Send To Basquet</button>
         <button class="ck" onclick=" addParts()">Add Parts</button><br><br>
+</div>
     <div id="areak"></div><br><br>
     <button class="ck" onclick="dkit.style.display='none'">Close</button>>
    
@@ -908,6 +920,53 @@ function sendBasket(ar){
          })     
         
 }
+
+function openBask(){
+
+dkit.style.display="block";
+btnsbask.style.display="block";
+btnskit.style.display="none";
+while (areak.firstChild) {
+        areak.removeChild(areak.firstChild);
+        }
+        var o=basket;
+
+for(var ii=0;ii<o.parts.length;ii++){
+            var d=document.createElement("div");
+            d.id="k"+o.parts[ii].pn;
+            d.value=ii;
+            d.name=o.parts[ii];
+          
+              d.setAttribute("class","ckk");
+                d.innerHTML="<input class='cpp' value='"+o.parts[ii].qty+"'>..........</input> P/N: "+o.parts[ii].pn+" ...... Desc: "+o.parts[ii].des+"....Job No. "+o.parts[ii].job+
+             "<br><button id='bd' class='cbk'  onclick='delp(this)'>Delete</button>"+
+             "<button id='bu' class='cbk' onclick='updp(this)'>Update Part</button>";//  name="+sp+"  
+                areak.appendChild(d)
+         }
+
+
+
+
+}
+function updp(e){
+      var i=e.parentElement.value;
+      var q=e.parentElement.children[0].value;
+     // alert(q);
+      var p=e.parentElement.name;
+      p.qty=q;
+      basket.parts[i]=p;
+      alert("Part "+p.pn+" has been updated")
+}
+function delp(e){
+    var i=e.parentElement.value;
+    basket.parts.splice(i,1);
+    openBask();
+    ibas.innerHTML=basket.parts.length;
+
+
+}
+
+
 function swba(){
     if(basket.parts.length>0){
      if(confirm("You have "+basket.parts.length+" parts in basket, do you wanto to send them to Clipboard?")){
@@ -1023,7 +1082,9 @@ function kitaction(k){
                 areak.appendChild(d)
          }
          dkit.style.display="block";
-        
+         btnsbask.style.display="none";
+btnskit.style.display="block";
+
                     i=KITS.length; 
      }
    }
@@ -1083,7 +1144,7 @@ GetJ(linkkits,function(ob){
 function sendKit(e){
   //  alert(dkit.name.parts)
     var pa=dkit.name.parts;
-    var j="";
+    var j=sjobs2.value;
     if(sjobs2.value==="Select a Job"){
         j=prompt("Job hasn't been selected, press 'cancel' to go back and select it or type a new job name");
         if(j===null) return;
@@ -1125,7 +1186,7 @@ for(var i=0;i<pa.length;i++){
 }  */
 
 }
-
+dkit.style.display="none"
 
 
 }
