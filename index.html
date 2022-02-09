@@ -295,8 +295,9 @@
 
 <script src="html5-qrcode.min.js"></script>
 <div id="dkit">
-    <p id="titulo">Titulo</p><br>
-    <button id="beditar" class="ck" onclick="editark(this)">Edit</button>
+    <p id="titulo">Titulo</p><br> 
+     <button id="bdelkit" class="ck" onclick="delKit(this)">Delete Kit</button>
+    <button id="bdelkit" class="ck" onclick="sendKit(this)">Send To Basquet</button>
         <button class="ck" onclick=" addParts()">Add Parts</button><br><br>
     <div id="areak"></div><br><br>
     <button class="ck" onclick="dkit.style.display='none'">Close</button>>
@@ -489,7 +490,8 @@ var Trabajos=[];
 
             }
             UpdateJ(linkp, obj, function() {
-                alert("done")
+                alert("done");
+                window.location.reload();
             })
 
         })
@@ -574,7 +576,8 @@ var Trabajos=[];
                                        obj.parts[u] = o;
                                        UpdateJ(linko, obj, function() {
                                            alert("Part has been replaced...");
-                                           return;
+                                           window.location.reload();
+                                          // return;
                                        })
                                    } else return;
                                }
@@ -582,7 +585,8 @@ var Trabajos=[];
                            if (u >= obj.parts.length) {
                                obj.parts.push(o);
                                UpdateJ(linko, obj, function() {
-                                   alert("Part has been added to 'other'...")
+                                   alert("Part has been added to 'other'...");
+                                   window.location.reload();
                                })
                            }
                        });
@@ -607,12 +611,14 @@ var Trabajos=[];
                         obj.parts.push(o);
                        UpdateJ(linkme, obj, function() {
                            alert("Part/s sent to Clipboard...")
+                           window.location.reload();
                        })}
                         else{ 
                             o.move = "return";
                             obj.parts.push(o);
                        UpdateJ(linkme, obj, function() {
                            alert("Part/s sent 'return' to Clipboard...")
+                           window.location.reload();
                        })   
                             }
                        /////
@@ -747,6 +753,8 @@ var Trabajos=[];
         for (var i = 0; i < Parts.length; i++) {
                 if (Parts[i].pn === e.name.pn) {
                     enc = true;
+
+
                     var qty=prompt("Qty?");
                     if(qty===null) return;
                   
@@ -756,7 +764,26 @@ var Trabajos=[];
                        var o=Parts[i];
                         o.qty=qty;
                         arkit.push(o)
-                        e.style.background = "#fff";      
+                    //    e.style.background = "#fff";  
+                        ////////
+e.style.background = "#0f0";
+                
+                    qt.value=qty;
+                    pno.value = e.name.pn.toUpperCase();
+                //    alert(e.name.pn)
+                    de.value = e.name.des.toUpperCase();
+                    kw.value= e.name.kw;
+                 
+                    cla.value = e.name.clase;
+                    loc.value = e.name.location;
+                    no.value = e.name.note;
+                    mec.value = mecanico;
+                //    dor.style.display='block';
+
+
+
+//////////
+
                     }
                   
                     i = Parts.length + 2;
@@ -876,7 +903,7 @@ function sendBasket(ar){
 
         }}
 
-        alert(JSON.stringify(ar))
+    //    alert(JSON.stringify(ar))
         alert("concatenar aqui y mandar")
          })     
         
@@ -916,7 +943,7 @@ GetJ(linkme,function (obj){
              basket.parts.length=0; 
            localStorage.setItem("basquet",JSON.stringify(basket))
            ibas.innerHTML="0";
-
+           window.location.reload();
         
         
         })
@@ -951,11 +978,22 @@ function kitaction(k){
     
         if(arkitn!="" && arkit.length>0){
             obk.name=arkitn;
-            obk.parts=arkit;
-                      GetJ(linkkits,function(ob){
+            obk.parts=arkit;var i=0;var fo=false;
+                 GetJ(linkkits,function(ob){
                 if(ob.kits===undefined) ob.kits=[];
-                ob.kits.push(obk);
-                UpdateJ(linkkits,ob,function(){alert("Kit Saved..."); arkit=[];arkitn="";})
+               
+                for(i=0;i<ob.kits.length;i++){
+                    if(ob.kits[i].name===arkitn){
+                        if(confirm("Kit "+arkitn+" Exist, do you want to replace it?")){
+                            ob.kits[i]=obk; 
+                            fo=true;
+                            i=ob.kits.length+2;
+                           
+                        }
+                    }
+                }
+                if(!fo) ob.kits.push(obk);
+                UpdateJ(linkkits,ob,function(){alert("Kit "+obk.name+ " Saved..."); arkit=[];arkitn="";window.location.reload();})
 
             })
         }
@@ -1013,7 +1051,83 @@ function selkit(e){
 function editark(e){
     alert(e.innerHTML)
     alert("editar mode");
+
   
+}
+function delKit(e){
+  
+    if(confirm("Are you sere you want to delete "+dkit.name.name+" kit")){
+       
+GetJ(linkkits,function(ob){
+    var enc=false;
+    for(var h=0;h<ob.kits.length;h++){
+        if(dkit.name.name===ob.kits[h].name){
+            //ob.kits[h]=o; 
+            if(confirm("Kit "+dkit.name.name+" found, ready to deleted, are you sure?")){
+           
+                ob.kits.splice(h,1);
+                enc=true;
+                h=ob.kits.length
+             }
+        }
+    }
+ 
+  if(enc) UpdateJ(linkkits,ob,function(){alert("Kit has been Deleted..."); window.location.reload();})
+
+}) 
+
+    }
+
+}
+
+function sendKit(e){
+  //  alert(dkit.name.parts)
+    var pa=dkit.name.parts;
+    var j="";
+    if(sjobs2.value==="Select a Job"){
+        j=prompt("Job hasn't been selected, press 'cancel' to go back and select it or type a new job name");
+        if(j===null) return;
+
+    }
+for(var i=0;i<pa.length;i++){
+    pa[i].job=j;
+    pa[i].move="pull";
+    pa[i].qtyObs=0;
+    pa[i].mec=mecanico;
+    pa[i].created=new Date().toString()
+   basket.parts.push(pa[i])
+      ibas.innerHTML=basket.parts.length;
+           //      localStorage.setItem("basquet",JSON.stringify(basket))
+    /*var o = {
+                   "job": sjobs2.value,
+                   "pn": pa[i].pn.toUpperCase(),
+                   "des": pa[i].des.toUpperCase(),
+                   "qty": pa[i].qty * 1,
+                   "qtyObs": 0 ,
+                   "move": "pull",
+                   "kw": pa[i].kw.toUpperCase(),
+                   "clase": pa[i].cl,
+                   "mec": pa[i].mec,
+                   "location": "",
+                   "note": pa[i].no,
+                   "created": 
+               };
+               if(pno.value==="" || jn.value==="" || qt.value===0){
+                   alert("Not job number, part number or quatity")
+               }
+               else{
+               basket.parts.push(o);
+     
+               
+  
+      //         dor.style.display = 'none';
+
+}  */
+
+}
+
+
+
 }
 function delpkit(e){
 //alert(e.name)
@@ -1030,8 +1144,8 @@ var o=JSON.parse(e.parentElement.name);
             ob.kits[h]=o;
         }
     }
-    alert(JSON.stringify(ob));
- //   UpdateJ(linkkits,ob,function(){alert("Kit has been updated..."); window.location.reload();})
+ //   alert(JSON.stringify(ob));
+    UpdateJ(linkkits,ob,function(){alert("Kit has been updated..."); window.location.reload();})
 
 })
 
@@ -1050,14 +1164,18 @@ GetJ(linkkits,function(ob){
             ob.kits[h]=o;
         }
     }
-    alert(JSON.stringify(ob));
+ //   alert(JSON.stringify(ob));
     UpdateJ(linkkits,ob,function(){alert("Kit has been updated..."); window.location.reload();})
 
 })
 }
 function addParts(){
-    kitmode=true;
-    alert("Ready to Select parts");
+ kitmode=true;
+ arkitn=dkit.name.name;
+ arkit=dkit.name.parts;
+ 
+   // kit
+    alert("Ready to Select parts, once you finish selecting extra parts select 'Save Kit' option ");
     dkit.style.display="none"
 }
 
