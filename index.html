@@ -189,7 +189,7 @@
          z-index: 4;
        background-color: #f00;
     width: 96%;
-    height: 76%;
+    height: 80%;
     border-style: solid;
     display: none;
     overflow: auto;
@@ -233,8 +233,9 @@
 
 <br><span id="hi">-- Search/Manually...</span></span><br>
 <textarea id="tfil" oninput="search(this.value)" placeholder="Type Key Word..."></textarea><br><br>
-<select id="sjobs2"oninput="jn.value=this.value"><option>Select a Job</option></select>.....
-<button onclick="openClip()">Load Clipboard</button>.....
+
+<select id="sjobs2"oninput="jn.value=this.value"><option>Select a Job</option></select>.....<button onclick="loadJob(sjobs2.value)">Load Job</button>.....
+<button onclick="openClip()">Load Clipboard</button>.....<br><br>
    <select id="kits" this.name="" oninput="kitaction(this)" value="Select A Kit">
     <option>Sel Kit Action</option>
    <option>Create Kit</option>
@@ -284,7 +285,7 @@
     <br>
     <button class="cpu" onclick="addToBasquet()">Add to Basket</button>
        <button id="bor" class="cpu" onclick="send('order')">Request</button>
-       <button class="cpu" onclick="emptyBasket()">Empty Basket</button>
+  
 
     <button class="cpu" onclick="dor.style.display='none';">Close</button>
  
@@ -298,9 +299,11 @@
 <script src="html5-qrcode.min.js"></script>
 <div id="dkit">
     <p id="titulo">Titulo</p><br> 
-
+   <div id="btnsjob">
+    <button id="bdelkit" class="ck" onclick="delJob()">Delete Job</button>
+   </div>
     <div id="btnsbask">
- 
+        <button class="cpu" onclick="emptyBasket()">Empty Basket</button>
        <button id="bdelkit" class="ck"  onclick="swba()"">Send To Clipboard</button><br>
       
    </div>
@@ -312,8 +315,7 @@
         <button class="ck" onclick=" addParts()">Add Parts</button><br><br>
 </div>
     <div id="areak"></div><br><br>
-    <button class="ck" onclick="dkit.style.display='none'">Close</button>>
-   
+    <button class="ck" onclick="dkit.style.display='none'">Close</button>
 </div>
 <script>
 
@@ -353,6 +355,7 @@ else{
         partsClip = [];
 
  //   localStorage.removeItem("mec")
+ var ObClipboard={}
     var mecanico = "";
 var Trabajos=[];
     GetJ(linkj,function(obj){
@@ -365,6 +368,49 @@ var Trabajos=[];
                         sjobs2.innerHTML=s;
      
     })
+
+          GetJ(linkj, function(obj) {
+GetJ(linkme,function(ob){
+               var pa = ob.parts;
+                //   alert(JSON.stringify(ob))\
+                var arj = [],
+                    ars = []
+                   
+                for (var i = 0; i < pa.length; i++) {
+
+                    if (arj.indexOf(pa[i].job) === -1) {
+                        arj.push(pa[i].job);
+                    }
+
+                }
+      
+
+                 var np=obj.jobs.length;
+                var so = JSON.stringify(obj);
+                for (var i = 0; i < arj.length; i++) {
+
+                    if (so.indexOf('"'+arj[i]+'"') === -1) {
+
+                        obj.jobs.push({
+                            job: arj[i],
+                            status: "Active",
+                            moves:""
+                        });
+
+                    }
+                    if(obj.jobs.length>np){
+                          UpdateJ(linkj,obj,function(){window.location.reload()})
+                    }
+
+
+                }
+                });
+})
+/**/
+
+
+
+
 
 
     inicVerif();
@@ -703,10 +749,7 @@ var Trabajos=[];
 
     function filter(pa) {
 
-        while (dinv.firstChild) {
-            dinv.removeChild(dinv.firstChild);
-
-        }
+        while (dinv.firstChild) { dinv.removeChild(dinv.firstChild);}
         for (var i = 0; i < pa.length; i++) {
             var p = document.createElement("p");
             p.setAttribute("class", "ctt");
@@ -926,6 +969,7 @@ function openBask(){
 dkit.style.display="block";
 btnsbask.style.display="block";
 btnskit.style.display="none";
+btnsjob.style.display="none"
 while (areak.firstChild) {
         areak.removeChild(areak.firstChild);
         }
@@ -944,7 +988,7 @@ for(var ii=0;ii<o.parts.length;ii++){
                 areak.appendChild(d)
          }
 
-
+         titulo.innerHTML="BASKET"
 
 
 }
@@ -1013,7 +1057,7 @@ GetJ(linkme,function (obj){
 else alert("You don't have any item in basket jet...")
 }
 function emptyBasket(){
-    if(confirm("Are you sure, you will lose all items in basket")){
+    if(confirm("Are you sure?, you will lose all items in basket")){
         basket.length=0;
         localStorage.setItem("basquet",basket);
         ibas.innerHTML="0";
@@ -1084,7 +1128,7 @@ function kitaction(k){
          dkit.style.display="block";
          btnsbask.style.display="none";
 btnskit.style.display="block";
-
+btnsjob.style.display="none"
                     i=KITS.length; 
      }
    }
@@ -1158,7 +1202,7 @@ for(var i=0;i<pa.length;i++){
     pa[i].created=new Date().toString()
    basket.parts.push(pa[i])
       ibas.innerHTML=basket.parts.length;
-           //      localStorage.setItem("basquet",JSON.stringify(basket))
+      localStorage.setItem("basquet",JSON.stringify(basket))
     /*var o = {
                    "job": sjobs2.value,
                    "pn": pa[i].pn.toUpperCase(),
@@ -1240,6 +1284,88 @@ function addParts(){
     dkit.style.display="none"
 }
 
+function loadJob(j){
+    var ar=[];
+    if(j==="Select a Job") alert("No Job selected");
+    else{
+              titulo.innerHTML=j;
+              dkit.style.display="block";
+btnsbask.style.display="none";
+btnskit.style.display="none";
+btnsjob.style.display="block"
+            while (areak.firstChild) { areak.removeChild(dinv.firstChild);}
+            
+        GetJ(linkme,function(ob){
+            var pa=ob.parts;
+            for(var i=0;i<pa.length;i++){
+                if(pa[i].job===j){
+                     ar.push(pa[i])
+                     var d=document.createElement("div");
+           // d.id="k"+o.parts[ii].pn;
+            d.value=i;
+            d.name=pa[i];
+          
+              d.setAttribute("class","ckk");
+                d.innerHTML="<input class='cpp' value='"+pa[i].qty+"'>..........</input> P/N: "+pa[i].pn+" ...... Desc: "+pa[i].des+"....Job No. "+pa[i].job+
+             "<br><button id='bd' class='cbk'  onclick='delpj(this)'>Delete</button>"+
+             "<button id='bu' class='cbk' onclick='updpj(this)'>Update Part</button>";//  name="+sp+"  
+                areak.appendChild(d)    
+
+
+            }
+            }
+        });
+
+    }
+}
+function delpj(e){
+    alert("delete "+e.parentElement.name.pn)
+
+}
+function updpj(e){
+    alert("Update " +e.parentElement.name.pn)
+}
+function delJob(){
+    if(confirm("Are you sure you want to delete "+titulo.innerHTML+" permanentely?")){
+    while (areak.firstChild) { areak.removeChild(areak.firstChild);}
+    GetJ(linkj,function(obj){       
+            GetJ(linkme,function(ob){
+                var pa=ob.parts;
+              
+                for(var i=0;i<pa.length;i++){
+                    if(pa[i].job===titulo.innerHTML){
+                       // alert(JSON.stringify(ob.parts[i]))
+                        ob.parts.splice(i,1);
+                        i--;
+                 }
+                }
+        
+             if(confirm("Job Found, proceed to Delete "+titulo.innerHTML+" ?"))   UpdateJ(linkme,ob,function(){
+                 var en=false;
+                   for(var j=0;j<obj.jobs.length;j++){
+                    if(obj.jobs[j].job===titulo.innerHTML) {
+                    obj.jobs.splice(j,1);
+                            j=obj.jobs.length;
+                            en=true
+                    }
+
+
+                  }
+                  if(en) UpdateJ(linkj,obj,function(){ 
+ alert("Job "+titulo.innerHTML+"  Deleted...");window.location.reload()
+
+      
+                  })
+
+
+                 
+                 
+                
+                 })
+            });
+    });
+            }
+}
 
 </script>
 </html>
