@@ -765,9 +765,8 @@ GetJ(linkme,function(ob){
 
         //  UpdateJ(link,obj,function(){alert('updated...')})
     }
-   
-    function sel(e) {
-        if(!kitmode){
+   function sel2(e){
+    if(!kitmode){
        dor.style.display='block';
        pno.value=e.name.pn.toUpperCase();
        dor.name=e;
@@ -802,6 +801,112 @@ GetJ(linkme,function(ob){
 
             }
         } else e.style.background = 'white';
+    }
+    else{  e.style.background = "#f00";
+        dor.style.display="none";
+        for (var i = 0; i < Parts.length; i++) {
+                if (Parts[i].pn === e.name.pn) {
+                    enc = true;
+
+
+                    var qty=prompt("Qty?");
+                    if(qty===null) return;
+                  
+                    if(isNaN(qty)) return;
+                      qty=qty*1;
+                   if(confirm("Are your sure you want to add "+Parts[i].pn+" To "+arkitn+"?")){
+                       var o=Parts[i];
+                        o.qty=qty;
+                        arkit.push(o)
+                    //    e.style.background = "#fff";  
+                        ////////
+e.style.background = "#0f0";
+                
+                    qt.value=qty;
+                    pno.value = e.name.pn.toUpperCase();
+                //    alert(e.name.pn)
+                    de.value = e.name.des.toUpperCase();
+                    kw.value= e.name.kw;
+                 
+                    cla.value = e.name.clase;
+                    loc.value = e.name.location;
+                    no.value = e.name.note;
+                    mec.value = mecanico;
+                //    dor.style.display='block';
+
+
+
+//////////
+
+                    }
+                  
+                    i = Parts.length + 2;
+       
+
+                }
+            }
+
+    }
+
+
+   }
+    function sel(e) {
+     
+        if(!kitmode){   
+          
+    //   dor.style.display='block';
+       pno.value=e.name.pn.toUpperCase();
+       dor.name=e;
+        //     alert(e.style.background)
+        var enc = false;
+  //alert(e.style.background)
+    //    if (e.style.background === "white") {
+            for (var i = 0; i < Parts.length; i++) {
+               // alert(Parts[i].pn)
+                if (Parts[i].pn === e.name.pn) {
+                    enc = true;
+
+                    e.style.background = "#0f0";
+                    i = Parts.length + 2;
+                    qt.value=prompt("Qty?")*1;;
+                    if(isNaN(qt.value)) return;
+                    pno.value = e.name.pn.toUpperCase();
+                    de.value = e.name.des.toUpperCase();
+                    kw.value= e.name.kw;
+                 
+                    cla.value = e.name.clase;
+                    loc.value = e.name.location;
+                    no.value = prompt("Type a Note");//e.name.note;
+                    if(no.value=null) no.value="";
+                    mec.value = mecanico;
+                  //  dor.style.display='block';
+                  if(sjobs2.value==="Select a Job"){
+                        var j=prompt("Job no selected, or Type a new job");
+                        if(j===null) return;
+                        else{
+                            sjobs.value=j;
+                        sjobs2.value=j;
+} 
+                  }
+                  else{
+                    sjobs.value=sjobs2.value;
+
+
+                  }
+                  jn.value=sjobs.value;
+
+                if(confirm("Add "+no.value+" To Basquet?") ) addToBasquet();
+
+                }
+            }
+            if (!enc) {
+                e.style.background = 'white';
+                Psel.push(e.name);
+
+            } else {
+
+            }
+      //  } else e.style.background = 'white';
     }
     else{  e.style.background = "#f00";
         dor.style.display="none";
