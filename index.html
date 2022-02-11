@@ -300,10 +300,12 @@
 <div id="dkit">
     <p id="titulo">Titulo</p><br> 
    <div id="btnsjob">
+    <button id='bu' class='ck' onclick='updpj(this)'">Update Part</button>"
     <button id="bdelkit" class="ck" onclick="delJob()">Delete Job</button>
    </div>
     <div id="btnsbask">
         <button class="cpu" onclick="emptyBasket()">Empty Basket</button>
+        <button class="ck" onclick="updBasket()">Update Basket</button>
        <button id="bdelkit" class="ck"  onclick="swba()"">Send To Clipboard</button><br>
       
    </div>
@@ -311,6 +313,7 @@
 
     <div id="btnskit">
      <button id="bdelkit" class="ck" onclick="delKit(this)">Delete Kit</button>
+     <button id='bu' class='ck' onclick='updatekit(this);'>Update Kit</button>
     <button id="bdelkit" class="ck" onclick="sendKit(this)">Send To Basquet</button>
         <button class="ck" onclick=" addParts()">Add Parts</button><br><br>
 </div>
@@ -321,12 +324,13 @@
 
  var arkit=[], arkitn="", obkit={}, KITS=[];
     kitmode=false;
-    basket=localStorage.getItem("basquet")
+    basket=localStorage.getItem("basquet");
+   
     if(basket===null && basket!=""){
         basket={parts:[]}
     }
 else{
-    basket=JSON.parse(basket)
+     basket=JSON.parse(basket)
     ibas.innerHTML=basket.parts.length;
    // alert(JSON.stringify(basket))
 }
@@ -1087,15 +1091,30 @@ for(var ii=0;ii<o.parts.length;ii++){
             d.name=o.parts[ii];
           
               d.setAttribute("class","ckk");
-                d.innerHTML="<input class='cpp' value='"+o.parts[ii].qty+"'>..........</input> P/N: "+o.parts[ii].pn+" ...... Desc: "+o.parts[ii].des+"....Job No. "+o.parts[ii].job+
-             "<br><button id='bd' class='cbk'  onclick='delp(this)'>Delete</button>"+
-             "<button id='bu' class='cbk' onclick='updp(this)'>Update Part</button>";//  name="+sp+"  
+                d.innerHTML="<input class='cpp' value='"+o.parts[ii].qty+"'></input> <br>P/N: "+o.parts[ii].pn+"<br>Desc: "+
+                o.parts[ii].des+"<br>Job No. "+o.parts[ii].job+
+                "<br>Note: <input class='' value='"+o.parts[ii].note+"'></input>"+
+             "<br><button id='bd' class='cbk'  onclick='delp(this)'>Delete</button>";//+
+             
+             
                 areak.appendChild(d)
          }
+//"<button id='bu' class='cbk' onclick='updp(this)'>Update Part</button>";//  name="+sp+"  
+         titulo.innerHTML="BASKET";
 
-         titulo.innerHTML="BASKET"
 
-
+}
+function updBasket(){
+    var o=areak.children;
+    
+    for(var i=0;i<basket.parts.length;i++){
+        var e=o[i].getElementsByTagName("input");  
+        basket.parts[i].qty=e[0].value;
+        basket.parts[i].note=e[1].value;
+     }
+    localStorage.setItem("basquet",JSON.stringify(basket));
+    alert("Basket has been updated...")
+  
 }
 function updp(e){
       var i=e.parentElement.value;
@@ -1104,7 +1123,8 @@ function updp(e){
       var p=e.parentElement.name;
       p.qty=q;
       basket.parts[i]=p;
-      alert("Part "+p.pn+" has been updated")
+      alert("Part "+p.pn+" has been updated");
+      //do dthe update....
 }
 function delp(e){
     var i=e.parentElement.value;
@@ -1163,10 +1183,11 @@ else alert("You don't have any item in basket jet...")
 }
 function emptyBasket(){
     if(confirm("Are you sure?, you will lose all items in basket")){
-        basket.length=0;
-        localStorage.setItem("basquet",basket);
+        basket.parts.length=0;
+        localStorage.setItem("basquet",JSON.stringify(basket));
         ibas.innerHTML="0";
-        alert("All done")
+        alert("All done");
+        dkit.style.display="none"
     }
 
 }
@@ -1222,12 +1243,14 @@ function kitaction(k){
             var d=document.createElement("div");
             d.id="k"+o.parts[ii].pn;
             d.value=ii;
-            d.name=JSON.stringify(o);
+            d.name=o.parts[ii];//JSON.stringify(o);
            var sp=JSON.stringify(o.parts[ii])
               d.setAttribute("class","ckk");
-                d.innerHTML="<input class='cpp' value='"+o.parts[ii].qty+"'>..........</input> P/N: "+o.parts[ii].pn+" ...... Desc: "+o.parts[ii].des+
-             "<br><button id='bd' class='cbk'  onclick='delpkit(this);'>Delete</button>"+
-             "<button id='bu' class='cbk' onclick='updatekit(this);'>Update Kit</button>";//  name="+sp+"  
+                d.innerHTML="<input class='cpp' value='"+o.parts[ii].qty+"'></input><br>P/N: "+o.parts[ii].pn+"<br>Desc: "+o.parts[ii].des+
+                "<br>Note: <input class='' value='"+o.parts[ii].note+"'></input>"+
+             "<br><button id='bd' class='cbk'  onclick='delpkit(this);'>Delete</button>";//+
+         
+             //    "<button id='bu' class='cbk' onclick='updatekit(this);'>Update Kit</button>";//  name="+sp+"  
                 areak.appendChild(d)
          }
          dkit.style.display="block";
@@ -1304,39 +1327,12 @@ for(var i=0;i<pa.length;i++){
     pa[i].move="pull";
     pa[i].qtyObs=0;
     pa[i].mec=mecanico;
-    pa[i].created=new Date().toString()
-   basket.parts.push(pa[i])
+    pa[i].created=new Date().toString();
+     basket.parts.push(pa[i])
       ibas.innerHTML=basket.parts.length;
       localStorage.setItem("basquet",JSON.stringify(basket))
-    /*var o = {
-                   "job": sjobs2.value,
-                   "pn": pa[i].pn.toUpperCase(),
-                   "des": pa[i].des.toUpperCase(),
-                   "qty": pa[i].qty * 1,
-                   "qtyObs": 0 ,
-                   "move": "pull",
-                   "kw": pa[i].kw.toUpperCase(),
-                   "clase": pa[i].cl,
-                   "mec": pa[i].mec,
-                   "location": "",
-                   "note": pa[i].no,
-                   "created": 
-               };
-               if(pno.value==="" || jn.value==="" || qt.value===0){
-                   alert("Not job number, part number or quatity")
-               }
-               else{
-               basket.parts.push(o);
-     
-               
-  
-      //         dor.style.display = 'none';
-
-}  */
-
-}
+  }
 dkit.style.display="none"
-
 
 }
 function delpkit(e){
@@ -1364,9 +1360,26 @@ var o=JSON.parse(e.parentElement.name);
 }
 
 function updatekit(e){
-var o=JSON.parse(e.parentElement.name);
-var i=e.parentElement.value;
-o.parts[i].qty=e.parentElement.getElementsByTagName("input")[0].value
+    // update todo
+    alert("actualizar el kit");
+   // alert()
+var o=e.parentElement.parentElement.name;
+alert(o.name)
+var els=areak.children;
+for(var i=0;i<els.length;i++){
+    var p=els[i].name;
+    alert(JSON.stringify(p))
+
+}
+
+
+//var i=e.parentElement.value;
+
+/*
+
+o.parts[i].qty=e.parentElement.getElementsByTagName("input")[0].value;
+o.parts[i].note=e.parentElement.getElementsByTagName("input")[1].value;
+
 
 GetJ(linkkits,function(ob){
     for(var h=0;h<ob.kits.length;h++){
@@ -1375,9 +1388,9 @@ GetJ(linkkits,function(ob){
         }
     }
  //   alert(JSON.stringify(ob));
-    UpdateJ(linkkits,ob,function(){alert("Kit has been updated..."); window.location.reload();})
+//    UpdateJ(linkkits,ob,function(){alert("Kit has been updated..."); window.location.reload();})
 
-})
+})*/
 }
 function addParts(){
  kitmode=true;
@@ -1398,7 +1411,7 @@ function loadJob(j){
 btnsbask.style.display="none";
 btnskit.style.display="none";
 btnsjob.style.display="block"
-            while (areak.firstChild) { areak.removeChild(dinv.firstChild);}
+            while (areak.firstChild) { areak.removeChild(areak.firstChild);}
             
         GetJ(linkme,function(ob){
             var pa=ob.parts;
@@ -1411,14 +1424,17 @@ btnsjob.style.display="block"
             d.name=pa[i];
           
               d.setAttribute("class","ckk");
-                d.innerHTML="<input class='cpp' value='"+pa[i].qty+"'>..........</input> P/N: "+pa[i].pn+" ...... Desc: "+pa[i].des+"....Job No. "+pa[i].job+
-             "<br><button id='bd' class='cbk'  onclick='delpj(this)'>Delete</button>"+
-             "<button id='bu' class='cbk' onclick='updpj(this)'>Update Part</button>";//  name="+sp+"  
-                areak.appendChild(d)    
-
+                d.innerHTML="<input class='cpp' value='"+pa[i].qty+"'></input><br>P/N: "+pa[i].pn+"<br>Desc: "+pa[i].des+"<br>Job No. "+pa[i].job+
+                "<br>Note: <input class='' value='"+pa[i].note+"'></input>"+
+             "<br><button id='bd' class='cbk'  onclick='delpj(this)'>Delete</button>";//+
+            
+                areak.appendChild(d);  
+// "<button id='bu' class='cbk' onclick='updpj(this)'>Update Part</button>";//  name="+sp+"  
 
             }
             }
+            
+
         });
 
     }
@@ -1428,7 +1444,8 @@ function delpj(e){
 
 }
 function updpj(e){
-    alert("Update " +e.parentElement.name.pn)
+    //update todo el trabajo
+    alert("Update  Job??");//" +e.parentElement.name.pn)
 }
 function delJob(){
     if(confirm("Are you sure you want to delete "+titulo.innerHTML+" permanentely?")){
@@ -1461,15 +1478,18 @@ function delJob(){
 
       
                   })
-
-
-                 
-                 
-                
-                 })
+             })
             });
     });
             }
+}
+function UpdateBasket(){
+    for(var i=0;i<basket.length;i++){
+
+
+    }
+
+
 }
 
 </script>
