@@ -18,15 +18,15 @@
         bottom: 2%;
         right: 1%;
     }
-    buttons {
-        width: 100px;
-        height: 100px;
-        font-size: 18px;
-        font-weight: bolder;
-        border-radius: 10px;
-        background-color: rgb(8, 38, 212);
-        margin: 2px;
-        color: white;
+    button {
+     //   width: 100px;
+     //   height: 100px;
+      //  font-size: 18px;
+      //  font-weight: bolder;
+      //  border-radius: 10px;
+      //  background-color: rgb(8, 38, 212);
+        margin: 6px;
+      //  color: white;
         box-shadow: -10px 10px 15px 1px rgba(0, 0, 0, .51);
 
     }
@@ -199,13 +199,13 @@
        color:black;
        overflow:auto;
        width: 100%;;
-       height:75%;
+       height:73%;
        background-color:white;
        text-align: left;
   
    }
    .cpp{
-       width: 12%;
+       width: 20%;
        background-color: greenyellow;;
        color:black;
        font-size: 25px;
@@ -300,7 +300,7 @@
 <div id="dkit">
     <p id="titulo">Titulo</p><br> 
    <div id="btnsjob">
-    <button id='bu' class='ck' onclick='updpj(this)'">Update Part</button>"
+    <button id='bu' class='ck' onclick='updpj(this)'">Update Job</button>"
     <button id="bdelkit" class="ck" onclick="delJob()">Delete Job</button>
    </div>
     <div id="btnsbask">
@@ -317,7 +317,7 @@
     <button id="bdelkit" class="ck" onclick="sendKit(this)">Send To Basquet</button>
         <button class="ck" onclick=" addParts()">Add Parts</button><br><br>
 </div>
-    <div id="areak"></div><br><br>
+    <div id="areak"></div>
     <button class="ck" onclick="closedlg()">Close</button>
 </div>
 <script>
@@ -1033,6 +1033,7 @@ function addToBasquet(){
                    alert("Not job number, part number or quatity")
                }
                else{
+                o.pulled=new Date().toString();
                basket.parts.push(o);
              ibas.innerHTML=basket.parts.length;
                
@@ -1093,7 +1094,7 @@ for(var ii=0;ii<o.parts.length;ii++){
            // b.name=
 
               d.setAttribute("class","ckk");
-                d.innerHTML="<input class='cpp' value='"+o.parts[ii].qty+"'></input> <br>P/N: "+o.parts[ii].pn+"<br>Desc: "+
+                d.innerHTML="<input type='number' class='cpp' value='"+o.parts[ii].qty+"'></input> <br>P/N: "+o.parts[ii].pn+"<br>Desc: "+
                 o.parts[ii].des+"<br>Job No. "+o.parts[ii].job+
                 "<br>Note: <input class='' value='"+o.parts[ii].note+"'></input>"+
              "<br><button id='bd' class='cbk'  onclick='delp(this)'>Delete</button>";//+
@@ -1146,6 +1147,7 @@ GetJ(linkme,function (obj){
             var pb=basket.parts;
             var ptob=[]
        for(var i=0;i<pb.length;i++){
+        
               var pf=[],tt;   
         for(var ii=0;ii<pa.length;ii++){
         if(pb[i].pn===pa[ii].pn && pb[i].job===pa[ii].job){
@@ -1247,7 +1249,7 @@ function kitaction(k){
             d.name=o.parts[ii];//JSON.stringify(o);
            var sp=JSON.stringify(o.parts[ii])
               d.setAttribute("class","ckk");
-                d.innerHTML="<input class='cpp' value='"+o.parts[ii].qty+"'></input><br>P/N: "+o.parts[ii].pn+"<br>Desc: "+o.parts[ii].des+
+                d.innerHTML="<input type='number' class='cpp' value='"+o.parts[ii].qty+"'></input><br>P/N: "+o.parts[ii].pn+"<br>Desc: "+o.parts[ii].des+
                 "<br>Note: <input class='' value='"+o.parts[ii].note+"'></input>"+
              "<br><button id='bd' class='cbk'  onclick='delpkit(this);'>Delete</button>";//+
          
@@ -1325,44 +1327,11 @@ function sendKit(e){
     }
 for(var i=0;i<pa.length;i++){
 
-
-
-
-
-
-  /* var o = {
-                   "job": j,
-                   "pn": pa[i].pn.toUpperCase(),
-                   "des": pa[i].des.toUpperCase(),
-                   "qty": pa[i].qty* 1,
-                   "qtyObs": 0,
-                   "move": "pull",
-                   "kw": pa[i].kw.toUpperCase(),
-                   "clase": pa[i].clase,
-                   "mec": mecanico,
-                   "location": pa[i].location,
-                   "note": pa[i].note,
-                   "created": new Date().toString()
-               };
-*/
 var o=JSON.parse(JSON.stringify(pa[i]));
 o.job=j;
 o.move="pull";
 o.mec=mecanico;
-
-
-
-
-
-
-   // pa[i].job=j;
-   // pa[i].move="pull";
-  //  pa[i].qtyObs=0;
-  //  pa[i].mec=mecanico;
-  //  pa[i].created=new Date().toString();
-
-
-
+o.pulled=new Date().toString();
 
 
      basket.parts.push(o);//pa[i])
@@ -1416,7 +1385,7 @@ GetJ(linkkits,function(ob){
             ob.kits[h]=o;
         }
     }
-    alert(JSON.stringify(ob));
+   
     UpdateJ(linkkits,ob,function(){alert("Kit has been updated..."); window.location.reload();})
 
 });
@@ -1455,7 +1424,7 @@ btnsjob.style.display="block"
             d.name=pa[i];
           
               d.setAttribute("class","ckk");
-                d.innerHTML="<input class='cpp' value='"+pa[i].qty+"'></input><br>P/N: "+pa[i].pn+"<br>Desc: "+pa[i].des+"<br>Job No. "+pa[i].job+
+                d.innerHTML="<input type='number' class='cpp' value='"+pa[i].qty+"'></input><br>P/N: "+pa[i].pn+"<br>Desc: "+pa[i].des+"<br>Job No. "+pa[i].job+
                 "<br>Note: <input class='' value='"+pa[i].note+"'></input>"+
              "<br><button id='bd' class='cbk'  onclick='delpj(this)'>Delete</button>";//+
             
@@ -1475,8 +1444,37 @@ function delpj(e){
 
 }
 function updpj(e){
-    //update todo el trabajo
-    alert("Update  Job??");//" +e.parentElement.name.pn)
+     var els=areak.children;
+  
+    GetJ(linkme,function(ob){
+        var ps=ob.parts; 
+         for(var h=0;h<els.length;h++){
+             var ph=els[h].name;
+        for(var i=0;i<ps.length;i++){
+            var pa=ps[i]; //  alert("found \n\n"+JSON.stringify(pa)+"\n\n"+JSON.stringify(ph));
+            if(pa.pulled!=undefined && ph.pulled!=undefined){
+            if(pa.pulled===ph.pulled && pa.pn===ph.pn && pa.job===ph.job){
+              //  alert("found \n\n"+JSON.stringify(pa)+"\n\n"+JSON.stringify(ph));
+                var ips=els[h].getElementsByTagName("input")
+                if(ips[0].value===0){//cero
+                    var n=prompt("The quantity must be 1 or more, please type a number");
+                    if(isNaN(n)) return;
+                    else ips[0].value=n;
+                    
+                    }
+                pa.qty=ips[0].value;
+                pa.note=ips[1].value;
+              //  alert("Despues \n\n"+JSON.stringify(pa)+"\n\n"+JSON.stringify(ph));
+                
+            }
+          }
+        //  else{ alert("Job can't be updated...");return}
+        }
+}
+//UpdateJ(linkme,ob,function(){"Job has been updated..."});
+
+
+    })
 }
 function delJob(){
     if(confirm("Are you sure you want to delete "+titulo.innerHTML+" permanentely?")){
@@ -1513,14 +1511,6 @@ function delJob(){
             });
     });
             }
-}
-function UpdateBasket(){
-    for(var i=0;i<basket.length;i++){
-
-
-    }
-
-
 }
 
 function closedlg(e){
