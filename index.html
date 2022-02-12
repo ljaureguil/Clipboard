@@ -318,7 +318,7 @@
         <button class="ck" onclick=" addParts()">Add Parts</button><br><br>
 </div>
     <div id="areak"></div><br><br>
-    <button class="ck" onclick="dkit.style.display='none'">Close</button>
+    <button class="ck" onclick="closedlg()">Close</button>
 </div>
 <script>
 
@@ -1089,17 +1089,18 @@ for(var ii=0;ii<o.parts.length;ii++){
             d.id="k"+o.parts[ii].pn;
             d.value=ii;
             d.name=o.parts[ii];
-          
+            var b=document.createElement("button");
+           // b.name=
+
               d.setAttribute("class","ckk");
                 d.innerHTML="<input class='cpp' value='"+o.parts[ii].qty+"'></input> <br>P/N: "+o.parts[ii].pn+"<br>Desc: "+
                 o.parts[ii].des+"<br>Job No. "+o.parts[ii].job+
                 "<br>Note: <input class='' value='"+o.parts[ii].note+"'></input>"+
              "<br><button id='bd' class='cbk'  onclick='delp(this)'>Delete</button>";//+
-             
-             
-                areak.appendChild(d)
+ 
+             areak.appendChild(d)
          }
-//"<button id='bu' class='cbk' onclick='updp(this)'>Update Part</button>";//  name="+sp+"  
+
          titulo.innerHTML="BASKET";
 
 
@@ -1323,12 +1324,48 @@ function sendKit(e){
 
     }
 for(var i=0;i<pa.length;i++){
-    pa[i].job=j;
-    pa[i].move="pull";
-    pa[i].qtyObs=0;
-    pa[i].mec=mecanico;
-    pa[i].created=new Date().toString();
-     basket.parts.push(pa[i])
+
+
+
+
+
+
+  /* var o = {
+                   "job": j,
+                   "pn": pa[i].pn.toUpperCase(),
+                   "des": pa[i].des.toUpperCase(),
+                   "qty": pa[i].qty* 1,
+                   "qtyObs": 0,
+                   "move": "pull",
+                   "kw": pa[i].kw.toUpperCase(),
+                   "clase": pa[i].clase,
+                   "mec": mecanico,
+                   "location": pa[i].location,
+                   "note": pa[i].note,
+                   "created": new Date().toString()
+               };
+*/
+var o=JSON.parse(JSON.stringify(pa[i]));
+o.job=j;
+o.move="pull";
+o.mec=mecanico;
+
+
+
+
+
+
+   // pa[i].job=j;
+   // pa[i].move="pull";
+  //  pa[i].qtyObs=0;
+  //  pa[i].mec=mecanico;
+  //  pa[i].created=new Date().toString();
+
+
+
+
+
+     basket.parts.push(o);//pa[i])
       ibas.innerHTML=basket.parts.length;
       localStorage.setItem("basquet",JSON.stringify(basket))
   }
@@ -1336,9 +1373,6 @@ dkit.style.display="none"
 
 }
 function delpkit(e){
-//alert(e.name)
-//alert(e.parentElement.name);
-//alert(e.parentElement.value);
 
 var o=JSON.parse(e.parentElement.name);
     var i=e.parentElement.value;
@@ -1360,37 +1394,33 @@ var o=JSON.parse(e.parentElement.name);
 }
 
 function updatekit(e){
-    // update todo
-    alert("actualizar el kit");
-   // alert()
-var o=e.parentElement.parentElement.name;
-alert(o.name)
-var els=areak.children;
+ var els=areak.children;
+var c=false;
 for(var i=0;i<els.length;i++){
     var p=els[i].name;
-    alert(JSON.stringify(p))
+    
+    var ip=els[i].getElementsByTagName("input");
+        if(p.qty!=ip[0].value || p.note!=ip[1].value){
+            p.qty=ip[0].value   
+    p.note=ip[1].value;
+ 
+}
 
 }
 
 
-//var i=e.parentElement.value;
-
-/*
-
-o.parts[i].qty=e.parentElement.getElementsByTagName("input")[0].value;
-o.parts[i].note=e.parentElement.getElementsByTagName("input")[1].value;
-
-
 GetJ(linkkits,function(ob){
+    var o=dkit.name;
     for(var h=0;h<ob.kits.length;h++){
         if(o.name===ob.kits[h].name){
             ob.kits[h]=o;
         }
     }
- //   alert(JSON.stringify(ob));
-//    UpdateJ(linkkits,ob,function(){alert("Kit has been updated..."); window.location.reload();})
+    alert(JSON.stringify(ob));
+    UpdateJ(linkkits,ob,function(){alert("Kit has been updated..."); window.location.reload();})
 
-})*/
+});
+
 }
 function addParts(){
  kitmode=true;
@@ -1408,6 +1438,7 @@ function loadJob(j){
     else{
               titulo.innerHTML=j;
               dkit.style.display="block";
+              dkit.name=j;
 btnsbask.style.display="none";
 btnskit.style.display="none";
 btnsjob.style.display="block"
@@ -1490,6 +1521,52 @@ function UpdateBasket(){
     }
 
 
+}
+
+function closedlg(e){
+   // update todo
+
+var els=areak.children;
+
+for(var i=0;i<els.length;i++){
+    var p=els[i].name;
+    var c=false;
+    var ip=els[i].getElementsByTagName("input");
+        if(p.qty!=ip[0].value || p.note!=ip[1].value){
+      c=true;
+    if(confirm("Changes has been detected, Exit without saving changes?")) {
+        dkit.style.display="none";
+        i=els.length;
+
+    }
+    else i=els.length;
+}
+
+}
+ if(!c) dkit.style.display="none";
+
+/*
+
+
+var pa=dkit.name.parts;
+
+var els=areak.children;
+var c=false;
+for(var i=0;i<els.length;i++){
+    var p=els[i].name;
+    var ip=els[i].getElementsByTagName("input");
+        if(p.qty!=ip[0].value || p.note!=ip[1].value){
+         //   p.qty=ip[0].value   
+    //p.note=ip[1].value;
+    c=true;
+    if(confirm("Changes has been detected, do you want to close dialoge without save changes?")) i=els.length;
+    else return;
+  //  alert(JSON.stringify(p))
+}
+
+}
+ dkit.style.display="none";
+ */
 }
 
 </script>
