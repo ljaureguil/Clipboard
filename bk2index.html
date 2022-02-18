@@ -1,0 +1,1562 @@
+<html>
+
+<head id="h1">
+    <meta name="viewport" content="width=device-width">
+</head>
+
+<style id="s1">
+    body {
+        text-align: center;
+        font-size: 25px;
+        margin: 5px;
+
+    }
+    code {
+        margin: 5%;
+        width: 10%;
+        position: absolute;
+        bottom: 2%;
+        right: 1%;
+    }
+    button {
+     //   width: 100px;
+     //   height: 100px;
+      //  font-size: 18px;
+      //  font-weight: bolder;
+      //  border-radius: 10px;
+      //  background-color: rgb(8, 38, 212);
+        margin: 6px;
+      //  color: white;
+        box-shadow: -10px 10px 15px 1px rgba(0, 0, 0, .51);
+
+    }
+   #creader{
+             display:none; 
+   }
+    #reader {
+        width: 100%;
+        color: white;
+        font-size: 25px;
+ 
+        background-color: rgba(36, 248, 135,.6);
+
+    }
+    #ta {
+        width: 95%;
+        display: none;
+    }
+    #tx {
+        margin: 1%;
+        width: 90%;
+        font-size: 14px;
+        height: 20%;
+        
+    }
+    #dor {
+      
+      font-weight:2px;
+        position: absolute;
+        text-align: left;
+        padding: 15px;
+        top: 2%;
+        width: 96%;
+        left: 2%;
+        z-index: 2;
+        border-style: solid;
+      //     background-color: rgba(154, 209, 180,1);
+        background-color: rgb( 135,253, 67);
+        height: 130%;
+            transition: opacity 1s, top 1s;
+            display:none;
+            border-radius:10px;
+              box-shadow: -4px 4px 10px 1px rgba(0, 0, 0, .51);   
+          
+              
+    }
+    .cin {
+        text-align: right;
+        width: 90%;font-size: 18px;
+    }
+    #de {
+        height: auto;
+    }
+    #tfil {
+        width: 94%;
+        box-shadow: -10px 10px 15px 1px rgba(0, 0, 0, .51);
+        text-align: left;
+        margin: 3px;
+        font-size: 25px;
+        border-radius:10px;
+    }
+    .ctt {
+        width: 90%;
+        margin: 5%;
+        border: solid;
+        font-size: 14px;
+        display: block;
+        background: white;
+       box-shadow: -4px 4px 10px 1px rgba(0, 0, 0, .51);
+    }
+    #dinv {
+        width: 96%;
+        height: 40%;
+        overflow: auto;
+        border-radius: 5px;
+        ;
+        border-style: solid;
+        display: none;
+        background: rgba(255,255,255,1);
+    }
+    #scla {
+        display: none;
+    }
+    #todo{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+    transition: scroll 1s, transform 2s;
+        
+     }
+     #rn{
+         background: red;
+         position: absolute;
+         top:1%;
+         left:5%;
+     }
+     .cpu{
+         background:rgb(48, 77, 190);
+         border-radius: 100px;
+         margin: 10px;
+         box-shadow: -10px 10px 15px 1px rgba(0, 0, 0, .51), inset -10px 10px 20px 1px rgb(103, 135, 223)  , inset 10px -10px 20px 1px rgb(24, 4, 112);
+     }
+     #ord{
+         position: absolute;
+         top:1%;
+         right:1%;
+         background: red;
+     }
+     #bor{
+        background: red;
+     }
+     #cla{display:none}
+     #loc{display: none;}
+     #kw{display: none;}
+     #plus{
+        position:absolute;
+        right:0%;
+       top:0%;
+        width: 55px;
+        height: 55px;
+          border-radius: 100px;
+        display: block;
+     }
+     #ibas{
+         background:url(https://icon2.cleanpng.com/20180319/oaw/kisspng-area-text-symbol-brand-shopping-basket-add-5ab04291cd8722.0789780615215008178419.jpg);
+         background-size:  100% 100%;
+         width:35px;
+         height: 35px;
+         position: absolute;
+         left:3%;
+         bottom: 3%;
+         color:blue;
+         font-size: 20px;
+         font-weight: bold;
+         border-radius: 30px;
+         border-style: solid;
+         box-shadow: -10px 10px 15px 1px rgba(0, 0, 0, .51); 
+     }
+     #tmove{
+         margin: 8px;
+         background: rgb(136, 224, 141);
+         color:rgb(19, 18, 18);
+         width: 15%;
+         font-size: 25px;
+         border-radius: 10px;
+     }
+     #sjobs{
+         position: relative;
+         top:-10px;
+         font-size: 20px;
+       background: rgb(238, 208, 200);
+     }
+   #dkit{ 
+       color:white;
+            font-size: 14px;
+          text-align: left;
+       position: absolute;
+       top:15%;
+         z-index: 4;
+       background-color: #f00;
+    width: 96%;
+    height: 80%;
+    border-style: solid;
+    display: none;
+    overflow: auto;
+    text-align: center;
+   }
+   #areak{
+       color:black;
+       overflow:auto;
+       width: 100%;;
+       height:73%;
+       background-color:white;
+       text-align: left;
+  
+   }
+   .cpp{
+       width: 20%;
+       background-color: greenyellow;;
+       color:black;
+       font-size: 25px;
+   }
+   .ckk{
+       margin: 10px;
+       border-style: solid;
+       padding: 5px;
+   }
+   .cbk{
+       margin:5px;
+       font-size: 18px;
+   }
+</style>
+<div id="todo">
+    <button id="ibas" onclick="openBask()" ></button>
+    
+<button onclick="creader.style.display='block';openScaner()">Open Scanner</button>
+<button  id="rn" onclick="if(confirm('Are you sure you want to Reset your user name?')){localStorage.removeItem('mec');window.location.reload()}">RN</button>
+<button  id="ord" onclick="dor.style.display='block';pno.value=tfil.value.toUpperCase();mec.value=mecanico;">Request<br>parts</button>
+
+<div id="creader">
+<div id="reader"></div><br><button onclick="creader.style.display='none';closeScaner()">Close Scanner</button>
+</div>  
+
+<br><span id="hi">-- Search/Manually...</span></span><br>
+<textarea id="tfil" oninput="search(this.value)" placeholder="Type Key Word..."></textarea><br><br>
+
+<select id="sjobs2"oninput="jn.value=this.value"><option>Select a Job</option></select>.....<button onclick="loadJob(sjobs2.value)">Load Job</button>.....
+<button onclick="openClip()">Load Clipboard</button>.....<br><br>
+   <select id="kits" this.name="" oninput="kitaction(this)" value="Select A Kit">
+    <option>Sel Kit Action</option>
+   <option>Create Kit</option>
+   <option>Save Kit</option>
+  
+   <option>---------------</option>
+ </select><br>
+<div id="dinv"></div>
+<div id="dparts"></div>
+
+<a id="ta" href="" target="_blank"></a>
+
+<div id="dor">
+      <img id="plus" class="cpu" onclick="add=true;send('pull')" src="https://findicons.com/files/icons/1014/ivista/256/plus.png">
+ <br>
+    Job No.................<select id="sjobs"oninput="jn.value=this.value"><option>Select a Job</option></select>
+    <input id="jn" type="text" class="cin" value="">
+    <br>Qty:
+    <input id="qt" type="number" class="cin" value=1>
+
+    <br>Part No....<select id="chkit" oninput="selkit(this)">
+        <option>Choose a Kit</option>
+    </select>
+    <input id="pno" type="text" class="cin" value="">
+    <br>desc:
+    <input id="de" type="text" class="cin" value="" >
+    <br>Mech:
+    <input id="mec" type="text" class="cin" value="" readonly>
+  
+    <input id="cla" type="text" class="cin" value="" readonly>
+ 
+    <input id="kw" type="text" class="cin" value="" readonly>
+ 
+    <input id="loc" type="text" class="cin" value="" readonly>
+    <br>Remaining:
+    <input id="obs" type="number" class="cin" >
+
+    <br>Note:
+    <input id="no" type="text" class="cin" class="" value=""><br>
+    <select id="tmove" value="pull"> <br>
+<option>pull</option>
+<option>return</option>
+    </select>
+    <br>
+    <br>
+   
+    <br>
+    <button class="cpu" onclick="addToBasquet()">Add to Basket</button>
+       <button id="bor" class="cpu" onclick="send('order')">Request</button>
+  
+
+    <button class="cpu" onclick="dor.style.display='none';">Close</button>
+ 
+</div>
+<textarea id="tx" readonly></textarea><br>
+<button onclick='tx.select();document.execCommand("copy");'>Copy</button>
+
+
+</div>
+
+<script src="html5-qrcode.min.js"></script>
+<div id="dkit">
+    <p id="titulo">Titulo</p><br> 
+   <div id="btnsjob">
+    <button id='bu' class='ck' onclick='updpj(this)'">Update Job</button>"
+    <button id="bdelkit" class="ck" onclick="delJob()">Delete Job</button>
+   </div>
+    <div id="btnsbask">
+        <button class="cpu" onclick="emptyBasket()">Empty Basket</button>
+        <button class="ck" onclick="updBasket()">Update Basket</button>
+       <button id="bdelkit" class="ck"  onclick="swba()"">Send To Clipboard</button><br>
+      
+   </div>
+
+
+    <div id="btnskit">
+     <button id="bdelkit" class="ck" onclick="delKit(this)">Delete Kit</button>
+     <button id='bu' class='ck' onclick='updatekit(this);'>Update Kit</button>
+    <button id="bdelkit" class="ck" onclick="sendKit(this)">Send To Basquet</button>
+        <button class="ck" onclick=" addParts()">Add Parts</button><br><br>
+</div>
+    <div id="areak"></div>
+    <button class="ck" onclick="closedlg()">Close</button>
+</div>
+<script>
+
+ var arkit=[], arkitn="", obkit={}, KITS=[];
+    kitmode=false;
+    basket=localStorage.getItem("basquet");
+   
+    if(basket===null && basket!=""){
+        basket={parts:[]}
+    }
+else{
+     basket=JSON.parse(basket)
+    ibas.innerHTML=basket.parts.length;
+   // alert(JSON.stringify(basket))
+}
+    //var user=localStorage.getItem("mec");
+    //if(user===null) { user=prompt("Type your name");localStorage.setItem("mec",user);
+    order=false,add=false;
+  //  var linkp = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';
+  //  var linkc = 'https://jsonblob.com/api/0da2d184-f931-11eb-a6a9-8d2736c2c513'
+     var linkme = 'https://jsonblob.com/api/893891925422391296'; //my clipboard
+  //  var linkme = 'https://jsonblob.com/api/915289952775061504'; //my clipboard
+   
+    var linkcl='http://jsonblob.com/896389790531076096'; //clip demas
+
+    var linkm = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb'; //miselanius
+    linkb = "https://jsonblob.com/api/893339508880457728"; //basquet
+    linkp = "https://jsonblob.com/api/892533157149294592"; //main
+    linko = "https://jsonblob.com/api/893246438927253504"; //other
+    linkt = 'https://jsonblob.com/api/893855119448489984'; //trash
+    linkord='https://jsonblob.com/api/898641969950244864'; //orders
+    linkusc='https://jsonblob.com/api/900759490673262592';//use
+    linkj = "https://jsonblob.com/api/915690066303795200"//jobs
+    linkkits = "https://jsonblob.com/api/940340323222306816"//jobs
+  
+    var Parts = [],
+        Psel = [],
+        partsClip = [];
+
+ //   localStorage.removeItem("mec")
+ var ObClipboard={}
+    var mecanico = "";
+var Trabajos=[];
+    GetJ(linkj,function(obj){
+        var so = JSON.stringify(obj);
+        var arj=obj.jobs,s=sjobs.innerHTML;
+                for (var i = 0; i < arj.length; i++) {
+                    s+="<option>"+arj[i].job+"</option>";
+                 }
+                        sjobs.innerHTML=s;
+                        sjobs2.innerHTML=s;
+     
+    })
+
+          GetJ(linkj, function(obj) {
+GetJ(linkme,function(ob){
+               var pa = ob.parts;
+                //   alert(JSON.stringify(ob))\
+                var arj = [],
+                    ars = []
+                   
+                for (var i = 0; i < pa.length; i++) {
+
+                    if (arj.indexOf(pa[i].job) === -1) {
+                        arj.push(pa[i].job);
+                    }
+
+                }
+      
+
+                 var np=obj.jobs.length;
+                var so = JSON.stringify(obj);
+                for (var i = 0; i < arj.length; i++) {
+
+                    if (so.indexOf('"'+arj[i]+'"') === -1) {
+
+                        obj.jobs.push({
+                            job: arj[i],
+                            status: "Active",
+                            moves:""
+                        });
+
+                    }
+                    if(obj.jobs.length>np){
+                          UpdateJ(linkj,obj,function(){window.location.reload()})
+                    }
+
+
+                }
+                });
+})
+/**/
+
+
+
+
+
+
+    inicVerif();
+    function inicVerif(){
+    mecanico = localStorage.getItem("mec");
+    if (mecanico === null || mecanico === "") {
+        mecanico = prompt("Type your Name");
+        if (mecanico === null || mecanico === "" || mecanico.length<3){
+            alert("Your name must be more than 2 characters")
+             inicVerif()
+             
+             }
+           
+        mecanico=mecanico.replace(/ /g,"-");
+        mecanico=mecanico.toLocaleUpperCase();
+        localStorage.setItem("mec", mecanico);
+        GetJ(linkusc,function(ob){
+            var s=new Date().toString().split(" GMT")[0];
+            s=mecanico+" _ "+s;
+            ob.us.push(s);
+            UpdateJ(linkusc,ob);
+        })
+    } else {
+        if(mecanico.toUpperCase().indexOf('LAURO')<0){linkme=linkcl;}
+        GetJ(linkusc,function(ob){
+        var s=new Date().toString().split(" GMT")[0];
+            s=mecanico+" _ "+s;
+            ob.us.push(s);
+            UpdateJ(linkusc,ob);
+     hi.innerHTML="Hi " + mecanico+hi.innerHTML;
+           
+             });
+             
+           
+
+    }
+}
+
+  if(mecanico.toUpperCase()==="LAURO") plus.style.display="block";
+    else plus.style.display="none"
+
+    GetJ(linkkits,function(ob){
+     
+        if(ob.kits!=undefined){
+            KITS=ob.kits;
+            var s=chkit.innerHTML;
+            var ss=kits.innerHTML;
+            for(var ik=0;ik<ob.kits.length;ik++){
+            
+                s+="<option>"+ob.kits[ik].name+"</option>";
+                ss+="<option>"+ob.kits[ik].name+"</option>";
+            };
+            chkit.innerHTML=s;
+            kits.innerHTML=ss;
+      
+        }
+    })
+
+    getInventories();
+  
+    var s = document.getElementsByTagName("style")[0];
+    var html5QrcodeScanner = new Html5QrcodeScanner(
+        "reader", {
+            fps: 10,
+            qrbox: 250
+        });
+    html5QrcodeScanner.render(onScanSuccess, onScanError);
+
+    function onScanSuccess(decodedText, decodedResult) {
+       todo.scrollTop=innerHeight;
+      if (decodedText.indexOf("http") > -1) {
+            ta.style.display = "block";
+            ta.href = decodedText;
+            ta.innerHTML = decodedText;
+            ta.click();
+        }
+         else ta.style.display = "none";
+        tx.value = decodedText;
+             var pp = decodedText.split(" ");
+             tfil.value=pp[0];
+            search(pp[0]);
+         document.getElementsByTagName("style")[0].innerHTML = s.innerHTML;
+        var st = document.createElement("style");
+        st.innerHTML = s;
+        document.body.getElementsByTagName("style")[0] = st;
+    }
+
+    function onScanError(errorMessage) {
+        // handle on error condition, with error message
+    }
+
+
+    function loadDoc(url, callback) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", url, false);
+        xhttp.send();
+        callback(xhttp.responseText);
+
+    }
+    //  setupinventario();
+
+    function getInventories() {
+
+        GetJ(linkp, function(obp) {
+            Parts = obp.parts;
+   
+            GetJ(linkm, function(obm) {
+                for (var i = 0; i < obm.parts.length; i++) {
+                 
+                    Parts.push(obm.parts[i])
+                }
+
+                GetJ(linko, function(obo) {
+                    for (var ia = 0; ia < obo.parts.length; ia++) {
+                        Parts.push(obo.parts[ia])
+                    }
+
+                    filter(Parts);
+
+                });
+            });
+        });
+
+    }
+
+
+    function setupinventario() {
+
+        GetJ(linkp, function(obj) {
+
+            for (var i = 0; i < obj.parts.length; i++) {
+                var s = obj.parts[i].pn;
+
+                s.replace(/ /g, "_");
+
+            }
+            UpdateJ(linkp, obj, function() {
+                alert("done");
+                window.location.reload();
+            })
+
+        })
+    }
+
+    function getPart(pn, callback) {
+       GetJ(linkp, function(obj) {
+            p = obj.parts;
+            for (var i = 0; i < p.length; i++) {
+                if (pn === p[i].pn) {
+                    callback(p[i], obj);
+                    return p[i]
+
+                }
+                callback(null, null)
+
+                //  
+            }
+
+        })
+
+    }
+
+    function send(to) {
+       if (to === "order") {
+
+           dor.style.display = 'none';
+           GetJ(linkord, function(obj) {
+
+               var o = {
+                   "job": jn.value,
+                   "pn": pno.value.toUpperCase(),
+                   "des": de.value.toUpperCase(),
+                   "qty": qt.value * 1,
+                   "qtyObs": obs.value * 1,
+                   "move": "",
+                   "kw": kw.value,
+                   "clase": cla.value,
+                   "mec": mecanico,
+                   "location": loc.value,
+                   "note": no.value,
+                   "created": new Date().toString()
+               };
+               obj.parts.push(o);
+               UpdateJ(linkord, obj, function() {
+                   alert("Ordersent...")
+               })
+           });
+
+       } else {
+           if (qt.value === 0 || qt.value === null || jn.value === "" && !add) {
+               alert("No Quantity or Job number");
+           } else {
+               var o = {
+                   "job": jn.value,
+                   "pn": pno.value.toUpperCase(),
+                   "des": de.value.toUpperCase(),
+                   "qty": qt.value * 1,
+                   "qtyObs": obs.value * 1,
+                   "move": "",
+                   "kw": kw.value.toUpperCase(),
+                   "clase": cla.value,
+                   "mec": mecanico,
+                   "location": loc.value,
+                   "note": no.value,
+                   "created": new Date().toString()
+               };
+
+               dor.style.display = 'none';
+               if (add) {
+                   o.clase="other";
+                   if (pno.value == "" || pno.value == " " || de.value == "" || de.value == " ") {
+                       alert("Not Part Number or Description")
+                   } else {
+                       GetJ(linko, function(obj) {
+                           var u = 0;
+                           for (u = 0; u < obj.parts.length; u++) {
+                               if (obj.parts[u].pn.toUpperCase() === pno.value.toUpperCase()) {
+                             //   var ss = JSON.stringify(obj.parts[u]).replace(/}/g, "\n").replace(/{/g, "\n").replace(/,/g, "\n").replace(/"/g, " ")
+                                   var ss = "P/N: "+obj.parts[u].pn+"\nDesc.: "+obj.parts[u].des+"\n";
+                                   if (confirm(ss + "\n Already Exist, do you want to Replace it?")) {
+                                       obj.parts[u] = o;
+                                       UpdateJ(linko, obj, function() {
+                                           alert("Part has been replaced...");
+                                           window.location.reload();
+                                          // return;
+                                       })
+                                   } else return;
+                               }
+                           }
+                           if (u >= obj.parts.length) {
+                               obj.parts.push(o);
+                               UpdateJ(linko, obj, function() {
+                                   alert("Part has been added to 'other'...");
+                                   window.location.reload();
+                               })
+                           }
+                       });
+                   }
+               } else {
+                   GetJ(linkme, function(obj) {
+                       if (to === "pull"){
+                           var ps=[];
+      for(var i=0;i<obj.parts.length;i++){
+           if(obj.parts[i].pn===o.pn && obj.parts[i].job===o.job) ps.push(obj.parts[i])
+        }
+      if(ps.length>0){
+          var sc="";
+          for(var i=0;i<ps.length;i++){
+         
+              sc+="Job No.: "+ps[i].job+"\nP/N: "+ps[i].pn+"\nDesc: "+ps[i].des+"\nQty: "+ps[i].qty+"\nPulled by: "+ps[i].mec+"\n......................\n"
+          }
+        if(!confirm("--This is what I found for this Job :\n"+sc+"Do you still want to pull it?")) return
+
+      }
+                      o.move = "pull"
+                        obj.parts.push(o);
+                       UpdateJ(linkme, obj, function() {
+                           alert("Part/s sent to Clipboard...")
+                           window.location.reload();
+                       })}
+                        else{ 
+                            o.move = "return";
+                            obj.parts.push(o);
+                       UpdateJ(linkme, obj, function() {
+                           alert("Part/s sent 'return' to Clipboard...")
+                           window.location.reload();
+                       })   
+                            }
+                       /////
+                   })
+               }
+           }
+       }
+   }
+    function GetJ(url, callback) {
+
+        //var url  = "http://localhost:8080/api/v1/users";
+        var xhr = new XMLHttpRequest()
+        xhr.open('GET', url + '/1', true)
+        xhr.onload = function() {
+            //         (xhr.responseText)
+            var users = JSON.parse(xhr.responseText);
+            //     var obb=decoding(users.prim);
+
+            if (xhr.readyState == 4 && xhr.status == "200") {
+                callback(users);
+            } else {
+                console.error(users);
+            }
+        }
+        xhr.send(null);
+    }
+
+    // Update a user
+    function UpdateJ(url, ob, callback) {
+    
+        json = JSON.stringify(ob);
+        var xhr = new XMLHttpRequest();
+        xhr.open("PUT", url + '/12', true);
+        xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+        xhr.onload = function() {
+            var users = JSON.parse(xhr.responseText);
+            if (xhr.readyState == 4 && xhr.status == "200") {
+                //  alert("Tu Forma ha sido Enviada");
+                if (callback != undefined) callback(users);
+            } else {
+                (users);
+            }
+        }
+        xhr.send(json);
+    }
+
+    function search(v) {
+
+        if (v === "") {
+            dinv.style.display = "none";
+        } else {
+            dinv.style.display = "block";
+            var pa = document.getElementsByClassName("ctt");
+            for (var i = 0; i < pa.length; i++) {
+                var s = JSON.stringify(pa[i]);
+                s = s.toUpperCase();
+                v = v.toUpperCase();
+                if (s.indexOf(v) > -1) {
+                    pa[i].style.display = "block"
+                    //   ar.push(pa[i]);
+                } else {
+                    pa[i].style.display = "none"
+                }
+            }
+
+        }
+
+    }
+
+
+    function filter(pa) {
+
+        while (dinv.firstChild) { dinv.removeChild(dinv.firstChild);}
+        for (var i = 0; i < pa.length; i++) {
+            var p = document.createElement("p");
+            p.setAttribute("class", "ctt");
+            p.style.display = "block";
+            p.style.background = "white";
+            p.setAttribute("onclick", "sel(this);");
+            p.name = pa[i];
+            p.id = pa[i].pn;
+            p.innerHTML = "P/N: " + pa[i].pn + ", Desc.: " + pa[i].des+", From: "+pa[i].clase;
+            dinv.appendChild(p); // fil.appendChild(p)
+        }
+        dinv.appendChild(document.createElement("p")); 
+
+        //  UpdateJ(link,obj,function(){alert('updated...')})
+    }
+   function sel2(e){
+    if(!kitmode){
+       dor.style.display='block';
+       pno.value=e.name.pn.toUpperCase();
+       dor.name=e;
+        //     alert(e.style.background)
+        var enc = false;
+
+        if (e.style.background === "white") {
+            for (var i = 0; i < Parts.length; i++) {
+                if (Parts[i].pn === e.name.pn) {
+                    enc = true;
+
+                    e.style.background = "#0f0";
+                    i = Parts.length + 2;
+                    qt.value=1;
+                    pno.value = e.name.pn.toUpperCase();
+                    de.value = e.name.des.toUpperCase();
+                    kw.value= e.name.kw;
+                 
+                    cla.value = e.name.clase;
+                    loc.value = e.name.location;
+                    no.value = e.name.note;
+                    mec.value = mecanico;
+                    dor.style.display='block';
+
+                }
+            }
+            if (!enc) {
+                e.style.background = 'white';
+                Psel.push(e.name);
+
+            } else {
+
+            }
+        } else e.style.background = 'white';
+    }
+    else{  e.style.background = "#f00";
+        dor.style.display="none";
+        for (var i = 0; i < Parts.length; i++) {
+                if (Parts[i].pn === e.name.pn) {
+                    enc = true;
+
+
+                    var qty=prompt("Qty?");
+                    if(qty===null) return;
+                  
+                    if(isNaN(qty)) return;
+                      qty=qty*1;
+                   if(confirm("Are your sure you want to add "+Parts[i].pn+" To "+arkitn+"?")){
+                       var o=Parts[i];
+                        o.qty=qty;
+                        arkit.push(o)
+                    //    e.style.background = "#fff";  
+                        ////////
+e.style.background = "#0f0";
+                
+                    qt.value=qty;
+                    pno.value = e.name.pn.toUpperCase();
+                //    alert(e.name.pn)
+                    de.value = e.name.des.toUpperCase();
+                    kw.value= e.name.kw;
+                 
+                    cla.value = e.name.clase;
+                    loc.value = e.name.location;
+                    no.value = e.name.note;
+                    mec.value = mecanico;
+                //    dor.style.display='block';
+
+
+
+//////////
+
+                    }
+                  
+                    i = Parts.length + 2;
+       
+
+                }
+            }
+
+    }
+
+
+   }
+    function sel(e) {
+     
+        if(!kitmode){   
+          
+    //   dor.style.display='block';
+       pno.value=e.name.pn.toUpperCase();
+       dor.name=e;
+        //     alert(e.style.background)
+        var enc = false;
+  //alert(e.style.background)
+    //    if (e.style.background === "white") {
+            for (var i = 0; i < Parts.length; i++) {
+               // alert(Parts[i].pn)
+                if (Parts[i].pn === e.name.pn) {
+                    enc = true;
+
+                    e.style.background = "#0f0";
+                    i = Parts.length + 2;
+                    qt.value=prompt("Qty?")*1;;
+                    if(isNaN(qt.value)) return;
+                    pno.value = e.name.pn.toUpperCase();
+                    de.value = e.name.des.toUpperCase();
+                    kw.value= e.name.kw;
+                 
+                    cla.value = e.name.clase;
+                    loc.value = e.name.location;
+                    no.value = prompt("Type a Note");//e.name.note;
+                    if(no.value=null) no.value="";
+                    mec.value = mecanico;
+                  //  dor.style.display='block';
+                  if(sjobs2.value==="Select a Job"){
+                        var j=prompt("Job no selected, or Type a new job");
+                        if(j===null) return;
+                        else{
+                            sjobs.value=j;
+                        sjobs2.value=j;
+} 
+                  }
+                  else{
+                    sjobs.value=sjobs2.value;
+
+
+                  }
+                  jn.value=sjobs.value;
+
+                if(confirm("Add "+no.value+" To Basquet?") ) addToBasquet();
+
+                }
+            }
+            if (!enc) {
+                e.style.background = 'white';
+                Psel.push(e.name);
+
+            } else {
+
+            }
+      //  } else e.style.background = 'white';
+    }
+    else{  e.style.background = "#f00";
+        dor.style.display="none";
+        for (var i = 0; i < Parts.length; i++) {
+                if (Parts[i].pn === e.name.pn) {
+                    enc = true;
+
+
+                    var qty=prompt("Qty?");
+                    if(qty===null) return;
+                  
+                    if(isNaN(qty)) return;
+                      qty=qty*1;
+                   if(confirm("Are your sure you want to add "+Parts[i].pn+" To "+arkitn+"?")){
+                       var o=Parts[i];
+                        o.qty=qty;
+                        arkit.push(o)
+                    //    e.style.background = "#fff";  
+                        ////////
+e.style.background = "#0f0";
+                
+                    qt.value=qty;
+                    pno.value = e.name.pn.toUpperCase();
+                //    alert(e.name.pn)
+                    de.value = e.name.des.toUpperCase();
+                    kw.value= e.name.kw;
+                 
+                    cla.value = e.name.clase;
+                    loc.value = e.name.location;
+                    no.value = e.name.note;
+                    mec.value = mecanico;
+                //    dor.style.display='block';
+
+
+
+//////////
+
+                    }
+                  
+                    i = Parts.length + 2;
+       
+
+                }
+            }
+
+    }
+
+    }
+
+    function openClip() {
+       var h="";
+       
+       var e = String.fromCharCode(9);
+       var c="";
+       if(confirm("Include Headers?"))h="QTY"+e + "Job No." + e +"P/N" + e + "Description" + e + "Mechanic" + e +"Date" +e + "Time" + e + "Move" + e + "Remaining"+ e + "Note"+"\n";
+
+        GetJ(linkme, function(ob) {
+            var ps = ob.parts; //alert(ps)
+             for (i = 0; i < ps.length; i++) {
+                 if(ps[i].mec.toUpperCase()===mecanico.toUpperCase()){
+                var p = ps[i]
+                var t = JSON.stringify(p);
+          var f=getFe(p.created);
+                 c+= p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha +e + f.tiempo + e + p.move + e + p.qtyObs+e + p.note+"\n";
+             }
+}
+            tx.value = h+c;
+          })
+     }
+    function getFe(fr){
+             var f=new Date()
+           var v=Date.parse(fr);
+           f.setTime(v);
+           var fe=f.getMonth()+"-"+f.getDate()+"-"+f.getFullYear();
+           var t=f.getHours()+":"+f.getMinutes();
+         return {fecha:fe,tiempo:t};
+
+
+}
+function openScaner(){
+     var b=reader.children;
+     var bt=b[2].children[0].children[0].children[0].children[0].children[0];
+//     alert(bt.innerHTML);
+   bt.click();
+
+}
+function closeScaner(){
+     var b=reader.children;
+     var bt=b[2].children[0].children[0].children[0].children[0].children[0];
+  //   alert(bt.innerHTML);
+   bt.click();
+
+}
+function orderParts(){
+
+    if(confirm(" 'Ok' to Select it from the search bar...")){
+      order=true;
+      bor.style.display="block"
+    }
+    else   bor.style.display="none"
+
+}
+function addToBasquet(){
+
+    var o = {
+                   "job": jn.value,
+                   "pn": pno.value.toUpperCase(),
+                   "des": de.value.toUpperCase(),
+                   "qty": qt.value * 1,
+                   "qtyObs": obs.value * 1,
+                   "move": tmove.value,
+                   "kw": kw.value.toUpperCase(),
+                   "clase": cla.value,
+                   "mec": mecanico,
+                   "location": loc.value,
+                   "note": no.value,
+                   "created": new Date().toString()
+               };
+               if(pno.value==="" || jn.value==="" || qt.value===0){
+                   alert("Not job number, part number or quatity")
+               }
+               else{
+                o.pulled=new Date().toString();
+               basket.parts.push(o);
+             ibas.innerHTML=basket.parts.length;
+               
+               localStorage.setItem("basquet",JSON.stringify(basket))
+               dor.style.display = 'none';
+        
+            }
+
+}
+function sendBasket(ar){
+    var arb=[];
+    var is=0;
+    GetJ(linkme,function(obj){
+             for(var ii=0;ii<ar.length;ii++){  
+        var ps=[];
+      for(var is=0;i<obj.parts.length;i++){
+           if(obj.parts[is].pn===ar[ii].pn && obj.parts[is].job===ar[ii].job) ps.push(obj.parts[is])
+        }
+      if(ps.length>0){
+          var sc="";
+          for(var i=0;i<ps.length;i++){
+                 sc+="Job No.: "+ps[i].job+"\nP/N: "+ps[i].pn+"\nDesc: "+ps[i].des+"\nQty: "+ps[i].qty+"\nPulled by: "+ps[i].mec+"\n......................\n"
+          }
+        if(confirm("--This is what I found for this Job :\n"+sc+"Do you still want to pull it?")){
+            arb.push(ar[ii])
+       
+        }
+        is++;
+        }
+        else{
+            arb.push(ar[ii]) 
+
+        }}
+
+    //    alert(JSON.stringify(ar))
+        alert("concatenar aqui y mandar")
+         })     
+        
+}
+
+function openBask(){
+
+dkit.style.display="block";
+btnsbask.style.display="block";
+btnskit.style.display="none";
+btnsjob.style.display="none"
+while (areak.firstChild) {
+        areak.removeChild(areak.firstChild);
+        }
+        var o=basket;
+
+for(var ii=0;ii<o.parts.length;ii++){
+            var d=document.createElement("div");
+            d.id="k"+o.parts[ii].pn;
+            d.value=ii;
+            d.name=o.parts[ii];
+            var b=document.createElement("button");
+           // b.name=
+
+              d.setAttribute("class","ckk");
+                d.innerHTML="<input type='number' class='cpp' value='"+o.parts[ii].qty+"'></input> <br>P/N: "+o.parts[ii].pn+"<br>Desc: "+
+                o.parts[ii].des+"<br>Job No. "+o.parts[ii].job+
+                "<br>Note: <input class='' value='"+o.parts[ii].note+"'></input>"+
+             "<br><button id='bd' class='cbk'  onclick='delp(this)'>Delete</button>";//+
+ 
+             areak.appendChild(d)
+         }
+
+         titulo.innerHTML="BASKET";
+
+
+}
+function updBasket(){
+    var o=areak.children;
+    
+    for(var i=0;i<basket.parts.length;i++){
+        var e=o[i].getElementsByTagName("input");  
+        basket.parts[i].qty=e[0].value;
+        basket.parts[i].note=e[1].value;
+     }
+    localStorage.setItem("basquet",JSON.stringify(basket));
+    alert("Basket has been updated...")
+  
+}
+function updp(e){
+      var i=e.parentElement.value;
+      var q=e.parentElement.children[0].value;
+     // alert(q);
+      var p=e.parentElement.name;
+      p.qty=q;
+      basket.parts[i]=p;
+      alert("Part "+p.pn+" has been updated");
+      //do dthe update....
+}
+function delp(e){
+    var i=e.parentElement.value;
+    basket.parts.splice(i,1);
+    openBask();
+    ibas.innerHTML=basket.parts.length;
+
+
+}
+
+
+function swba(){
+    if(basket.parts.length>0){
+     if(confirm("You have "+basket.parts.length+" parts in basket, do you wanto to send them to Clipboard?")){
+     // alert("ready to send...")
+GetJ(linkme,function (obj){
+       var pa=obj.parts;
+            var pb=basket.parts;
+            var ptob=[]
+       for(var i=0;i<pb.length;i++){
+        
+              var pf=[],tt;   
+        for(var ii=0;ii<pa.length;ii++){
+        if(pb[i].pn===pa[ii].pn && pb[i].job===pa[ii].job){
+             pf.push(pa[ii]);
+             tt+="Pn"
+             tt+="Job No.: "+pa[ii].job+"\nP/N: "+pa[ii].pn+"\nDesc: "+pa[ii].des+"\nQty: "+pa[ii].qty+"\nPulled by: "+pa[ii].mec+"\n......................\n"
+   
+            }
+ }
+      if(pf.length>0){
+        if(confirm("This is what I found: \n\n"+tt+"\n\n Do you want to add it anyways?")){
+           ptob.push(pb[i])
+        }
+
+       }
+       else  ptob.push(pb[i])
+        }
+           pa=pa.concat(ptob);
+         obj.parts=pa;
+ 
+  
+       UpdateJ(linkme,obj,function(){
+         alert("Items send to Clipboard...");
+             basket.parts.length=0; 
+           localStorage.setItem("basquet",JSON.stringify(basket))
+           ibas.innerHTML="0";
+           window.location.reload();
+        
+        
+        })
+})
+
+    }
+}
+else alert("You don't have any item in basket jet...")
+}
+function emptyBasket(){
+    if(confirm("Are you sure?, you will lose all items in basket")){
+        basket.parts.length=0;
+        localStorage.setItem("basquet",JSON.stringify(basket));
+        ibas.innerHTML="0";
+        alert("All done");
+        dkit.style.display="none"
+    }
+
+}
+function kitaction(k){
+ 
+    if(k.value==="Create Kit"){
+        kitmode=true;
+          dor.style.display="none";
+          alert("Create kit mode is on, start selectin parts.")
+          arkitn=prompt("Type Kit Name");
+          if(arkitn===null || arkitn.length<2) return;
+
+    }
+    else kitmode=false;
+    if(k.value==="Save Kit"){
+            var obk={}
+    
+        if(arkitn!="" && arkit.length>0){
+            obk.name=arkitn;
+            obk.parts=arkit;var i=0;var fo=false;
+                 GetJ(linkkits,function(ob){
+                if(ob.kits===undefined) ob.kits=[];
+               
+                for(i=0;i<ob.kits.length;i++){
+                    if(ob.kits[i].name===arkitn){
+                        if(confirm("Kit "+arkitn+" Exist, do you want to replace it?")){
+                            ob.kits[i]=obk; 
+                            fo=true;
+                            i=ob.kits.length+2;
+                           
+                        }
+                    }
+                }
+                if(!fo) ob.kits.push(obk);
+                UpdateJ(linkkits,ob,function(){alert("Kit "+obk.name+ " Saved..."); arkit=[];arkitn="";window.location.reload();})
+
+            })
+        }
+  
+    }
+    while (areak.firstChild) {
+        areak.removeChild(areak.firstChild);
+        }
+
+   for(var i=0;i<KITS.length;i++){
+        // alert(KITS[i].name+"\n"+k.value);
+         if(KITS[i].name===k.value){
+             var o=KITS[i];
+            // alert("eso es todo\n\n"+JSON.stringify(KITS[i]));
+            titulo.innerHTML=k.value;
+            dkit.name=o;
+            for(var ii=0;ii<o.parts.length;ii++){
+            var d=document.createElement("div");
+            d.id="k"+o.parts[ii].pn;
+            d.value=ii;
+            d.name=o.parts[ii];//JSON.stringify(o);
+           var sp=JSON.stringify(o.parts[ii])
+              d.setAttribute("class","ckk");
+                d.innerHTML="<input type='number' class='cpp' value='"+o.parts[ii].qty+"'></input><br>P/N: "+o.parts[ii].pn+"<br>Desc: "+o.parts[ii].des+
+                "<br>Note: <input class='' value='"+o.parts[ii].note+"'></input>"+
+             "<br><button id='bd' class='cbk'  onclick='delpkit(this);'>Delete</button>";//+
+         
+             //    "<button id='bu' class='cbk' onclick='updatekit(this);'>Update Kit</button>";//  name="+sp+"  
+                areak.appendChild(d)
+         }
+         dkit.style.display="block";
+         btnsbask.style.display="none";
+btnskit.style.display="block";
+btnsjob.style.display="none"
+                    i=KITS.length; 
+     }
+   }
+// pcl.splice(0, pcl.length);
+    if(k.name!=""){
+        alert("ready to select kit")
+
+
+    }
+}
+function selkit(e){
+    for(var i=0;i<KITS.length;i++){
+        if(KITS[i].name===e.value){
+            if(confirm("Are you sure you want to add the whole kit "+KITS[i].name)){
+                alert("ready to add parts to basket, make sure you have set a job number")
+
+                i=KITS.length;
+            }
+        }
+    }
+
+}
+
+
+function editark(e){
+    alert(e.innerHTML)
+    alert("editar mode");
+
+  
+}
+function delKit(e){
+  
+    if(confirm("Are you sere you want to delete "+dkit.name.name+" kit")){
+       
+GetJ(linkkits,function(ob){
+    var enc=false;
+    for(var h=0;h<ob.kits.length;h++){
+        if(dkit.name.name===ob.kits[h].name){
+            //ob.kits[h]=o; 
+            if(confirm("Kit "+dkit.name.name+" found, ready to deleted, are you sure?")){
+           
+                ob.kits.splice(h,1);
+                enc=true;
+                h=ob.kits.length
+             }
+        }
+    }
+ 
+  if(enc) UpdateJ(linkkits,ob,function(){alert("Kit has been Deleted..."); window.location.reload();})
+
+}) 
+
+    }
+
+}
+
+function sendKit(e){
+  //  alert(dkit.name.parts)
+    var pa=dkit.name.parts;
+    var j=sjobs2.value;
+    if(sjobs2.value==="Select a Job"){
+        j=prompt("Job hasn't been selected, press 'cancel' to go back and select it or type a new job name");
+        if(j===null) return;
+
+    }
+for(var i=0;i<pa.length;i++){
+
+var o=JSON.parse(JSON.stringify(pa[i]));
+o.job=j;
+o.move="pull";
+o.mec=mecanico;
+o.pulled=new Date().toString();
+
+
+     basket.parts.push(o);//pa[i])
+      ibas.innerHTML=basket.parts.length;
+      localStorage.setItem("basquet",JSON.stringify(basket))
+  }
+dkit.style.display="none"
+
+}
+function delpkit(e){
+
+var o=JSON.parse(e.parentElement.name);
+    var i=e.parentElement.value;
+    o.parts.splice(i, 1);
+
+    GetJ(linkkits,function(ob){
+    for(var h=0;h<ob.kits.length;h++){
+        if(o.name===ob.kits[h].name){
+            ob.kits[h]=o;
+        }
+    }
+ //   alert(JSON.stringify(ob));
+    UpdateJ(linkkits,ob,function(){alert("Kit has been updated..."); window.location.reload();})
+
+})
+
+
+
+}
+
+function updatekit(e){
+ var els=areak.children;
+var c=false;
+for(var i=0;i<els.length;i++){
+    var p=els[i].name;
+    
+    var ip=els[i].getElementsByTagName("input");
+        if(p.qty!=ip[0].value || p.note!=ip[1].value){
+            p.qty=ip[0].value   
+    p.note=ip[1].value;
+ 
+}
+
+}
+
+
+GetJ(linkkits,function(ob){
+    var o=dkit.name;
+    for(var h=0;h<ob.kits.length;h++){
+        if(o.name===ob.kits[h].name){
+            ob.kits[h]=o;
+        }
+    }
+   
+    UpdateJ(linkkits,ob,function(){alert("Kit has been updated..."); window.location.reload();})
+
+});
+
+}
+function addParts(){
+ kitmode=true;
+ arkitn=dkit.name.name;
+ arkit=dkit.name.parts;
+ 
+   // kit
+    alert("Ready to Select parts, once you finish selecting extra parts select 'Save Kit' option ");
+    dkit.style.display="none"
+}
+
+function loadJob(j){
+    var ar=[];
+    if(j==="Select a Job") alert("No Job selected");
+    else{
+              titulo.innerHTML=j;
+              dkit.style.display="block";
+              dkit.name=j;
+btnsbask.style.display="none";
+btnskit.style.display="none";
+btnsjob.style.display="block"
+            while (areak.firstChild) { areak.removeChild(areak.firstChild);}
+            
+        GetJ(linkme,function(ob){
+            var pa=ob.parts;
+            for(var i=0;i<pa.length;i++){
+                if(pa[i].job===j){
+                     ar.push(pa[i])
+                     var d=document.createElement("div");
+           // d.id="k"+o.parts[ii].pn;
+            d.value=i;
+            d.name=pa[i];
+          
+              d.setAttribute("class","ckk");
+                d.innerHTML="<input type='number' class='cpp' value='"+pa[i].qty+"'></input><br>P/N: "+pa[i].pn+"<br>Desc: "+pa[i].des+"<br>Job No. "+pa[i].job+
+                "<br>Note: <input class='' value='"+pa[i].note+"'></input>"+
+             "<br><button id='bd' class='cbk'  onclick='delpj(this)'>Delete</button>";//+
+            
+                areak.appendChild(d);  
+// "<button id='bu' class='cbk' onclick='updpj(this)'>Update Part</button>";//  name="+sp+"  
+
+            }
+            }
+            
+
+        });
+
+    }
+}
+function delpj(e){
+    alert("delete "+e.parentElement.name.pn)
+
+}
+function updpj(e){
+   if(!confirm("Are you sure you want to modify Job?")) return;
+     var els=areak.children;
+  
+    GetJ(linkme,function(ob){
+        var ps=ob.parts; 
+         for(var h=0;h<els.length;h++){
+             var ph=els[h].name;
+        for(var i=0;i<ps.length;i++){
+            var pa=ps[i]; //  alert("found \n\n"+JSON.stringify(pa)+"\n\n"+JSON.stringify(ph));
+            if(pa.pulled!=undefined && ph.pulled!=undefined){
+            if(pa.pulled===ph.pulled && pa.pn===ph.pn && pa.job===ph.job){
+              //  alert("found \n\n"+JSON.stringify(pa)+"\n\n"+JSON.stringify(ph));
+                var ips=els[h].getElementsByTagName("input")
+                if(ips[0].value===0){//cero
+                    var n=prompt("The quantity must be 1 or more, please type a number");
+                    if(isNaN(n)) return;
+                    else ips[0].value=n;
+                    
+                    }
+                pa.qty=ips[0].value;
+                pa.note=ips[1].value;
+              //  alert("Despues \n\n"+JSON.stringify(pa)+"\n\n"+JSON.stringify(ph));
+                
+            }
+          }
+        //  else{ alert("Job can't be updated...");return}
+        }
+}
+UpdateJ(linkme,ob,function(){alert("Job has been updated...");window.location.reload();})
+    })
+}
+function delJob(){
+    if(confirm("Are you sure you want to delete "+titulo.innerHTML+" permanentely?")){
+    while (areak.firstChild) { areak.removeChild(areak.firstChild);}
+    GetJ(linkj,function(obj){       
+            GetJ(linkme,function(ob){
+                var pa=ob.parts;
+              
+                for(var i=0;i<pa.length;i++){
+                    if(pa[i].job===titulo.innerHTML){
+                       // alert(JSON.stringify(ob.parts[i]))
+                        ob.parts.splice(i,1);
+                        i--;
+                 }
+                }
+        
+             if(confirm("Job Found, proceed to Delete "+titulo.innerHTML+" ?"))   UpdateJ(linkme,ob,function(){
+                 var en=false;
+                   for(var j=0;j<obj.jobs.length;j++){
+                    if(obj.jobs[j].job===titulo.innerHTML) {
+                    obj.jobs.splice(j,1);
+                            j=obj.jobs.length;
+                            en=true
+                    }
+
+
+                  }
+                  if(en) UpdateJ(linkj,obj,function(){ 
+ alert("Job "+titulo.innerHTML+"  Deleted...");window.location.reload()
+
+      
+                  })
+             })
+            });
+    });
+            }
+}
+
+function closedlg(e){
+   // update todo
+
+var els=areak.children;
+
+for(var i=0;i<els.length;i++){
+    var p=els[i].name;
+    var c=false;
+    var ip=els[i].getElementsByTagName("input");
+        if(p.qty!=ip[0].value || p.note!=ip[1].value){
+      c=true;
+    if(confirm("Changes has been detected, Exit without saving changes?")) {
+        dkit.style.display="none";
+        i=els.length;
+
+    }
+    else i=els.length;
+}
+
+}
+ if(!c) dkit.style.display="none";
+
+/*
+
+
+var pa=dkit.name.parts;
+
+var els=areak.children;
+var c=false;
+for(var i=0;i<els.length;i++){
+    var p=els[i].name;
+    var ip=els[i].getElementsByTagName("input");
+        if(p.qty!=ip[0].value || p.note!=ip[1].value){
+         //   p.qty=ip[0].value   
+    //p.note=ip[1].value;
+    c=true;
+    if(confirm("Changes has been detected, do you want to close dialoge without save changes?")) i=els.length;
+    else return;
+  //  alert(JSON.stringify(p))
+}
+
+}
+ dkit.style.display="none";
+ */
+}
+
+</script>
+</html>
