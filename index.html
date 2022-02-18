@@ -1382,23 +1382,15 @@ btnsjob.style.display="block"
 }
 
 function delpj(e){
-//GetJ(linkj,function(ob){
-  ///  alert(dkit.name)
-  //  var ob=dkit.name;
-  //  aj=ob.jobs;
- // alert(JSON.stringify(e.parentElement.name))
-  pa=e.parentElement.name;alert(pa);
+  pa=e.parentElement.name;
  var  ejo=dkit.name
    var ej=ejo.parts;
         for(var i=0;i<ej.length;i++){
-          //  alert(JSON.stringify(pa)+"\n\n"+JSON.stringify(ej[i]))
-            if(JSON.stringify(pa)===JSON.stringify(ej[i])){
-             //   alert("ok")
-              ejo.parts.splice(i,1)
+              if(JSON.stringify(pa)===JSON.stringify(ej[i])){
+                ejo.parts.splice(i,1)
                         i=ej.length;
-                         alert(ej.job+" found");
-                        // alert("Aqui se hace el update....")
-                         e.parentElement.removeChild(e);
+                         alert(ej.job+" deleted locally, don't forget to press update to make changes...");
+                                           e.parentElement.parentElement.removeChild( e.parentElement);
                      
                     }
 
