@@ -18,6 +18,9 @@
         bottom: 2%;
         right: 1%;
     }
+    input{
+        margin:5px;
+    }
     button {
      //   width: 100px;
      //   height: 100px;
@@ -96,6 +99,18 @@
         display: block;
         background: white;
        box-shadow: -4px 4px 10px 1px rgba(0, 0, 0, .51);
+       overflow: auto;
+    }
+    .ctp {
+        width: 90%;
+        margin: 5%;
+        border: solid;
+        font-size: 14px;
+        display: block;
+        background: rgb(66, 6, 231);
+       box-shadow: -4px 4px 10px 1px rgba(0, 0, 0, .51);
+       overflow: auto;
+       color:white;
     }
     #dinv {
         width: 96%;
@@ -219,6 +234,18 @@
        margin:5px;
        font-size: 18px;
    }
+   #editp{
+       border-style: solid;;
+       background:white;
+       color:black;
+       display:none;
+   }
+   .uci{
+      display:none;
+       background-color: #f00;;
+       font-size: 10px;;
+       color: white;
+   }
 </style>
 <div id="todo">
     <button id="ibas" onclick="openBask()" ></button>
@@ -233,7 +260,7 @@
 
 <br><span id="hi">-- Search/Manually...</span></span><br>
 <textarea id="tfil" oninput="search(this.value)" placeholder="Type Key Word..."></textarea><br><br>
-
+<div><button id="um" class="uci" onclick="updIn(linkp,invMaster,'Main')">Update Main Inventory</button><button id="umi" class="uci" onclick="updIn(linkm,invMisc,'Misc')">Update Misc Inventory</button><button id="uo" class="uci" onclick="updIn(linko,invOther,'Other')">Update Other Inventory</button></div><br>
 <select id="sjobs2"oninput="jn.value=this.value"><option>Select a Job</option></select>.....<button onclick="loadJob(sjobs2.value)">Load Job</button>.....
 <button onclick="openClip()">Load Clipboard</button>.....<br><br>
    <select id="kits" this.name="" oninput="kitaction(this)" value="Select A Kit">
@@ -320,6 +347,14 @@
     <div id="areak"></div>
     <button class="ck" onclick="closedlg()">Close</button>
 </div>
+<div id="editp">
+    Key Word: <input id="ekw" oninput=""></input><br>
+    Location: <input id="eloc" oninput=""></input><br>
+    Note: <input id="eno" oninput=""></input><br>
+
+    <button onclick="updteInv(this.parentElement)">Update Part</button>
+    
+</div>
 <script>
 
  var arkit=[], arkitn="", obkit={}, KITS=[];
@@ -352,28 +387,99 @@ else{
     linkord='https://jsonblob.com/api/898641969950244864'; //orders
     linkusc='https://jsonblob.com/api/900759490673262592';//use
     linkj = "https://jsonblob.com/api/915690066303795200"//jobs
-    linkkits = "https://jsonblob.com/api/940340323222306816"//jobs
+   // linkj = "https://jsonblob.com/api/942872959580913664"//jobs942872959580913664 
+    linkkits = "https://jsonblob.com/api/940340323222306816"//kits
   
     var Parts = [],
         Psel = [],
-        partsClip = [];
+        partsClip = [],upMain=0,upMisc=0,upOther=0;
 
  //   localStorage.removeItem("mec")
  var ObClipboard={}
     var mecanico = "";
 var Trabajos=[];
-    GetJ(linkj,function(obj){
+GetJ(linkj,function(obj){
+    Trabajos=obj.jobs;
+    var s=sjobs.innerHTML;
+    for(var i=0;i<obj.jobs.length;i++){
+        s+="<option>"+obj.jobs[i].job+"</option>";
+    }
+    sjobs.innerHTML=s;
+   sjobs2.innerHTML=s;
+});
+ /*
+GetJ(linkp,function(obj){
+   
+    obj.trash=[];
+    var pa=obj.parts;
+    alert(pa.length)
+    for(var j=0;j<pa.length;j++){
+        if(pa[j].clase!="inv") {
+            obj.trash.push(pa[j]);
+            pa.splice(j,1);
+            j--;
+
+
+        }
+
+    }
+  // alert(pa.length)
+   // alert(obj.trash.length);
+    //alert(JSON.stringify(obj));
+   // alert("stop")
+  setTimeout(function(){  UpdateJ(linkp,obj,function(){alert("done...")})},13000)
+});
+
+
+
+   GetJ(linkj,function(obj){
+        GetJ(linkme,function(ob){   
+            var pa=ob.parts;
         var so = JSON.stringify(obj);
         var arj=obj.jobs,s=sjobs.innerHTML;
                 for (var i = 0; i < arj.length; i++) {
                     s+="<option>"+arj[i].job+"</option>";
+
+
                  }
                         sjobs.innerHTML=s;
                         sjobs2.innerHTML=s;
+                 for(var j=0;j<obj.jobs.length;j++){
+                        for(var i=0;i<pa.length;i++){
+                            // alert(obj.jobs[j].job+"\n\n"+pa[i].job)
+                            if(pa[i].job===obj.jobs[j].job){
+                                pa[i].job=undefined;
+
+                                if(obj.jobs[j].parts===undefined)obj.jobs[j].parts=[];
+                                obj.jobs[j].parts.push(pa[i]);
+                               
+
+                         }
+
+                         
+                        }
+            
+                        }
+                        alert(JSON.stringify(obj))
+                  //    UpdateJ(linkj,obj,function(){alert("all done.....")})
      
     })
+    })
+*/
+  
 
-          GetJ(linkj, function(obj) {
+/*          GetJ(linkj, function(obj) {
+
+            for(var i=0;i<obj.jobs.length;i++){
+
+
+
+
+            }
+
+
+
+
 GetJ(linkme,function(ob){
                var pa = ob.parts;
                 //   alert(JSON.stringify(ob))\
@@ -410,8 +516,8 @@ GetJ(linkme,function(ob){
                 }
                 });
 })
-/**/
 
+*/
 
 
 
@@ -515,19 +621,23 @@ GetJ(linkme,function(ob){
 
     }
     //  setupinventario();
-
+var invMaster={},invMisc={},invOther={}
     function getInventories() {
 
         GetJ(linkp, function(obp) {
+                  invMaster=JSON.parse(JSON.stringify(obp));//alert(invMaster.parts.length)
             Parts = obp.parts;
+      
    
             GetJ(linkm, function(obm) {
+                invMisc=JSON.parse(JSON.stringify(obm));//alert(invMisc.parts.length)
                 for (var i = 0; i < obm.parts.length; i++) {
                  
                     Parts.push(obm.parts[i])
                 }
 
                 GetJ(linko, function(obo) {
+                    invOther=JSON.parse(JSON.stringify(obo));//alert(invOther.parts.length)
                     for (var ia = 0; ia < obo.parts.length; ia++) {
                         Parts.push(obo.parts[ia])
                     }
@@ -749,26 +859,73 @@ GetJ(linkme,function(ob){
         }
 
     }
-
-
     function filter(pa) {
 
-        while (dinv.firstChild) { dinv.removeChild(dinv.firstChild);}
-        for (var i = 0; i < pa.length; i++) {
-            var p = document.createElement("p");
-            p.setAttribute("class", "ctt");
-            p.style.display = "block";
-            p.style.background = "white";
-            p.setAttribute("onclick", "sel(this);");
-            p.name = pa[i];
-            p.id = pa[i].pn;
-            p.innerHTML = "P/N: " + pa[i].pn + ", Desc.: " + pa[i].des+", From: "+pa[i].clase;
-            dinv.appendChild(p); // fil.appendChild(p)
-        }
-        dinv.appendChild(document.createElement("p")); 
+while (dinv.firstChild) { dinv.removeChild(dinv.firstChild);}
+for (var i = 0; i < pa.length; i++) {
+    bo=document.createElement("button");
+    var d=document.createElement("div");
+    var p = document.createElement("p");
+    d.setAttribute("class", "ctt");
+    p.setAttribute("class", "ctp");
+    d.style.display = "block";
+    d.style.background = "white";
+  
+    bo.innerHTML="Edit";//bo.onclick="updteInv(this.parentElement.name)";
 
-        //  UpdateJ(link,obj,function(){alert('updated...')})
+  bo.setAttribute("onclick", "editarP(this.parentElement)");
+    d.appendChild(bo)
+
+    d.name = pa[i];
+    d.id = pa[i].pn;
+    p.innerHTML = "P/N: " + pa[i].pn + ", Desc.: " + pa[i].des+", From: "+pa[i].clase;
+       p.setAttribute("onclick", "sel(this.parentElement);");
+ 
+   d.appendChild(p);//+
+  //  d.innerHTML+="Keyword: <input value='"+pa[i].kw+"''></input><br>Location: <input value='"+pa[i].location+"'></input><br>note: <input value='"+pa[i].note+"'></input><br>";
+    dinv.appendChild(d); // fil.appendChild(p)
+  
+    
+}
+dinv.appendChild(document.createElement("p")); 
     }
+
+//  UpdateJ(l
+    function filter3(pa) {
+
+while (dinv.firstChild) { dinv.removeChild(dinv.firstChild);}
+for (var i = 0; i < pa.length; i++) {
+
+    var d=document.createElement("div");
+    var p = document.createElement("p");
+    d.setAttribute("class", "ctp");
+    d.style.display = "block";
+    d.style.background = "white";
+    
+    d.name = pa[i];
+    d.id = pa[i].pn;
+    p.innerHTML = "P/N: " + pa[i].pn + ", Desc.: " + pa[i].des+", From: "+pa[i].clase;
+    bo1=document.createElement("button");
+    bo1.innerHTML="SELECT PART";bo1.onclick="alert(this.parentElement.name.pn)";
+    bo1.setAttribute("onclick", "sel(this.parentElement);");
+    d.appendChild(bo1)
+
+    d.appendChild(p);//+
+    d.innerHTML+="Keyword: <input value='"+pa[i].kw+"''></input><br>Location: <input value='"+pa[i].location+"'></input><br>note: <input value='"+pa[i].note+"'></input><br>";
+    dinv.appendChild(d); // fil.appendChild(p)
+    bo=document.createElement("button");
+    bo.innerHTML="Update Part In Inventory";//bo.onclick="updteInv(this.parentElement.name)";
+
+  bo.setAttribute("onclick", "updteInv(this.parentElement)");
+  //  d.appendChild(bo)
+
+    
+}
+dinv.appendChild(document.createElement("p")); 
+
+//  UpdateJ(link,obj,function(){alert('updated...')})
+}
+  
    function sel2(e){
     if(!kitmode){
        dor.style.display='block';
@@ -873,7 +1030,9 @@ e.style.background = "#0f0";
                     e.style.background = "#0f0";
                     i = Parts.length + 2;
                     qt.value=prompt("Qty?")*1;;
-                    if(isNaN(qt.value)) return;
+                    alert(qt.value)
+                    if(isNaN(qt.value) || qt.value===0) return;
+                    
                     pno.value = e.name.pn.toUpperCase();
                     de.value = e.name.des.toUpperCase();
                     kw.value= e.name.kw;
@@ -1142,6 +1301,100 @@ function swba(){
     if(basket.parts.length>0){
      if(confirm("You have "+basket.parts.length+" parts in basket, do you wanto to send them to Clipboard?")){
      // alert("ready to send...")
+GetJ(linkj,function (obj){
+       var js=obj.jobs;
+
+            var pb=basket.parts;
+            for(var b=0;b<pb.length;b++){
+                var enc=undefined;
+            for(var i=0;i<js.length;i++){
+                enc=pb[b];
+                if(js[i].parts===undefined) js[i].parts=[];
+                  if(js[i].job===pb[b].job){
+                       js[i].parts.push(pb[b]);
+                       enc=undefined;
+                       i=js.length+1;
+                  }
+             }
+             if(enc!=undefined){
+                 var o={};
+                 o.job=enc.job;
+                 o.status="Active"
+                 o.moves="";
+                 o.prts=[];
+                 o.parts.push(enc);
+             }
+}
+    UpdateJ(linkj,obj,function(){
+         alert("Items send to Clipboard...");
+             basket.parts.length=0; 
+           localStorage.setItem("basquet",JSON.stringify(basket))
+           ibas.innerHTML="0";
+           window.location.reload();})
+
+})
+
+
+/*
+
+
+
+
+            /////////////////////////////////////////////
+            var ptob=[]
+       for(var i=0;i<pb.length;i++){
+        
+              var pf=[],tt;   
+        for(var ii=0;ii<pa.length;ii++){
+        if(pb[i].pn===pa[ii].pn && pb[i].job===pa[ii].job){
+             pf.push(pa[ii]);
+             tt+="Pn"
+             tt+="Job No.: "+pa[ii].job+"\nP/N: "+pa[ii].pn+"\nDesc: "+pa[ii].des+"\nQty: "+pa[ii].qty+"\nPulled by: "+pa[ii].mec+"\n......................\n"
+   
+            }
+ }
+      if(pf.length>0){
+        if(confirm("This is what I found: \n\n"+tt+"\n\n Do you want to add it anyways?")){
+           ptob.push(pb[i])
+        }
+
+       }
+       else  ptob.push(pb[i])
+        }
+           pa=pa.concat(ptob);
+         obj.parts=pa;
+ 
+  
+       UpdateJ(linkme,obj,function(){
+         alert("Items send to Clipboard...");
+             basket.parts.length=0; 
+           localStorage.setItem("basquet",JSON.stringify(basket))
+           ibas.innerHTML="0";
+           window.location.reload();
+        
+        
+        })
+})
+*/
+    }
+}
+else alert("You don't have any item in basket jet...")
+}
+function emptyBasket(){
+    if(confirm("Are you sure?, you will lose all items in basket")){
+        basket.parts.length=0;
+        localStorage.setItem("basquet",JSON.stringify(basket));
+        ibas.innerHTML="0";
+        alert("All done");
+        dkit.style.display="none"
+    }
+
+}
+
+function swba2(){
+    if(basket.parts.length>0){
+     if(confirm("You have "+basket.parts.length+" parts in basket, do you wanto to send them to Clipboard?")){
+     // alert("ready to send...")
 GetJ(linkme,function (obj){
        var pa=obj.parts;
             var pb=basket.parts;
@@ -1333,7 +1586,6 @@ o.move="pull";
 o.mec=mecanico;
 o.pulled=new Date().toString();
 
-
      basket.parts.push(o);//pa[i])
       ibas.innerHTML=basket.parts.length;
       localStorage.setItem("basquet",JSON.stringify(basket))
@@ -1407,6 +1659,51 @@ function loadJob(j){
     else{
               titulo.innerHTML=j;
               dkit.style.display="block";
+            
+btnsbask.style.display="none";
+btnskit.style.display="none";
+btnsjob.style.display="block"
+            while (areak.firstChild) { areak.removeChild(areak.firstChild);}
+            
+        GetJ(linkj,function(ob){
+            var jobs=ob.jobs;
+            for(var h=0;h<jobs.length;h++){
+             if(jobs[h].job===j){ 
+               
+                 var pa=jobs[h].parts;
+                 for(var i=0;i<pa.length;i++){
+                      ar.push(pa[i])
+                     var d=document.createElement("div");
+           // d.id="k"+o.parts[ii].pn;
+            d.value=i;
+            d.name=pa[i];
+          
+              d.setAttribute("class","ckk");
+                d.innerHTML="<input type='number' class='cpp' value='"+pa[i].qty+"'></input><br>P/N: "+pa[i].pn+"<br>Desc: "+pa[i].des+"<br>Job No. "+pa[i].job+
+                "<br>Note: <input class='' value='"+pa[i].note+"'></input>"+
+             "<br><button id='bd' class='cbk'  onclick='delpj(this)'>Delete</button>";//+
+            
+                areak.appendChild(d);  
+// "<button id='bu' class='cbk' onclick='updpj(this)'>Update Part</button>";//  name="+sp+"  
+ }
+ dkit.name=jobs[h];
+
+        h=jobs.length;
+            }
+            }
+            
+
+        });
+
+    }
+}
+
+function loadJob2(j){
+    var ar=[];
+    if(j==="Select a Job") alert("No Job selected");
+    else{
+              titulo.innerHTML=j;
+              dkit.style.display="block";
               dkit.name=j;
 btnsbask.style.display="none";
 btnskit.style.display="none";
@@ -1440,10 +1737,43 @@ btnsjob.style.display="block"
     }
 }
 function delpj(e){
-    alert("delete "+e.parentElement.name.pn)
 
 }
-function updpj(e){
+function updpj(e){ 
+  //     alert("delete "+e.parentElement.name.pn);
+    alert(dkit.name.job);
+    alert(titulo.innerHTML)
+
+   if(!confirm("Are you sure you want to modify Job?....................................")) return;
+     var els=areak.children;
+     var job=dkit.name;
+     for(var i=0;i<els.length;i++){
+        var ips=els[i].getElementsByTagName("input")
+                if(ips[0].value===0){//cero
+                    var n=prompt("The quantity must be 1 or more, please type a number");
+                    if(isNaN(n) || n===0) return;
+                    else ips[0].value=n;
+                      }
+            job.parts[i].qty=ips[0].value;
+           job.parts[i].note=ips[1].value;
+     }
+     alert(JSON.stringify(job));
+     GetJ(linkj,function(obj){;
+     for(var i=0;i<obj.jobs.length;i++){
+        if(obj.jobs[i].job===job.job){
+            obj.jobs[i]=job;
+         UpdateJ(linkj,obj,function(){alert("Job "+job.name+" has been Updated...");window.location.reload()})
+            i=obj.jobs.length;
+
+        }
+     }
+ 
+
+   
+    
+  })
+}
+function updpj2(e){
    if(!confirm("Are you sure you want to modify Job?")) return;
      var els=areak.children;
   
@@ -1476,6 +1806,34 @@ UpdateJ(linkme,ob,function(){alert("Job has been updated...");window.location.re
     })
 }
 function delJob(){
+  //  alert(dkit.name.job)
+    if(confirm("Are you sure you want to delete "+titulo.innerHTML+" permanentely?")){
+    while (areak.firstChild) { areak.removeChild(areak.firstChild);}
+    GetJ(linkj,function(obj){       
+         
+             if(confirm("Job Found, proceed to Delete "+titulo.innerHTML+" ?"))
+                        var en=false;
+                   for(var j=0;j<obj.jobs.length;j++){
+                    if(obj.jobs[j].job===titulo.innerHTML) {
+                        alert(obj.jobs.length);
+                    obj.jobs.splice(j,1);
+                            j=obj.jobs.length;
+                            en=true
+                    }
+
+
+                  }
+  //                if(en) UpdateJ(linkj,obj,function(){ 
+ //alert("Job "+titulo.innerHTML+"  Deleted...");window.location.reload()
+alert(obj.jobs.length)
+      
+                  })
+  //   });
+            }
+}
+
+
+function delJob2(){
     if(confirm("Are you sure you want to delete "+titulo.innerHTML+" permanentely?")){
     while (areak.firstChild) { areak.removeChild(areak.firstChild);}
     GetJ(linkj,function(obj){       
@@ -1511,6 +1869,7 @@ function delJob(){
     });
             }
 }
+
 
 function closedlg(e){
    // update todo
@@ -1557,6 +1916,103 @@ for(var i=0;i<els.length;i++){
  dkit.style.display="none";
  */
 }
+function updteInv(e){
+      var p=e.parentElement.name;
+     var so=JSON.stringify(p)
+  //   alert(so)
+      if(p.clase==="inv"){
+        for(var i=0;i<invMaster.parts.length;i++){
+            var ip=invMaster.parts[i];
+                    sp=JSON.stringify(ip);
+            if(sp===so){
+                if(confirm("Are you sure you wanto to modify "+ip.pn+" in Main inventory?")){
+                    var k=e.getElementsByTagName("input");
+                    p.kw=k[0].value;
+                    p.location=k[1].value;
+                    p.note=k[2].value;
+                   invMaster.parts[i]=p; 
+                    upMain++;
+                 //   alert("Local inventory updated, remember to update inventory before exit to se changes");
+                   um.innerHTML="Update 'Main' Inventory<br>"+upMain+" Parts Modified";
+                   um.style.display="block"
+   
+                }
+                i<invMaster.parts.length
+            }
+
+        }
+
+    }
+    if(p.clase==="misc"){
+        for(var i=0;i<invMisc.parts.length;i++){
+            var ip=invMisc.parts[i];
+                    sp=JSON.stringify(ip);
+                 //   alert(sp+"\n\n"+so)
+            if(sp===so){
+                if(confirm("Are you sure you wanto to modify "+ip.pn+" in Misc inventory?")){
+                    var k=e.getElementsByTagName("input");
+                    p.kw=k[0].value;
+                    p.location=k[1].value;
+                    p.note=k[2].value;
+                   invMisc.parts[i]=p; 
+                    upMisc++;
+                   // alert("Local inventory updated, remember to update inventory before exit to se changes")
+                    umi.innerHTML="Update 'Misc' Inventory<br>"+upMisc+" Parts Modified";
+                    umi.style.display="block"
+                }
+                 i=invMisc.parts.length;    alert(invMaster.parts.length)
+            }
+       
+        }
+    }
+    if(p.clase==="other"){
+        for(var i=0;i<invOther.parts.length;i++){
+            var ip=invOther.parts[i];
+                    sp=JSON.stringify(ip);
+            if(sp===so){
+                if(confirm("Are you sure you wanto to modify "+ip.pn+" in Other inventory?")){
+                    var k=e.getElementsByTagName("input");
+                    p.kw=k[0].value;
+                    p.location=k[1].value;
+                    p.note=k[2].value;
+                   invOther.parts[i]=p; 
+                    upOther++;
+                  //  alert("Local inventory updated, remember to update inventory before exit to se changes")
+                    uo.innerHTML="Update 'Other' Inventory<br>"+upOther+" Parts Modified";
+                    uo.style.display="block"
+                }
+                i=invOther.parts.length;
+            }
+
+        }
+
+    }
+}
+
+function updIn(link,obj,n){
+    //linkp=main
+                    if(confirm("Inventory: '"+obj.name+"' ready to be updated")){
+                      //  alert(invMaster.parts.length)
+                 UpdateJ(link,obj,function(){
+                       alert(obj.name+" Inventory updated...");
+                       if(obj.name==="master") {upMain=0;um.style.display="none"}
+                       if(obj.name==="miselanius") {upMisc=0;umi.style.display="none"}
+                       if(obj.name==="other"){upOther=0;uo.style.display="none"};
+                       alert("Make sure you have updated all other inventories before reloading the app")
+                      if(confirm("Are you ready to restart app??")) window.location.reload();
+   
+                      })/**/
+
+                      }
+}
+function editarP(e){
+    var o=e.name;
+     e.appendChild(editp);
+    editp.style.display="block";
+    if(o.kw!=undefined) ekw.value=o.kw;
+    if(o.location!=undefined) eloc.value=o.location;
+    if(o.note!=undefined) eno.value=o.note;
+ }
 
 </script>
 </html>
