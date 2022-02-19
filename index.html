@@ -138,6 +138,7 @@
          position: absolute;
          top:1%;
          left:5%;
+         color:white;
      }
      .cpu{
          background:rgb(48, 77, 190);
@@ -149,7 +150,8 @@
          position: absolute;
          top:1%;
          right:1%;
-         background: red;
+        color:white;;
+        background:red;
      }
      #bor{
         background: red;
@@ -244,6 +246,18 @@
       display:none;
        background-color: #f00;;
        font-size: 10px;;
+       color: white;
+   }
+   .csl{
+       position: relative;
+       right:10%;
+       background-color: #f00;;
+       color: white;
+   }
+     .csli{
+       position: relative;
+       right:-36%;
+       background-color: #f00;;
        color: white;
    }
 </style>
@@ -758,18 +772,25 @@ for (var i = 0; i < pa.length; i++) {
     p.setAttribute("class", "ctp");
     d.style.display = "block";
     d.style.background = "white";
-  
+        bl=document.createElement("button");
+     bl.setAttribute("onclick", "showLoc(this)");
+     bl.setAttribute("class","csli");
+     bl.innerHTML="Loc"
+   
     bo.innerHTML="Edit";//bo.onclick="updteInv(this.parentElement.name)";
 
   bo.setAttribute("onclick", "editarP(this.parentElement)");
     d.appendChild(bo)
-
+    d.appendChild(bl)
     d.name = pa[i];
     d.id = pa[i].pn;
+ 
     p.innerHTML = "P/N: " + pa[i].pn + ", Desc.: " + pa[i].des+", From: "+pa[i].clase;
        p.setAttribute("onclick", "sel(this.parentElement);");
- 
-   d.appendChild(p);//+
+  
+   d.appendChild(p);
+   
+ //+
   //  d.innerHTML+="Keyword: <input value='"+pa[i].kw+"''></input><br>Location: <input value='"+pa[i].location+"'></input><br>note: <input value='"+pa[i].note+"'></input><br>";
     dinv.appendChild(d); // fil.appendChild(p)
   
@@ -1021,7 +1042,8 @@ for(var ii=0;ii<o.parts.length;ii++){
            // b.name=
 
               d.setAttribute("class","ckk");
-                d.innerHTML="<input type='number' class='cpp' value='"+o.parts[ii].qty+"'></input> <br>P/N: "+o.parts[ii].pn+"<br>Desc: "+
+                d.innerHTML="<input type='number' class='cpp' value='"+o.parts[ii].qty+"'></input><button class='csl' onclick='showLoc(this)'>Loc</button>"+
+                "<br>P/N: "+o.parts[ii].pn+"<br>Desc: "+
                 o.parts[ii].des+"<br>Job No. "+o.parts[ii].job+
                 "<br>Note: <input class='' value='"+o.parts[ii].note+"'></input>"+
              "<br><button id='bd' class='cbk'  onclick='delp(this)'>Delete</button>";//+
@@ -1185,7 +1207,8 @@ function kitaction(k){
             d.name=o.parts[ii];//JSON.stringify(o);
            var sp=JSON.stringify(o.parts[ii])
               d.setAttribute("class","ckk");
-                d.innerHTML="<input type='number' class='cpp' value='"+o.parts[ii].qty+"'></input><br>P/N: "+o.parts[ii].pn+"<br>Desc: "+o.parts[ii].des+
+                d.innerHTML="<input type='number' class='cpp' value='"+o.parts[ii].qty+"'></input><button class='csl' onclick='showLoc(this)'>Loc</button>"+
+                "<br>P/N: "+o.parts[ii].pn+"<br>Desc: "+o.parts[ii].des+
                 "<br>Note: <input class='' value='"+o.parts[ii].note+"'></input>"+
              "<br><button id='bd' class='cbk'  onclick='delpkit(this);'>Delete</button>";//+
          
@@ -1362,7 +1385,8 @@ btnsjob.style.display="block"
             d.name=pa[i];
           
               d.setAttribute("class","ckk");
-                d.innerHTML="<input type='number' class='cpp' value='"+pa[i].qty+"'></input><br>P/N: "+pa[i].pn+"<br>Desc: "+pa[i].des+"<br>Job No. "+pa[i].job+
+                d.innerHTML="<input type='number' class='cpp' value='"+pa[i].qty+"'></input><button class='csl' onclick='showLoc(this)'>Loc</button>"+
+                "<br>P/N: "+pa[i].pn+"<br>Desc: "+pa[i].des+"<br>Job No. "+pa[i].job+
                 "<br>Note: <input class='' value='"+pa[i].note+"'></input>"+
              "<br><button id='bd' class='cbk'  onclick='delpj(this)'>Delete</button>";//+
             
@@ -1389,8 +1413,7 @@ function delpj(e){
               if(JSON.stringify(pa)===JSON.stringify(ej[i])){
                 ejo.parts.splice(i,1)
                         i=ej.length;
-                                              alert(pa.pn+" deleted locally, don't forget to press update to make changes...");
-  
+                         alert(pa.pn+" deleted locally, don't forget to press update to make changes...");
                                            e.parentElement.parentElement.removeChild( e.parentElement);
                      
                     }
@@ -1584,6 +1607,10 @@ function editarP(e){
     if(o.location!=undefined) eloc.value=o.location;
     if(o.note!=undefined) eno.value=o.note;
  }
+ function showLoc(e){
+     alert("Location: "+e.parentElement.name.location)
+ }
+
 
 </script>
 </html>
