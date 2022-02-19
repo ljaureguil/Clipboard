@@ -250,7 +250,7 @@
    }
    .csl{
        position: relative;
-       right:10%;
+       right:-65%;
        background-color: #f00;;
        color: white;
    }
@@ -272,8 +272,6 @@
 <div id="reader"></div><br><button onclick="creader.style.display='none';closeScaner()">Close Scanner</button>
 </div>  
 
-<br><span id="hi">-- Search/Manually...</span></span><br>
-<textarea id="tfil" oninput="search(this.value)" placeholder="Type Key Word..."></textarea><br><br>
 <div><button id="um" class="uci" onclick="updIn(linkp,invMaster,'Main')">Update Main Inventory</button><button id="umi" class="uci" onclick="updIn(linkm,invMisc,'Misc')">Update Misc Inventory</button><button id="uo" class="uci" onclick="updIn(linko,invOther,'Other')">Update Other Inventory</button></div><br>
 <select id="sjobs2"oninput="jn.value=this.value"><option>Select a Job</option></select>.....<button onclick="loadJob(sjobs2.value)">Load Job</button>.....
 <button onclick="openClip()">Load Clipboard</button>.....<br><br>
@@ -284,6 +282,10 @@
   
    <option>---------------</option>
  </select><br>
+
+ <br><span id="hi">-- Search/Manually...</span></span><br>
+ <textarea id="tfil" oninput="search(this.value)" placeholder="Type Key Word..."></textarea><br>
+
 <div id="dinv"></div>
 <div id="dparts"></div>
 
