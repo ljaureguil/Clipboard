@@ -114,7 +114,7 @@
     }
     #dinv {
         width: 96%;
-        height: 40%;
+        height: 60%;
         overflow: auto;
         border-radius: 5px;
         ;
@@ -260,6 +260,12 @@
        background-color: #f00;;
        color: white;
    }
+   #dct{
+       border-style: solid;
+   }
+select{
+    margin:5px;
+}
 </style>
 <div id="todo">
     <button id="ibas" onclick="openBask()" ></button>
@@ -271,10 +277,15 @@
 <div id="creader">
 <div id="reader"></div><br><button onclick="creader.style.display='none';closeScaner()">Close Scanner</button>
 </div>  
-
+<div id="dct">
 <div><button id="um" class="uci" onclick="updIn(linkp,invMaster,'Main')">Update Main Inventory</button><button id="umi" class="uci" onclick="updIn(linkm,invMisc,'Misc')">Update Misc Inventory</button><button id="uo" class="uci" onclick="updIn(linko,invOther,'Other')">Update Other Inventory</button></div><br>
-<select id="sjobs2"oninput="jn.value=this.value"><option>Select a Job</option></select>.....<button onclick="loadJob(sjobs2.value)">Load Job</button>.....
-<button onclick="openClip()">Load Clipboard</button>.....<br><br>
+<select id="sjobs2"oninput="jn.value=this.value">
+    <option>Select a Job</option>
+    <option>Create Job</option>
+    <option>_______________</option> 
+</select>.....
+<button onclick="loadJob(sjobs2.value)">Load Job</button>.....
+
    <select id="kits" this.name="" oninput="kitaction(this)" value="Select A Kit">
     <option>Sel Kit Action</option>
    <option>Create Kit</option>
@@ -282,7 +293,7 @@
   
    <option>---------------</option>
  </select><br>
-
+</div>
  <br><span id="hi">-- Search/Manually...</span></span><br>
  <textarea id="tfil" oninput="search(this.value)" placeholder="Type Key Word..."></textarea><br>
 
@@ -342,9 +353,13 @@
 <script src="html5-qrcode.min.js"></script>
 <div id="dkit">
     <p id="titulo">Titulo</p><br> 
+    <button class="ck" onclick="closedlg()">Close</button>
+    <button id='bu' class='ck' onclick='spreadSheet(this)'">Spread Sheet</button>
    <div id="btnsjob">
-    <button id='bu' class='ck' onclick='updpj(this)'">Update Job</button>"
+ 
     <button id="bdelkit" class="ck" onclick="delJob()">Delete Job</button>
+        <button id='bu' class='ck' onclick='updpj(this)'">Update Job</button>
+
    </div>
     <div id="btnsbask">
         <button class="cpu" onclick="emptyBasket()">Empty Basket</button>
@@ -360,8 +375,9 @@
     <button id="bdelkit" class="ck" onclick="sendKit(this)">Send To Basquet</button>
         <button class="ck" onclick=" addParts()">Add Parts</button><br><br>
 </div>
+
     <div id="areak"></div>
-    <button class="ck" onclick="closedlg()">Close</button>
+
 </div>
 <div id="editp">
     Key Word: <input id="ekw" oninput=""></input><br>
@@ -396,10 +412,10 @@ else{
     var linkcl='http://jsonblob.com/896389790531076096'; //clip demas
 
     var linkm = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb'; //miselanius
-    linkb = "https://jsonblob.com/api/893339508880457728"; //basquet
+    linkb = "https://jsonblob.com/api/893339508880457728"; //basquet  no sirbe
     linkp = "https://jsonblob.com/api/892533157149294592"; //main
     linko = "https://jsonblob.com/api/893246438927253504"; //other
-    linkt = 'https://jsonblob.com/api/893855119448489984'; //trash
+    linkt = 'https://jsonblob.com/api/893855119448489984'; //trash no sirbe
     linkord='https://jsonblob.com/api/898641969950244864'; //orders
     linkusc='https://jsonblob.com/api/900759490673262592';//use
     linkj = "https://jsonblob.com/api/915690066303795200"//jobs
@@ -805,14 +821,12 @@ dinv.appendChild(document.createElement("p"));
     function sel(e) {
      
         if(!kitmode){   
-          
-    //   dor.style.display='block';
+  
        pno.value=e.name.pn.toUpperCase();
        dor.name=e;
         //     alert(e.style.background)
         var enc = false;
-  //alert(e.style.background)
-    //    if (e.style.background === "white") {
+ 
             for (var i = 0; i < Parts.length; i++) {
                // alert(Parts[i].pn)
                 if (Parts[i].pn === e.name.pn) {
@@ -838,7 +852,7 @@ dinv.appendChild(document.createElement("p"));
                         var j=prompt("Job no selected, or Type a new job");
                         if(j===null) return;
                         else{
-                            sjobs.value=j;
+                        sjobs.value=j;
                         sjobs2.value=j;
 } 
                   }
@@ -910,26 +924,6 @@ e.style.background = "#0f0";
 
     }
 
-    function openClip() {
-       var h="";
-       
-       var e = String.fromCharCode(9);
-       var c="";
-       if(confirm("Include Headers?"))h="QTY"+e + "Job No." + e +"P/N" + e + "Description" + e + "Mechanic" + e +"Date" +e + "Time" + e + "Move" + e + "Remaining"+ e + "Note"+"\n";
-
-        GetJ(linkme, function(ob) {
-            var ps = ob.parts; //alert(ps)
-             for (i = 0; i < ps.length; i++) {
-                 if(ps[i].mec.toUpperCase()===mecanico.toUpperCase()){
-                var p = ps[i]
-                var t = JSON.stringify(p);
-          var f=getFe(p.created);
-                 c+= p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha +e + f.tiempo + e + p.move + e + p.qtyObs+e + p.note+"\n";
-             }
-}
-            tx.value = h+c;
-          })
-     }
     function getFe(fr){
              var f=new Date()
            var v=Date.parse(fr);
@@ -1118,7 +1112,7 @@ GetJ(linkj,function (obj){
                  o.moves="";
                  o.parts=[];
                  o.parts.push(pb[b]);
-                          js.push(o);
+                 js.push(o);
                         }
 }
     UpdateJ(linkj,obj,function(){
@@ -1613,6 +1607,26 @@ function editarP(e){
      alert("Location: "+e.parentElement.name.location)
  }
 
+function spreadSheet(){
+    var ps=dkit.name.parts;     
+       var e = String.fromCharCode(9);
+       var c="";
+       var h="";
+   if(confirm("Include Headers?"))h="QTY"+e + "Job No." + e +"P/N" + e + "Description" + e + "Mechanic" + e +"Date" +e + "Time" + e + "Move" + e + "Remaining"+ e + "Note"+"\n";
 
+    for(var i=0;i<ps.length;i++){
+        var p=ps[i]
+        var f="";
+        if(p.pulled!=undefined) f=getFe(p.created);
+        else f=getFe(p.created);
+        var jj=dkit.name.job;
+        if(jj===undefined)jj="No Job."
+          c+= p.qty + e + jj + e + p.pn + e + p.des + e + p.mec + e + f.fecha +e + f.tiempo + e + p.move + e + p.qtyObs+e + p.note+"\n";
+    }
+    tx.value = h+c;
+    tx.select();document.execCommand("copy");
+    alert("The Spread Sheet is in your phone/pc Clipboard\n\nJust Past it to a Spread Sheet Form")
+
+}
 </script>
 </html>
