@@ -819,23 +819,36 @@ dinv.appendChild(document.createElement("p"));
 
 
     function sel(e) {
-     
+        
         if(!kitmode){   
+       
+        if(sjobs2.value==="Select a Job"){
+        var j=prompt("Job hasn't been selected\n\nPress 'cancel' to go back and select it or type a new job name");
+        if(j===null) return;
+        else {
+            sjobs2.innerHTML+="<option>"+j+"</option>";
+            jn=j;
+            alert("Select the job from the Select Job area");
+            return;
+    
+        }
+      
+    }
   
        pno.value=e.name.pn.toUpperCase();
        dor.name=e;
-        //     alert(e.style.background)
+     
         var enc = false;
  
             for (var i = 0; i < Parts.length; i++) {
-               // alert(Parts[i].pn)
+             
                 if (Parts[i].pn === e.name.pn) {
                     enc = true;
 
                     e.style.background = "#0f0";
                     i = Parts.length + 2;
                     qt.value=prompt("Qty?")*1;;
-                    alert(qt.value)
+                 
                     if(isNaN(qt.value) || qt.value===0) return;
                     
                     pno.value = e.name.pn.toUpperCase();
@@ -862,7 +875,7 @@ dinv.appendChild(document.createElement("p"));
 
                   }
                   jn.value=sjobs.value;
-
+                   
                 if(confirm("Add "+no.value+" To Basquet?") ) addToBasquet();
 
                 }
@@ -876,7 +889,9 @@ dinv.appendChild(document.createElement("p"));
             }
       //  } else e.style.background = 'white';
     }
-    else{  e.style.background = "#f00";
+    else{ 
+
+         e.style.background = "#f00";
         dor.style.display="none";
         for (var i = 0; i < Parts.length; i++) {
                 if (Parts[i].pn === e.name.pn) {
@@ -960,7 +975,7 @@ function orderParts(){
 function addToBasquet(){
 
     var o = {
-                   "job": jn.value,
+                   "job": sjobs2.value,
                    "pn": pno.value.toUpperCase(),
                    "des": de.value.toUpperCase(),
                    "qty": qt.value * 1,
@@ -973,7 +988,7 @@ function addToBasquet(){
                    "note": no.value,
                    "created": new Date().toString()
                };
-               if(pno.value==="" || jn.value==="" || qt.value===0){
+               if(pno.value==="" || sjobs2.value==="" || qt.value===0){
                    alert("Not job number, part number or quatity")
                }
                else{
@@ -1275,11 +1290,11 @@ function sendKit(e){
   //  alert(dkit.name.parts)
     var pa=dkit.name.parts;
     var j=sjobs2.value;
-    if(sjobs2.value==="Select a Job"){
-        j=prompt("Job hasn't been selected, press 'cancel' to go back and select it or type a new job name");
-        if(j===null) return;
+  //  if(sjobs2.value==="Select a Job"){
+   //     j=prompt("Job hasn't been selected, press 'cancel' to go back and select it or type a new job name");
+  //      if(j===null) return;
 
-    }
+ //   }
 for(var i=0;i<pa.length;i++){
 
 var o=JSON.parse(JSON.stringify(pa[i]));
@@ -1466,7 +1481,7 @@ function delJob(){
                         var en=false;
                    for(var j=0;j<obj.jobs.length;j++){
                     if(obj.jobs[j].job===titulo.innerHTML) {
-                        alert(obj.jobs.length);
+                   //     alert(obj.jobs.length);
                     obj.jobs.splice(j,1);
                             j=obj.jobs.length;
                             en=true
@@ -1474,12 +1489,12 @@ function delJob(){
 
 
                   }
-  //                if(en) UpdateJ(linkj,obj,function(){ 
- //alert("Job "+titulo.innerHTML+"  Deleted...");window.location.reload()
-alert(obj.jobs.length)
+               if(en) UpdateJ(linkj,obj,function(){ 
+ alert("Job "+titulo.innerHTML+"  Deleted...");window.location.reload()
+//alert(obj.jobs.length)
       
                   })
-  //   });
+     });
             }
 }
 
