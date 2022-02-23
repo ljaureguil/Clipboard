@@ -136,8 +136,8 @@
      #rn{
          background: red;
          position: absolute;
-         top:1%;
-         left:5%;
+         top:0%;
+         left:0%;
          color:white;
      }
      .cpu{
@@ -148,8 +148,8 @@
      }
      #ord{
          position: absolute;
-         top:1%;
-         right:1%;
+         top:0%;
+         right:0%;
         color:white;;
         background:red;
      }
@@ -272,19 +272,21 @@ select{
     
 <button onclick="creader.style.display='block';openScaner()">Open Scanner</button>
 <button  id="rn" onclick="if(confirm('Are you sure you want to Reset your user name?')){localStorage.removeItem('mec');window.location.reload()}">RN</button>
-<button  id="ord" onclick="dor.style.display='block';pno.value=tfil.value.toUpperCase();mec.value=mecanico;">Request<br>parts</button>
+<button  id="ord" onclick="dor.style.display='block';pno.value=tfil.value.toUpperCase();mec.value=mecanico;">Dlg</button>
 
 <div id="creader">
 <div id="reader"></div><br><button onclick="creader.style.display='none';closeScaner()">Close Scanner</button>
 </div>  
 <div id="dct">
-<div><button id="um" class="uci" onclick="updIn(linkp,invMaster,'Main')">Update Main Inventory</button><button id="umi" class="uci" onclick="updIn(linkm,invMisc,'Misc')">Update Misc Inventory</button><button id="uo" class="uci" onclick="updIn(linko,invOther,'Other')">Update Other Inventory</button></div><br>
+<div><button id="um" class="uci" onclick="updIn(linkp,invMaster,'Main')">Update Main Inventory</button>
+    <button id="umi" class="uci" onclick="updIn(linkm,invMisc,'Misc')">Update Misc Inventory</button>
+    <button id="uo" class="uci" onclick="updIn(linko,invOther,'Other')">Update Other Inventory</button></div><br>
 <select id="sjobs2"oninput="jn.value=this.value">
     <option>Select a Job</option>
     <option>Create Job</option>
     <option>_______________</option> 
 </select>.....
-<button onclick="loadJob(sjobs2.value)">Load Job</button>.....
+<button onclick="loadJob(sjobs2.value)">Load Job</button>
 
    <select id="kits" this.name="" oninput="kitaction(this)" value="Select A Kit">
     <option>Sel Kit Action</option>
