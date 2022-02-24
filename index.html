@@ -280,7 +280,7 @@ select{
 <div id="dct">
 <div><button id="um" class="uci" onclick="updIn(linkp,invMaster,'Main')">Update Main Inventory</button>
     <button id="umi" class="uci" onclick="updIn(linkm,invMisc,'Misc')">Update Misc Inventory</button>
-    <button id="uo" class="uci" onclick="updIn(linko,invOther,'Other')">Update Other Inventory</button></div><br>
+    <button id="uo" class="uci" onclick="updIn(linko,invOther,'Other')">Update Other Inventory</button></div>
 <select id="sjobs2"oninput="jn.value=this.value">
     <option>Select a Job</option>
     <option>Create Job</option>
@@ -354,18 +354,18 @@ select{
 
 <script src="html5-qrcode.min.js"></script>
 <div id="dkit">
-    <p id="titulo">Titulo</p><br> 
-    <button class="ck" onclick="closedlg()">Close</button>
-    <button id='bu' class='ck' onclick='spreadSheet(this)'">Spread Sheet</button>
+    <p id="titulo">Titulo</p>
+    <button class="ck" style ="width:42%;" onclick="closedlg()">Close</button>
+    <button id='bu' class='ck' style ="width:42%;"  onclick='spreadSheet(this)'">Spread Sheet</button>
    <div id="btnsjob">
  
-    <button id="bdelkit" class="ck" onclick="delJob()">Delete Job</button>
-        <button id='bu' class='ck' onclick='updpj(this)'">Update Job</button>
+    <button id="bdelkit" class="ck" style ="width:42%;"  onclick="delJob()">Delete Job</button>
+        <button id='bu' class='ck' style ="width:42%;"  onclick='updpj(this)'">Update Job</button>
 
    </div>
     <div id="btnsbask">
-        <button class="cpu" onclick="emptyBasket()">Empty Basket</button>
-        <button class="ck" onclick="updBasket()">Update Basket</button>
+        <button class="cpu" style ="width:42%;"  onclick="emptyBasket()">Empty Basket</button>
+        <button class="ck"  style ="width:42%;" onclick="updBasket()">Update Basket</button>
        <button id="bdelkit" class="ck"  onclick="swba()"">Send To Clipboard</button><br>
       
    </div>
@@ -424,7 +424,7 @@ else{
    // linkj = "https://jsonblob.com/api/942872959580913664"//jobs942872959580913664 
     linkkits = "https://jsonblob.com/api/940340323222306816"//kits
   
-    var Parts = [],
+    var Parts = [], editMode=false;
         Psel = [],
         partsClip = [],upMain=0,upMisc=0,upOther=0;
 
@@ -501,8 +501,8 @@ GetJ(linkj,function(obj){
         }
     })
 
-    getInventories();
-  
+   getInventories();
+  // updateKitLoc()
     var s = document.getElementsByTagName("style")[0];
     var html5QrcodeScanner = new Html5QrcodeScanner(
         "reader", {
@@ -1524,6 +1524,7 @@ for(var i=0;i<els.length;i++){
  if(!c) dkit.style.display="none";
 }
 function updteInv(e){
+    editMode=false; 
       var p=e.parentElement.name;
      var so=JSON.stringify(p)
   //   alert(so)
@@ -1541,7 +1542,8 @@ function updteInv(e){
                     upMain++;
                  //   alert("Local inventory updated, remember to update inventory before exit to se changes");
                    um.innerHTML="Update 'Main' Inventory<br>"+upMain+" Parts Modified";
-                   um.style.display="block"
+                   um.style.display="block";
+                   editp.style.display="none"
    
                 }
                 i<invMaster.parts.length
@@ -1565,9 +1567,10 @@ function updteInv(e){
                     upMisc++;
                    // alert("Local inventory updated, remember to update inventory before exit to se changes")
                     umi.innerHTML="Update 'Misc' Inventory<br>"+upMisc+" Parts Modified";
-                    umi.style.display="block"
+                    umi.style.display="block";
+                    editp.style.display="none"
                 }
-                 i=invMisc.parts.length;    alert(invMaster.parts.length)
+                 i=invMisc.parts.length;  //  alert(invMaster.parts.length)
             }
        
         }
@@ -1586,7 +1589,8 @@ function updteInv(e){
                     upOther++;
                   //  alert("Local inventory updated, remember to update inventory before exit to se changes")
                     uo.innerHTML="Update 'Other' Inventory<br>"+upOther+" Parts Modified";
-                    uo.style.display="block"
+                    uo.style.display="block";
+                    editp.style.display="none"
                 }
                 i=invOther.parts.length;
             }
@@ -1613,12 +1617,21 @@ function updIn(link,obj,n){
                       }
 }
 function editarP(e){
+    if(editMode){
+         editp.style.display="none";
+         editMode=false;
+     //    e.style.background="red"
+    }
+    else{
+    //    e.style.background="none"
+      editMode=true;
     var o=e.name;
      e.appendChild(editp);
     editp.style.display="block";
     if(o.kw!=undefined) ekw.value=o.kw;
     if(o.location!=undefined) eloc.value=o.location;
     if(o.note!=undefined) eno.value=o.note;
+    }
  }
  function showLoc(e){
      alert("Location: "+e.parentElement.name.location)
@@ -1644,6 +1657,47 @@ function spreadSheet(){
     tx.select();document.execCommand("copy");
     alert("The Spread Sheet is in your phone/pc Clipboard\n\nJust Past it to a Spread Sheet Form")
 
+}
+function updateKitLoc(){
+    var ps=[];
+    GetJ(linkkits,function(obk){
+        var ks=obk.kits;
+        alert(ks.length)
+        GetJ(linkp,function(obm){
+            par=obm.parts;
+        
+      GetJ(linkm,function(obmi){
+        //  par.concat(obmi.parts);;
+        //  alert(par.length)  
+          GetJ(linko,function(obo){
+            var pis=par.concat(obo.parts,obmi.parts)
+         //  var pis=[];
+         //  pis.push(par);pis.push(obo.parts);pis.push(obmi.parts)
+             // par.concat(obo.parts);
+              alert(pis.length)
+     
+        for(var k=0;k<ks.length;k++){
+            var pks=ks[k].parts;alert(pks.length)
+     for(var i=0;i< pks.length;i++){
+         partsk=pks[i];alert(parts.length)
+         for(var u=0;u<partsk.length;u++){
+             var np=partsk[u].pn;
+  
+        for(var ii=0;ii<pis.length;ii++){
+            if(np===pis[ii].pn && pis[ii].location!=undefined && pis[ii].location!=""){
+                partsk[u].location=pis[ii].location;
+                alert(JSON.stringify(partsk[u]))
+                ii=pis.length;
+                
+
+            }
+
+
+        }
+}}
+     }
+})
+})})})
 }
 </script>
 </html>
