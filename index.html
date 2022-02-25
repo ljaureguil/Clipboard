@@ -266,10 +266,23 @@
 select{
     margin:5px;
 }
+#menu{
+ 
+    background-color: red;
+    color:white;
+    margin: 5px;
+    width: 10%;
+    font-weight: bold;
+}
 </style>
 <div id="todo">
-    <button id="ibas" onclick="openBask()" ></button>
-    
+    <button id="ibas" onclick="openBask()"></button>
+ <select id="menu" oninput="alert(this.value)" >
+<option>_______</option>
+<option>Bk Kits</option>
+<option>Bk Jobs</option>
+
+    </select>
 <button onclick="creader.style.display='block';openScaner()">Open Scanner</button>
 <button  id="rn" onclick="if(confirm('Are you sure you want to Reset your user name?')){localStorage.removeItem('mec');window.location.reload()}">RN</button>
 <button  id="ord" onclick="dor.style.display='block';pno.value=tfil.value.toUpperCase();mec.value=mecanico;">Dlg</button>
@@ -369,7 +382,7 @@ select{
        <button id="bdelkit" class="ck"  onclick="swba()"">Send To Clipboard</button><br>
       
    </div>
-
+  
 
     <div id="btnskit">
      <button id="bdelkit" class="ck" onclick="delKit(this)">Delete Kit</button>
@@ -390,7 +403,15 @@ select{
     
 </div>
 <script>
-
+ //  localStorage.removeItem("MiscInv");
+ //   alert(localStorage.getItem("MiscInv"))
+var invMaster={},invMisc={},invOther={};
+var sma=localStorage.getItem("MasterInv");
+        var smi=localStorage.getItem("MiscInv");
+        var sot=localStorage.getItem("OtherInv");
+        var ski=localStorage.getItem("kits");
+        var jso=localStorage.getItem("jobs");
+       
  var arkit=[], arkitn="", obkit={}, KITS=[];
     kitmode=false;
     basket=localStorage.getItem("basquet");
@@ -483,10 +504,10 @@ GetJ(linkj,function(obj){
 
   if(mecanico.toUpperCase()==="LAURO") plus.style.display="block";
     else plus.style.display="none"
-
+ 
     GetJ(linkkits,function(ob){
-     
-        if(ob.kits!=undefined){
+
+             if(ob.kits!=undefined){
             KITS=ob.kits;
             var s=chkit.innerHTML;
             var ss=kits.innerHTML;
@@ -501,7 +522,7 @@ GetJ(linkj,function(obj){
         }
     })
 
-   getInventories();
+   getInventories();//-------------------------------------------------------------------------
   // updateKitLoc()
     var s = document.getElementsByTagName("style")[0];
     var html5QrcodeScanner = new Html5QrcodeScanner(
@@ -543,35 +564,61 @@ GetJ(linkj,function(obj){
 
     }
     //  setupinventario();
-var invMaster={},invMisc={},invOther={}
+ 
     function getInventories() {
-
-        GetJ(linkp, function(obp) {
-                  invMaster=JSON.parse(JSON.stringify(obp));//alert(invMaster.parts.length)
+ 
+        if(sma!=null && smi!=null && sot!=null){
+            if(confirm("Do you want to use Local Inventories")){
+                    invMaster=JSON.parse(sma);
+                    invMisc=JSON.parse(smi);
+                    invOther=JSON.parse(sot);
+             //    if(jo!=null) Jobs_=JSON.parse(sjo);
+             //    if(ki!=null) Kits_=JSON.parse(ski)
+                   
+         Parts=invMaster.parts.concat(invMisc.parts,invOther.parts);
+    //       alert("eligio local")
+            filter(Parts);
+             }
+             else{
+          //   alert("eligio web")
+            setUpInvs();
+            }
+        }
+        else{
+          //  alert("fue nulo, se ba a web")
+           setUpInvs();
+ }
+    }
+  function setUpInvs(){
+         
+         
+    GetJ(linkp, function(obp) {
+            var s=JSON.stringify(obp)
+                  invMaster=JSON.parse(s);//alert(invMaster.parts.length);
+                  localStorage.setItem("MasterInv",s)
             Parts = obp.parts;
-      
-   
             GetJ(linkm, function(obm) {
-                invMisc=JSON.parse(JSON.stringify(obm));//alert(invMisc.parts.length)
-                for (var i = 0; i < obm.parts.length; i++) {
-                 
-                    Parts.push(obm.parts[i])
-                }
-
+                    var s=JSON.stringify(obm)
+                invMisc=JSON.parse(s);//alert(invMisc.parts.length)
+                localStorage.setItem("MiscInv",s)
                 GetJ(linko, function(obo) {
-                    invOther=JSON.parse(JSON.stringify(obo));//alert(invOther.parts.length)
-                    for (var ia = 0; ia < obo.parts.length; ia++) {
-                        Parts.push(obo.parts[ia])
+                    var s=JSON.stringify(obo);
+               
+                    invOther=JSON.parse(s);//alert(invOther.parts.length)
+                    localStorage.setItem("OtherInv",s);
+                    Parts=Parts.concat(obm.parts,obo.parts);
+                    if(confirm("Inventories loaded, Do you want to back up them locally>")){
+                    localStorage.getItem("MasterInv",JSON.stringify(obp));
+                    localStorage.getItem("MiscInv",JSON.stringify(obm));
+                    localStorage.getItem("OtherInv",JSON.stringify(obo));
                     }
-
-                    filter(Parts);
+                   filter(Parts);
 
                 });
             });
         });
 
-    }
-
+  }
 
     function setupinventario() {
 
@@ -583,30 +630,12 @@ var invMaster={},invMisc={},invOther={}
                 s.replace(/ /g, "_");
 
             }
-            UpdateJ(linkp, obj, function() {
+ //           UpdateJ(linkp, obj, function() {
                 alert("done");
                 window.location.reload();
-            })
+       //     })
 
         })
-    }
-
-    function getPart(pn, callback) {
-       GetJ(linkp, function(obj) {
-            p = obj.parts;
-            for (var i = 0; i < p.length; i++) {
-                if (pn === p[i].pn) {
-                    callback(p[i], obj);
-                    return p[i]
-
-                }
-                callback(null, null)
-
-                //  
-            }
-
-        })
-
     }
 
     function send(to) {
@@ -1196,7 +1225,12 @@ function kitaction(k){
                     }
                 }
                 if(!fo) ob.kits.push(obk);
-                UpdateJ(linkkits,ob,function(){alert("Kit "+obk.name+ " Saved..."); arkit=[];arkitn="";window.location.reload();})
+                UpdateJ(linkkits,ob,function(){
+                   //localStorage.setItem("kits")
+                    alert("Kit "+obk.name+ " Saved..."); 
+                    arkit=[];arkitn="";
+                    window.location.reload();
+                    })
 
             })
         }
@@ -1280,7 +1314,11 @@ GetJ(linkkits,function(ob){
         }
     }
  
-  if(enc) UpdateJ(linkkits,ob,function(){alert("Kit has been Deleted..."); window.location.reload();})
+  if(enc) UpdateJ(linkkits,ob,function(){
+    //localStorage.setItem("kits")
+      alert("Kit has been Deleted..."); 
+      window.location.reload();
+      })
 
 }) 
 
@@ -1325,7 +1363,10 @@ var o=JSON.parse(e.parentElement.name);
         }
     }
  //   alert(JSON.stringify(ob));
-    UpdateJ(linkkits,ob,function(){alert("Kit has been updated..."); window.location.reload();})
+    UpdateJ(linkkits,ob,function(){
+        //localStorage.setItem("kits")
+        alert("Kit has been updated...");
+         window.location.reload();})
 
 })
 
@@ -1357,7 +1398,10 @@ GetJ(linkkits,function(ob){
         }
     }
    
-    UpdateJ(linkkits,ob,function(){alert("Kit has been updated..."); window.location.reload();})
+    UpdateJ(linkkits,ob,function(){//localStorage.setItem("kits");
+    alert("Kit has been updated...");
+     window.location.reload();
+     })
 
 });
 
@@ -1602,14 +1646,16 @@ function updteInv(e){
 
 function updIn(link,obj,n){
     //linkp=main
-                    if(confirm("Inventory: '"+obj.name+"' ready to be updated")){
+                    if(confirm("Object: '"+obj.name+"' ready to be updated")){
                       //  alert(invMaster.parts.length)
                  UpdateJ(link,obj,function(){
                        alert(obj.name+" Inventory updated...");
-                       if(obj.name==="master") {upMain=0;um.style.display="none"}
-                       if(obj.name==="miselanius") {upMisc=0;umi.style.display="none"}
-                       if(obj.name==="other"){upOther=0;uo.style.display="none"};
-                       alert("Make sure you have updated all other inventories before reloading the app")
+                       if(obj.name==="master") {upMain=0;um.style.display="none";if(confirm("Do you want to save it locally>"))localStorage.setItem("InvMaster",JSON.stringify(obj))}
+                       if(obj.name==="miselanius") {upMisc=0;umi.style.display="none";if(confirm("Do you want to save it locally>"))localStorage.setItem("InvMisc",JSON.stringify(obj))}
+                       if(obj.name==="other"){upOther=0;uo.style.display="none";if(confirm("Do you want to save it locally>"))localStorage.setItem("InvOther",JSON.stringify(obj))};
+                       if(obj.name==="jobs") {upMisc=0;umi.style.display="none";if(confirm("Do you want to save it locally>"))localStorage.setItem("Jobs",JSON.stringify(obj))}
+                       if(obj.name==="kits"){upOther=0;uo.style.display="none";if(confirm("Do you want to save it locally>"))localStorage.setItem("Kits",JSON.stringify(obj))};
+                      alert("Make sure you have updated all other inventories before reloading the app")
                       if(confirm("Are you ready to restart app??")) window.location.reload();
    
                       })/**/
@@ -1658,6 +1704,7 @@ function spreadSheet(){
     alert("The Spread Sheet is in your phone/pc Clipboard\n\nJust Past it to a Spread Sheet Form")
 
 }
+
 function updateKitLoc(){
     var ps=[];
     GetJ(linkkits,function(obk){
