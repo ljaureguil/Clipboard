@@ -267,7 +267,7 @@ select{
     margin:5px;
 }
 #menu{
- 
+    text-aling:center;
     background-color: red;
     color:white;
     margin: 5px;
@@ -277,11 +277,15 @@ select{
 </style>
 <div id="todo">
     <button id="ibas" onclick="openBask()"></button>
- <select id="menu" oninput="alert(this.value)" >
-<option>_______</option>
-<option>Bk Kits</option>
-<option>Bk Jobs</option>
-
+ <select id="menu" oninput="bkobjs(this.value)" >
+<option>Menu</option>
+<option>bk kits</option>
+<option>bk jobs</option>
+<option>copy kits</option>
+<option>copy jobs</option>
+<option>copy master</option>
+<option>copy misc</option>
+<option>copy other</option>
     </select>
 <button onclick="creader.style.display='block';openScaner()">Open Scanner</button>
 <button  id="rn" onclick="if(confirm('Are you sure you want to Reset your user name?')){localStorage.removeItem('mec');window.location.reload()}">RN</button>
@@ -1352,7 +1356,8 @@ dkit.style.display="none"
 }
 function delpkit(e){
 
-var o=JSON.parse(e.parentElement.name);
+//var o=JSON.parse(e.parentElement.name);
+var o=dkit.name;
     var i=e.parentElement.value;
     o.parts.splice(i, 1);
 
@@ -1745,6 +1750,78 @@ function updateKitLoc(){
      }
 })
 })})})
+}
+function bkobjs(v){
+  
+    if(mecanico.toUpperCase().indexOf("LAURO")>-1){
+    if(v==="bk jobs"){
+        loadDoc(linkj,function(ob){
+            localStorage.setItem("jobs",ob);
+            alert("Jobs has been backed locally")
+        })
+
+    }
+    if(v==="bk kits"){
+            loadDoc(linkkits,function(ob){
+            localStorage.setItem("kits",ob);
+             alert("Kits has been backed locally")
+        })  
+    }
+        if(v==="copy kits"){  alert(v)
+               var s=localStorage.getItem("kits");
+            if(s!=null || s!=""){   
+                var st=tx.value;
+                tx.value=s;tx.select();document.execCommand("copy");
+                alert("Kits object is on your phone/pc clipboard")
+                tx.value=st;
+
+            }
+    }
+    
+    if(v==="copy jobs"){  alert(v)
+               var s=localStorage.getItem("jobs");
+            if(s!=null || s!=""){   
+                var st=tx.value;
+                tx.value=s;tx.select();document.execCommand("copy");
+                alert("Jobs object is on your phone/pc clipboard")
+                tx.value=st;
+
+            }
+      } 
+      if(v==="copy master"){
+               var s=localStorage.getItem("MasterInv");
+            if(s!=null || s!=""){   
+                var st=tx.value;
+                tx.value=s;tx.select();document.execCommand("copy");
+                alert("Master object is on your phone/pc clipboard")
+                tx.value=st;
+
+            }
+      } 
+      if(v==="copy misc"){
+               var s=localStorage.getItem("MiscInv");
+            if(s!=null || s!=""){   
+                var st=tx.value;
+                tx.value=s;tx.select();document.execCommand("copy");
+                alert("Miselanius object is on your phone/pc clipboard")
+                tx.value=st;
+
+            }
+      } 
+      if(v==="copy other"){
+               var s=localStorage.getItem("OtherInv");
+            if(s!=null || s!=""){   
+                var st=tx.value;
+                tx.value=s;tx.select();document.execCommand("copy");
+                alert("Other object is on your phone/pc clipboard")
+                tx.value=st;
+
+            }
+      } 
+
+
+    }
+       else alert("Function not allowed...");
 }
 </script>
 </html>
