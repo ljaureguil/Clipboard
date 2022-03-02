@@ -257,9 +257,7 @@
      .csli{
        position: relative;
        right:-36%;
-       background-color: #f00;;
-       color: white;
-   }
+      }
    #dct{
        border-style: solid;
    }
@@ -817,7 +815,7 @@ GetJ(linkj,function(obj){
     function filter(pa) {
 
 while (dinv.firstChild) { dinv.removeChild(dinv.firstChild);}
-for (var i = 0; i < pa.length; i++) {
+for (var i = 0; i < pa.length; i++) { name
     bo=document.createElement("button");
     var d=document.createElement("div");
     var p = document.createElement("p");
@@ -825,19 +823,21 @@ for (var i = 0; i < pa.length; i++) {
     p.setAttribute("class", "ctp");
     d.style.display = "block";
     d.style.background = "white";
+  
         bl=document.createElement("button");
      bl.setAttribute("onclick", "showLoc(this)");
      bl.setAttribute("class","csli");
-     bl.innerHTML="Loc"
+     bl.innerHTML="Loc";
+
    
     bo.innerHTML="Edit";//bo.onclick="updteInv(this.parentElement.name)";
 
   bo.setAttribute("onclick", "editarP(this.parentElement)");
     d.appendChild(bo)
-    d.appendChild(bl)
+ //   d.appendChild(bl)
     d.name = pa[i];
     d.id = pa[i].pn;
- 
+   d.innerHTML+="<span class='csli' onclick='showLoc(this)'>"+pa[i].location+"</span>";
     p.innerHTML = "P/N: " + pa[i].pn + ", Desc.: " + pa[i].des+", From: "+pa[i].clase;
        p.setAttribute("onclick", "sel(this.parentElement);");
   
@@ -1124,10 +1124,12 @@ function updp(e){
       //do dthe update....
 }
 function delp(e){
+    navigator.vibrate([100,30])
     var i=e.parentElement.value;
     basket.parts.splice(i,1);
     openBask();
     ibas.innerHTML=basket.parts.length;
+
 
 
 }
