@@ -455,7 +455,7 @@ else{
  var ObClipboard={}
     var mecanico = "";
 var Trabajos=[];
-GetJ(linkj,function(obj){
+GetJ(linkj,function(obj){ navigator.vibrate([100,30]);
     Trabajos=obj.jobs;
     var s=sjobs.innerHTML;
     for(var i=0;i<obj.jobs.length;i++){
@@ -469,7 +469,7 @@ GetJ(linkj,function(obj){
 
 
     inicVerif();
-    function inicVerif(){
+    function inicVerif(){ navigator.vibrate([100,30]);
     mecanico = localStorage.getItem("mec");
     if (mecanico === null || mecanico === "") {
         mecanico = prompt("Type your Name");
@@ -482,7 +482,7 @@ GetJ(linkj,function(obj){
         mecanico=mecanico.replace(/ /g,"-");
         mecanico=mecanico.toLocaleUpperCase();
         localStorage.setItem("mec", mecanico);
-        GetJ(linkusc,function(ob){
+        GetJ(linkusc,function(ob){ navigator.vibrate([100,30]);
             var s=new Date().toString().split(" GMT")[0];
             s=mecanico+" _ "+s;
             ob.us.push(s);
@@ -490,7 +490,7 @@ GetJ(linkj,function(obj){
         })
     } else {
         if(mecanico.toUpperCase().indexOf('LAURO')<0){linkme=linkcl;}
-        GetJ(linkusc,function(ob){
+        GetJ(linkusc,function(ob){ navigator.vibrate([100,30]);
         var s=new Date().toString().split(" GMT")[0];
             s=mecanico+" _ "+s;
             ob.us.push(s);
@@ -507,7 +507,7 @@ GetJ(linkj,function(obj){
   if(mecanico.toUpperCase()==="LAURO") plus.style.display="block";
     else plus.style.display="none"
  
-    GetJ(linkkits,function(ob){
+    GetJ(linkkits,function(ob){ navigator.vibrate([100,30]);
 
              if(ob.kits!=undefined){
             KITS=ob.kits;
@@ -553,12 +553,12 @@ GetJ(linkj,function(obj){
         document.body.getElementsByTagName("style")[0] = st;
     }
 
-    function onScanError(errorMessage) {
+    function onScanError(errorMessage) { navigator.vibrate([100,30]);
         // handle on error condition, with error message
     }
 
 
-    function loadDoc(url, callback) {
+    function loadDoc(url, callback) { navigator.vibrate([100,30]);
         var xhttp = new XMLHttpRequest();
         xhttp.open("GET", url, false);
         xhttp.send();
@@ -567,7 +567,7 @@ GetJ(linkj,function(obj){
     }
     //  setupinventario();
  
-    function getInventories() {
+    function getInventories() { navigator.vibrate([100,30]);
  
         if(sma!=null && smi!=null && sot!=null){
             if(confirm("Do you want to use Local Inventories")){
@@ -591,19 +591,19 @@ GetJ(linkj,function(obj){
            setUpInvs();
  }
     }
-  function setUpInvs(){
+  function setUpInvs(){ navigator.vibrate([100,30]);
          
          
-    GetJ(linkp, function(obp) {
+    GetJ(linkp, function(obp) { navigator.vibrate([100,30]);
             var s=JSON.stringify(obp)
                   invMaster=JSON.parse(s);//alert(invMaster.parts.length);
                   localStorage.setItem("MasterInv",s)
             Parts = obp.parts;
-            GetJ(linkm, function(obm) {
+            GetJ(linkm, function(obm) { navigator.vibrate([100,30]);
                     var s=JSON.stringify(obm)
                 invMisc=JSON.parse(s);//alert(invMisc.parts.length)
                 localStorage.setItem("MiscInv",s)
-                GetJ(linko, function(obo) {
+                GetJ(linko, function(obo) { navigator.vibrate([100,30]);
                     var s=JSON.stringify(obo);
                
                     invOther=JSON.parse(s);//alert(invOther.parts.length)
@@ -622,9 +622,9 @@ GetJ(linkj,function(obj){
 
   }
 
-    function setupinventario() {
+    function setupinventario() { navigator.vibrate([100,30]);
 
-        GetJ(linkp, function(obj) {
+        GetJ(linkp, function(obj) { navigator.vibrate([100,30]);
 
             for (var i = 0; i < obj.parts.length; i++) {
                 var s = obj.parts[i].pn;
@@ -640,7 +640,7 @@ GetJ(linkj,function(obj){
         })
     }
 
-    function send(to) {
+    function send(to) { navigator.vibrate([100,30]);
        if (to === "order") {
 
            dor.style.display = 'none';
@@ -661,7 +661,7 @@ GetJ(linkj,function(obj){
                    "created": new Date().toString()
                };
                obj.parts.push(o);
-               UpdateJ(linkord, obj, function() {
+               UpdateJ(linkord, obj, function() { navigator.vibrate([100,30]);
                    alert("Ordersent...")
                })
            });
@@ -691,7 +691,7 @@ GetJ(linkj,function(obj){
                    if (pno.value == "" || pno.value == " " || de.value == "" || de.value == " ") {
                        alert("Not Part Number or Description")
                    } else {
-                       GetJ(linko, function(obj) {
+                       GetJ(linko, function(obj) { navigator.vibrate([100,30]);
                            var u = 0;
                            for (u = 0; u < obj.parts.length; u++) {
                                if (obj.parts[u].pn.toUpperCase() === pno.value.toUpperCase()) {
@@ -699,7 +699,7 @@ GetJ(linkj,function(obj){
                                    var ss = "P/N: "+obj.parts[u].pn+"\nDesc.: "+obj.parts[u].des+"\n";
                                    if (confirm(ss + "\n Already Exist, do you want to Replace it?")) {
                                        obj.parts[u] = o;
-                                       UpdateJ(linko, obj, function() {
+                                       UpdateJ(linko, obj, function() { navigator.vibrate([100,30]);
                                            alert("Part has been replaced...");
                                            window.location.reload();
                                           // return;
@@ -709,7 +709,7 @@ GetJ(linkj,function(obj){
                            }
                            if (u >= obj.parts.length) {
                                obj.parts.push(o);
-                               UpdateJ(linko, obj, function() {
+                               UpdateJ(linko, obj, function() { navigator.vibrate([100,30]);
                                    alert("Part has been added to 'other'...");
                                    window.location.reload();
                                })
@@ -717,7 +717,7 @@ GetJ(linkj,function(obj){
                        });
                    }
                } else {
-                   GetJ(linkme, function(obj) {
+                   GetJ(linkme, function(obj) { navigator.vibrate([100,30]);
                        if (to === "pull"){
                            var ps=[];
       for(var i=0;i<obj.parts.length;i++){
@@ -734,14 +734,14 @@ GetJ(linkj,function(obj){
       }
                       o.move = "pull"
                         obj.parts.push(o);
-                       UpdateJ(linkme, obj, function() {
+                       UpdateJ(linkme, obj, function() { navigator.vibrate([100,30]);
                            alert("Part/s sent to Clipboard...")
                            window.location.reload();
                        })}
                         else{ 
                             o.move = "return";
                             obj.parts.push(o);
-                       UpdateJ(linkme, obj, function() {
+                       UpdateJ(linkme, obj, function() { navigator.vibrate([100,30]);
                            alert("Part/s sent 'return' to Clipboard...")
                            window.location.reload();
                        })   
@@ -812,7 +812,7 @@ GetJ(linkj,function(obj){
         }
 
     }
-    function filter(pa) {
+    function filter(pa) { navigator.vibrate([100,30]);
 
 while (dinv.firstChild) { dinv.removeChild(dinv.firstChild);}
 for (var i = 0; i < pa.length; i++) { name
@@ -854,7 +854,7 @@ dinv.appendChild(document.createElement("p"));
 
 
     function sel(e) {
-        
+        navigator.vibrate([100,30]);
         if(!kitmode){   
        
         if(sjobs2.value==="Select a Job"){
@@ -984,21 +984,21 @@ e.style.background = "#0f0";
 
 
 }
-function openScaner(){
+function openScaner(){ navigator.vibrate([100,30]);
      var b=reader.children;
      var bt=b[2].children[0].children[0].children[0].children[0].children[0];
 //     alert(bt.innerHTML);
    bt.click();
 
 }
-function closeScaner(){
+function closeScaner(){ navigator.vibrate([100,30]);
      var b=reader.children;
      var bt=b[2].children[0].children[0].children[0].children[0].children[0];
   //   alert(bt.innerHTML);
    bt.click();
 
 }
-function orderParts(){
+function orderParts(){ navigator.vibrate([100,30]);
 
     if(confirm(" 'Ok' to Select it from the search bar...")){
       order=true;
@@ -1007,8 +1007,8 @@ function orderParts(){
     else   bor.style.display="none"
 
 }
-function addToBasquet(){
-
+function addToBasquet(){ navigator.vibrate([100,30]);
+    navigator.vibrate([100,30])
     var o = {
                    "job": sjobs2.value,
                    "pn": pno.value.toUpperCase(),
@@ -1037,7 +1037,8 @@ function addToBasquet(){
             }
 
 }
-function sendBasket(ar){
+function sendBasket(ar){ navigator.vibrate([100,30]);
+       navigator.vibrate([100,30])
     var arb=[];
     var is=0;
     GetJ(linkme,function(obj){
@@ -1069,7 +1070,7 @@ function sendBasket(ar){
 }
 
 function openBask(){
-
+    navigator.vibrate([100,30])
 dkit.style.display="block";
 btnsbask.style.display="block";
 btnskit.style.display="none";
@@ -1103,7 +1104,7 @@ for(var ii=0;ii<o.parts.length;ii++){
 }
 function updBasket(){
     var o=areak.children;
-    
+    navigator.vibrate([100,30])
     for(var i=0;i<basket.parts.length;i++){
         var e=o[i].getElementsByTagName("input");  
         basket.parts[i].qty=e[0].value;
@@ -1119,7 +1120,7 @@ function updp(e){
      // alert(q);
       var p=e.parentElement.name;
       p.qty=q;
-      basket.parts[i]=p;
+      basket.parts[i]=p;   navigator.vibrate([100,30])
       alert("Part "+p.pn+" has been updated");
       //do dthe update....
 }
@@ -1231,7 +1232,7 @@ function kitaction(k){
                     }
                 }
                 if(!fo) ob.kits.push(obk);
-                UpdateJ(linkkits,ob,function(){
+                UpdateJ(linkkits,ob,function(){   navigator.vibrate([100,30])
                    //localStorage.setItem("kits")
                     alert("Kit "+obk.name+ " Saved..."); 
                     arkit=[];arkitn="";
@@ -1282,7 +1283,7 @@ btnsjob.style.display="none"
 
     }
 }
-function selkit(e){
+function selkit(e){   navigator.vibrate([100,30])
     for(var i=0;i<KITS.length;i++){
         if(KITS[i].name===e.value){
             if(confirm("Are you sure you want to add the whole kit "+KITS[i].name)){
@@ -1296,17 +1297,17 @@ function selkit(e){
 }
 
 
-function editark(e){
+function editark(e){   navigator.vibrate([100,30])
     alert(e.innerHTML)
     alert("editar mode");
 
   
 }
 function delKit(e){
-  
+    navigator.vibrate([100,30])
     if(confirm("Are you sere you want to delete "+dkit.name.name+" kit")){
        
-GetJ(linkkits,function(ob){
+GetJ(linkkits,function(ob){   navigator.vibrate([100,30])
     var enc=false;
     for(var h=0;h<ob.kits.length;h++){
         if(dkit.name.name===ob.kits[h].name){
@@ -1320,7 +1321,7 @@ GetJ(linkkits,function(ob){
         }
     }
  
-  if(enc) UpdateJ(linkkits,ob,function(){
+  if(enc) UpdateJ(linkkits,ob,function(){   navigator.vibrate([100,30])
     //localStorage.setItem("kits")
       alert("Kit has been Deleted..."); 
       window.location.reload();
@@ -1332,10 +1333,18 @@ GetJ(linkkits,function(ob){
 
 }
 
-function sendKit(e){
+function sendKit(e){   navigator.vibrate([100,30])
+    navigator.vibrate([100,30])
+   
   //  alert(dkit.name.parts)
     var pa=dkit.name.parts;
     var j=sjobs2.value;
+    if(j==="Select a Job"){
+        j=prompt("Select a Job first or Type a new one")
+        if(j=null)return
+        
+        }
+        else{
   //  if(sjobs2.value==="Select a Job"){
    //     j=prompt("Job hasn't been selected, press 'cancel' to go back and select it or type a new job name");
   //      if(j===null) return;
@@ -1354,23 +1363,23 @@ o.pulled=new Date().toString();
       localStorage.setItem("basquet",JSON.stringify(basket))
   }
 dkit.style.display="none"
-
+        }
 }
-function delpkit(e){
+function delpkit(e){   navigator.vibrate([100,30])
 
 //var o=JSON.parse(e.parentElement.name);
 var o=dkit.name;
     var i=e.parentElement.value;
     o.parts.splice(i, 1);
 
-    GetJ(linkkits,function(ob){
+    GetJ(linkkits,function(ob){   navigator.vibrate([100,30])
     for(var h=0;h<ob.kits.length;h++){
         if(o.name===ob.kits[h].name){
             ob.kits[h]=o;
         }
     }
  //   alert(JSON.stringify(ob));
-    UpdateJ(linkkits,ob,function(){
+    UpdateJ(linkkits,ob,function(){   navigator.vibrate([100,30])
         //localStorage.setItem("kits")
         alert("Kit has been updated...");
          window.location.reload();})
@@ -1381,7 +1390,7 @@ var o=dkit.name;
 
 }
 
-function updatekit(e){
+function updatekit(e){   navigator.vibrate([100,30])
  var els=areak.children;
 var c=false;
 for(var i=0;i<els.length;i++){
@@ -1397,7 +1406,7 @@ for(var i=0;i<els.length;i++){
 }
 
 
-GetJ(linkkits,function(ob){
+GetJ(linkkits,function(ob){   navigator.vibrate([100,30])
     var o=dkit.name;
     for(var h=0;h<ob.kits.length;h++){
         if(o.name===ob.kits[h].name){
@@ -1406,6 +1415,7 @@ GetJ(linkkits,function(ob){
     }
    
     UpdateJ(linkkits,ob,function(){//localStorage.setItem("kits");
+    navigator.vibrate([100,30]);
     alert("Kit has been updated...");
      window.location.reload();
      })
@@ -1413,7 +1423,7 @@ GetJ(linkkits,function(ob){
 });
 
 }
-function addParts(){
+function addParts(){   navigator.vibrate([100,30])
  kitmode=true;
  arkitn=dkit.name.name;
  arkit=dkit.name.parts;
@@ -1423,7 +1433,7 @@ function addParts(){
     dkit.style.display="none"
 }
 
-function loadJob(j){
+function loadJob(j){   navigator.vibrate([100,30])
     var ar=[];
     if(j==="Select a Job") alert("No Job selected");
     else{
@@ -1435,7 +1445,7 @@ btnskit.style.display="none";
 btnsjob.style.display="block"
             while (areak.firstChild) { areak.removeChild(areak.firstChild);}
             
-        GetJ(linkj,function(ob){
+        GetJ(linkj,function(ob){   navigator.vibrate([100,30])
             var jobs=ob.jobs;
             for(var h=0;h<jobs.length;h++){
              if(jobs[h].job===j){ 
@@ -1469,7 +1479,7 @@ btnsjob.style.display="block"
     }
 }
 
-function delpj(e){
+function delpj(e){   navigator.vibrate([100,30])
   pa=e.parentElement.name;
  var  ejo=dkit.name
    var ej=ejo.parts;
@@ -1490,7 +1500,7 @@ function delpj(e){
 
 
 
-function updpj(e){ 
+function updpj(e){    navigator.vibrate([100,30])
   //     alert("delete "+e.parentElement.name.pn);
  //   alert(dkit.name.job);
    // alert(titulo.innerHTML)
@@ -1509,11 +1519,11 @@ function updpj(e){
            job.parts[i].note=ips[1].value;
      }
   //   alert(JSON.stringify(job));
-     GetJ(linkj,function(obj){;
+     GetJ(linkj,function(obj){   navigator.vibrate([100,30]);
      for(var i=0;i<obj.jobs.length;i++){
         if(obj.jobs[i].job===job.job){
             obj.jobs[i]=job;
-         UpdateJ(linkj,obj,function(){alert("Job "+job.name+" has been Updated...");window.location.reload()})
+         UpdateJ(linkj,obj,function(){   navigator.vibrate([100,30]);alert("Job "+job.name+" has been Updated...");window.location.reload()})
             i=obj.jobs.length;
 
         }
@@ -1524,11 +1534,11 @@ function updpj(e){
     
   })
 }
-function delJob(){
+function delJob(){ navigator.vibrate([100,30]);
   //  alert(dkit.name.job)
     if(confirm("Are you sure you want to delete "+titulo.innerHTML+" permanentely?")){
     while (areak.firstChild) { areak.removeChild(areak.firstChild);}
-    GetJ(linkj,function(obj){       
+    GetJ(linkj,function(obj){        navigator.vibrate([100,30]);
          
              if(confirm("Job Found, proceed to Delete "+titulo.innerHTML+" ?"))
                         var en=false;
@@ -1542,7 +1552,7 @@ function delJob(){
 
 
                   }
-               if(en) UpdateJ(linkj,obj,function(){ 
+               if(en) UpdateJ(linkj,obj,function(){  navigator.vibrate([100,30]);
  alert("Job "+titulo.innerHTML+"  Deleted...");window.location.reload()
 //alert(obj.jobs.length)
       
@@ -1552,7 +1562,7 @@ function delJob(){
 }
 
 
-function closedlg(e){
+function closedlg(e){ navigator.vibrate([100,30]);
    // update todo
 
 var els=areak.children;
@@ -1574,7 +1584,7 @@ for(var i=0;i<els.length;i++){
 }
  if(!c) dkit.style.display="none";
 }
-function updteInv(e){
+function updteInv(e){ navigator.vibrate([100,30]);
     editMode=false; 
       var p=e.parentElement.name;
      var so=JSON.stringify(p)
@@ -1651,7 +1661,7 @@ function updteInv(e){
     }
 }
 
-function updIn(link,obj,n){
+function updIn(link,obj,n){ navigator.vibrate([100,30]);
     //linkp=main
                     if(confirm("Object: '"+obj.name+"' ready to be updated")){
                       //  alert(invMaster.parts.length)
@@ -1669,7 +1679,7 @@ function updIn(link,obj,n){
 
                       }
 }
-function editarP(e){
+function editarP(e){ navigator.vibrate([100,30]);
     if(editMode){
          editp.style.display="none";
          editMode=false;
@@ -1686,11 +1696,11 @@ function editarP(e){
     if(o.note!=undefined) eno.value=o.note;
     }
  }
- function showLoc(e){
+ function showLoc(e){ navigator.vibrate([100,30]);
      alert("Location: "+e.parentElement.name.location)
  }
 
-function spreadSheet(){
+function spreadSheet(){ navigator.vibrate([100,30]);
     var ps=dkit.name.parts;     
        var e = String.fromCharCode(9);
        var c="";
@@ -1712,18 +1722,18 @@ function spreadSheet(){
 
 }
 
-function updateKitLoc(){
+function updateKitLoc(){ navigator.vibrate([100,30]);
     var ps=[];
     GetJ(linkkits,function(obk){
         var ks=obk.kits;
         alert(ks.length)
-        GetJ(linkp,function(obm){
+        GetJ(linkp,function(obm){ navigator.vibrate([100,30]);
             par=obm.parts;
         
-      GetJ(linkm,function(obmi){
+      GetJ(linkm,function(obmi){ navigator.vibrate([100,30]);
         //  par.concat(obmi.parts);;
         //  alert(par.length)  
-          GetJ(linko,function(obo){
+          GetJ(linko,function(obo){ navigator.vibrate([100,30]);
             var pis=par.concat(obo.parts,obmi.parts)
          //  var pis=[];
          //  pis.push(par);pis.push(obo.parts);pis.push(obmi.parts)
@@ -1753,18 +1763,18 @@ function updateKitLoc(){
 })
 })})})
 }
-function bkobjs(v){
+function bkobjs(v){ navigator.vibrate([100,30]);
   
     if(mecanico.toUpperCase().indexOf("LAURO")>-1){
     if(v==="bk jobs"){
-        loadDoc(linkj,function(ob){
+        loadDoc(linkj,function(ob){ navigator.vibrate([100,30]);
             localStorage.setItem("jobs",ob);
             alert("Jobs has been backed locally")
         })
 
     }
     if(v==="bk kits"){
-            loadDoc(linkkits,function(ob){
+            loadDoc(linkkits,function(ob){ navigator.vibrate([100,30]);
             localStorage.setItem("kits",ob);
              alert("Kits has been backed locally")
         })  
