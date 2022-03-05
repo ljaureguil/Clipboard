@@ -287,7 +287,7 @@ select{
 }
 </style>
 <div id="todo">
-    <button id="ibas" onclick="openBask()"></button>
+    <button id="ibas" onclick="openBask(this)"></button>
  <select id="menu" oninput="bkobjs(this.value)" >
 <option>Menu</option>
 <option>bk kits</option>
@@ -438,10 +438,11 @@ var sma=localStorage.getItem("MasterInv");
     basket=localStorage.getItem("basquet");
    
     if(basket===null && basket!=""){
-        basket={parts:[]}
+        basket={name:"basket",parts:[]}
     }
 else{
-     basket=JSON.parse(basket)
+     basket=JSON.parse(basket);
+     basket.name="basket"
     ibas.innerHTML=basket.parts.length;
    // alert(JSON.stringify(basket))
 }
@@ -1049,7 +1050,7 @@ function addToBasquet(){ navigator.vibrate([100,30]);
                 o.pulled=new Date().toString();
                basket.parts.push(o);
              ibas.innerHTML=basket.parts.length;
-               
+               basket.name="basket"
                localStorage.setItem("basquet",JSON.stringify(basket))
                dor.style.display = 'none';
         
@@ -1088,7 +1089,7 @@ function sendBasket(ar){ navigator.vibrate([100,30]);
         
 }
 
-function openBask(){
+function openBask(e){
     navigator.vibrate([100,30])
 dkit.style.display="block";
 btnsbask.style.display="block";
@@ -1098,7 +1099,9 @@ btnsjob.style.display="none"
 while (areak.firstChild) {
         areak.removeChild(areak.firstChild);
         }
+        basket.name="basket";
         var o=basket;
+        
 dkit.name=basket;
 
 for(var ii=0;ii<o.parts.length;ii++){
@@ -1131,6 +1134,7 @@ function updBasket(){
         basket.parts[i].qty=e[0].value;
         basket.parts[i].note=e[1].value;
      }
+     basket.name="basket"
     localStorage.setItem("basquet",JSON.stringify(basket));
     alert("Basket has been updated...")
   
@@ -1149,7 +1153,7 @@ function delp(e){
     navigator.vibrate([100,30])
     var i=e.parentElement.value;
     basket.parts.splice(i,1);
-    openBask();
+    openBask(e);
     ibas.innerHTML=basket.parts.length;
 
 
@@ -1192,6 +1196,7 @@ GetJ(linkj,function (obj){
     UpdateJ(linkj,obj,function(){
          alert("Items send to Clipboard...");
              basket.parts.length=0; 
+             basket.name="basket"
            localStorage.setItem("basquet",JSON.stringify(basket))
            ibas.innerHTML="0";
            window.location.reload();})/**/
@@ -1204,6 +1209,7 @@ else alert("You don't have any item in basket jet...")
 function emptyBasket(){
     if(confirm("Are you sure?, you will lose all items in basket")){
         basket.parts.length=0;
+        basket.name="basket"
         localStorage.setItem("basquet",JSON.stringify(basket));
         ibas.innerHTML="0";
         alert("All done");
@@ -1214,7 +1220,7 @@ function emptyBasket(){
 
 function emptyBasket(){
     if(confirm("Are you sure?, you will lose all items in basket")){
-        basket.parts.length=0;
+        basket.parts.length=0;basket.name="basket"
         localStorage.setItem("basquet",JSON.stringify(basket));
         ibas.innerHTML="0";
         alert("All done");
@@ -1381,6 +1387,7 @@ o.pulled=new Date().toString();
 
      basket.parts.push(o);//pa[i])
       ibas.innerHTML=basket.parts.length;
+      basket.name="basket"
       localStorage.setItem("basquet",JSON.stringify(basket))
   }
 dkit.style.display="none"
@@ -1867,12 +1874,16 @@ function openEditor(e){
  
             var s=JSON.stringify(dkit.name).replace(/,/gi,",\n   ").replace(/{/gi,"\n{\n\n").replace(/}/gi,'\n\n}')//.replace(/}/gi,"\n\n}\n\n").replace(/"/gi," ")//.replace(/":"/gi," = ").replace(/:"/gi," = ").replace(/":/gi," = ");      
         var rs=s.replace(/\n/gi,"");//.replace(//gi,",")//.replace(/\n{\n/gi,'\n{\n"').replace(/ : /gi,'":"').replace(/\n/gi,'","');
-        s+="\n\n\n"+rs+"\n...................................\n\n"+JSON.stringify(dkit.name)
+        
   
         editor.value=s;
      //   rs=rs
-  
-     var o=JSON.parse(rs);
+  try{
+        var o=JSON.parse(rs);
+        dkit.name=o;
+  }
+  catch{alert("Error, Check again")}
+   
 
     }
 }
