@@ -25,7 +25,7 @@
     button {
      
         margin: 6px;
-  
+        width:25%;
         box-shadow: -10px 10px 15px 1px rgba(0, 0, 0, .51);
 
     }
@@ -385,16 +385,16 @@ select{
     <p id="titulo">Titulo</p>
     <button onclick="openEditor(this)">Editor</button>
     <button class="ck" style ="width:42%;" onclick="closedlg()">Close</button>
-    <button id='bu' class='ck' style ="width:42%;"  onclick='spreadSheet(this)'">Spread Sheet</button>
+    <button id='bu' class='ck'   onclick='spreadSheet(this)'">Spread Sheet</button>
    <div id="btnsjob">
  
-    <button id="bdelkit" class="ck" style ="width:42%;"  onclick="delJob()">Delete Job</button>
-        <button id='bu' class='ck' style ="width:42%;"  onclick='updpj(this)'">Update Job</button>
+    <button id="bdelkit" class="ck"  onclick="delJob()">Delete Job</button>
+        <button id='bu' class='ck'   onclick='updpj(this)'">Update Job</button>
 
    </div>
     <div id="btnsbask">
-        <button class="cpu" style ="width:42%;"  onclick="emptyBasket()">Empty Basket</button>
-        <button class="ck"  style ="width:42%;" onclick="updBasket()">Update Basket</button>
+        <button class="cpu"   onclick="emptyBasket()">Empty Basket</button>
+        <button class="ck"   onclick="updBasket()">Update Basket</button>
        <button id="bdelkit" class="ck"  onclick="swba()"">Send To Clipboard</button><br>
       
    </div>
@@ -419,8 +419,8 @@ select{
     
 </div>
 <div id="deditor">
-    <button onclick="deditor.style.display='none'">Close</button>
-        <button onclick="prosesarEditor(this)">Process</button>
+    <button onclick="deditor.style.display='none'">Close</button><span id="tie"></span>
+        <button onclick="prosesarEditor(this)">Process Changes</button>
 <textarea id="editor"></textarea>
 </div>
 <script>
@@ -1461,26 +1461,33 @@ function addParts(){   navigator.vibrate([100,30])
     dkit.style.display="none"
 }
 
-function loadJob(j){   navigator.vibrate([100,30])
-    var ar=[];
+function loadJob(j,obe){ 
+             titulo.innerHTML=j;
+              dkit.style.display="block";
+    if(obe!=undefined){
+  
+       crPa(obe,j)
+}
+else {
     if(j==="Select a Job") alert("No Job selected");
     else{
-              titulo.innerHTML=j;
-              dkit.style.display="block";
+  
             
 btnsbask.style.display="none";
 btnskit.style.display="none";
-btnsjob.style.display="block"
-            while (areak.firstChild) { areak.removeChild(areak.firstChild);}
-            
-        GetJ(linkj,function(ob){   navigator.vibrate([100,30])
+btnsjob.style.display="block";
+
+        GetJ(linkj,function(ob){
+            crPa(ob,j)
+           /*     navigator.vibrate([100,30])
             var jobs=ob.jobs;
             for(var h=0;h<jobs.length;h++){
              if(jobs[h].job===j){ 
                
                  var pa=jobs[h].parts;
                  for(var i=0;i<pa.length;i++){
-                      ar.push(pa[i])
+                     crPa(pa[i],i)
+                    ar.push(pa[i]);
                      var d=document.createElement("div");
            // d.id="k"+o.parts[ii].pn;
             d.value=i;
@@ -1492,8 +1499,7 @@ btnsjob.style.display="block"
                 "<br>Note: <input class='' value='"+pa[i].note+"'></input>"+
              "<br><button id='bd' class='cbk'  onclick='delpj(this)'>Delete</button>";//+
             
-                areak.appendChild(d);  
-// "<button id='bu' class='cbk' onclick='updpj(this)'>Update Part</button>";//  name="+sp+"  
+                areak.appendChild(d); 
  }
  dkit.name=jobs[h];
 
@@ -1502,9 +1508,44 @@ btnsjob.style.display="block"
             }
             
 
-        });
+        */ });
 
     }
+}
+}
+function crPa(ob,j){
+    alert(JSON.stringify(ob))
+     while (areak.firstChild) { areak.removeChild(areak.firstChild);} 
+      var ar=[];
+     navigator.vibrate([100,30])
+            var jobs=ob.jobs;
+            for(var h=0;h<jobs.length;h++){
+             if(jobs[h].job===j){ 
+               
+                 var pa=jobs[h].parts;
+                 for(var i=0;i<pa.length;i++){
+                  //   crPa(pa[i],i)
+                    ar.push(pa[i]);
+                     var d=document.createElement("div");
+           // d.id="k"+o.parts[ii].pn;
+            d.value=i;
+            d.name=pa[i];
+          
+              d.setAttribute("class","ckk");
+                d.innerHTML="<input type='number' class='cpp' value='"+pa[i].qty+"'></input><button class='csl' onclick='showLoc(this)'>Loc</button>"+
+                "<br>P/N: "+pa[i].pn+"<br>Desc: "+pa[i].des+"<br>Job No. "+pa[i].job+
+                "<br>Note: <input class='' value='"+pa[i].note+"'></input>"+
+             "<br><button id='bd' class='cbk'  onclick='delpj(this)'>Delete</button>";//+
+            
+                areak.appendChild(d);   
+ }
+ dkit.name=jobs[h];
+
+        h=jobs.length;
+            }
+            }
+            
+
 }
 
 function delpj(e){   navigator.vibrate([100,30])
@@ -1864,31 +1905,78 @@ function bkobjs(v){ navigator.vibrate([100,30]);
        else alert("Function not allowed...");
 }
 function openEditor(e){
+    editor.value="";
+    tie.innerHTML=titulo.innerHTML;
     if(dkit.name!=null || dkit.name!=undefined){
-        for(var i=0;i<dkit.name.parts.length;i++){
+ /*       for(var i=0;i<dkit.name.parts.length;i++){
             var p=dkit.name.parts[i];
             if(p.pc!=undefined)delete p.pc;
-        }
+        }*/
         deditor.style.display='block';
-        //var s=JSON.stringify(dkit.name.parts).replace(/","/gi,"\n").replace(/{"/gi,'\n{\n\n').replace(/},/gi,"\n\n}\n\n").replace(/"/gi," ")//.replace(/":"/gi," = ").replace(/:"/gi," = ").replace(/":/gi," = ");      
- 
             var s=JSON.stringify(dkit.name).replace(/,/gi,",\n   ").replace(/{/gi,"\n{\n\n").replace(/}/gi,'\n\n}')//.replace(/}/gi,"\n\n}\n\n").replace(/"/gi," ")//.replace(/":"/gi," = ").replace(/:"/gi," = ").replace(/":/gi," = ");      
-        var rs=s.replace(/\n/gi,"");//.replace(//gi,",")//.replace(/\n{\n/gi,'\n{\n"').replace(/ : /gi,'":"').replace(/\n/gi,'","');
-        
-  
-        editor.value=s;
-     //   rs=rs
-  try{
-        var o=JSON.parse(rs);
-        dkit.name=o;
-  }
-  catch{alert("Error, Check again")}
-   
-
+         editor.value=s;
     }
 }
 function prosesarEditor(e){
-    alert(procesar)
+ 
+   try{
+        var o=JSON.parse(editor.value.replace(/\n/gi,"")); 
+  dkit.name=o;
+    deditor.style.display="none";
+    fillDkits(o);
+
+
+/*   if(btnsbask.style.display==="block"){
+
+alert("From basket");
+openBask(e,o);
+   }
+   if(btnsjob.style.display==="block"){
+  //  loadJob(tie.innerHTML,o);
+alert("from jobs");
+fillDkits(o);
+return;
+   }
+ if(btnskit.style.display==="block"){
+   alert("fromkits")
+   kitaction(tie.innerHTML,o)
+   }
+   if(o.name==="main"){
+    alert("from main")
+    */
+
+//}
+   
+    //alert("Changes made... open again your proyect")
+   }
+  catch(er){alert("There is a mistake, check again...\n\n"+er)}
+
+}
+function fillDkits(ob){
+    dkit.name=ob;
+    var pa=ob.parts;
+    while (areak.firstChild) { areak.removeChild(areak.firstChild);} 
+                 for(var i=0;i<pa.length;i++){
+                 var d=document.createElement("div");
+
+            d.value=i;
+            d.name=pa[i];
+          
+              d.setAttribute("class","ckk");
+                d.innerHTML="<input type='number' class='cpp' value='"+pa[i].qty+"'></input><button class='csl' onclick='showLoc(this)'>Loc</button>"+
+                "<br>P/N: "+pa[i].pn+"<br>Desc: "+pa[i].des+"<br>Job No. "+pa[i].job+
+                "<br>Note: <input class='' value='"+pa[i].note+"'></input>"+
+             "<br><button id='bd' class='cbk'  onclick='delpj(this)'>Delete</button>";//+
+           //  alert(d.innerHTML)
+   
+                areak.appendChild(d);   
+                dkit.style.display="block"
+ }
+
+
+
+
+
 }
 </script>
 </html>
