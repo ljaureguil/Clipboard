@@ -287,7 +287,7 @@ select{
 }
 </style>
 <div id="todo">
-    <button id="ibas" onclick="openBask(this)"></button>
+    <button id="ibas" onclick="openBask(basket)"></button>
  <select id="menu" oninput="bkobjs(this.value)" >
 <option>Menu</option>
 <option>bk kits</option>
@@ -1090,7 +1090,8 @@ function sendBasket(ar){ navigator.vibrate([100,30]);
 }
 
 function openBask(e){
-    navigator.vibrate([100,30])
+    navigator.vibrate([100,30]);
+  //  dkit.name=e;
 dkit.style.display="block";
 btnsbask.style.display="block";
 btnskit.style.display="none";
@@ -1100,26 +1101,28 @@ while (areak.firstChild) {
         areak.removeChild(areak.firstChild);
         }
         basket.name="basket";
-        var o=basket;
+        var o=basket.parts;
         
 dkit.name=basket;
-
-for(var ii=0;ii<o.parts.length;ii++){
+//alert(JSON.stringify(dkit.name))
+//alert(o.parts.length)
+for(var ii=0;ii<o.length;ii++){
+ //   alert(JSON.stringify(basket.parts[ii]))
             var d=document.createElement("div");
-            d.id="k"+o.parts[ii].pn;
+           // d.id="k"+o.parts[ii].pn;
             d.value=ii;
-            d.name=o.parts[ii];
+            d.name=o[ii];
             var b=document.createElement("button");
            // b.name=
 
               d.setAttribute("class","ckk");
-                d.innerHTML="<input type='number' class='cpp' value='"+o.parts[ii].qty+"'></input><button class='csl' onclick='showLoc(this)'>Loc</button>"+
-                "<br>P/N: "+o.parts[ii].pn+"<br>Desc: "+
-                o.parts[ii].des+"<br>Job No. "+o.parts[ii].job+
-                "<br>Note: <input class='' value='"+o.parts[ii].note+"'></input>"+
+                d.innerHTML="<input type='number' class='cpp' value='"+o[ii].qty+"'></input> "+o[ii].location+
+                "<br>P/N: "+o[ii].pn+"<br>Desc: "+
+                o[ii].des+"<br>Job No. "+o[ii].job+
+                "<br>Note: <input class='' value='"+o[ii].note+"'></input>"+
              "<br><button id='bd' class='cbk'  onclick='delp(this)'>Delete</button>";//+
  
-             areak.appendChild(d)
+             areak.appendChild(d);
          }
 
          titulo.innerHTML="BASKET";
@@ -1127,17 +1130,23 @@ for(var ii=0;ii<o.parts.length;ii++){
 
 }
 function updBasket(){
+        basket=dkit.name;
     var o=areak.children;
-    navigator.vibrate([100,30])
-    for(var i=0;i<basket.parts.length;i++){
-        var e=o[i].getElementsByTagName("input");  
+    navigator.vibrate([100,30]);
+  //  basket.parts=[];
+ //   alert(basket.parts.length)
+    for(var i=0;i<o.length;i++){
+        var e=o[i].getElementsByTagName("input");
+   
         basket.parts[i].qty=e[0].value;
         basket.parts[i].note=e[1].value;
+       // basket.parts.push(o[i].name) ;alert(JSON.stringify(o.name))
      }
-     basket.name="basket"
+     basket.name="basket";
+    // basket.parts=dkit.name.parts;
     localStorage.setItem("basquet",JSON.stringify(basket));
     alert("Basket has been updated...")
-  
+ 
 }
 function updp(e){
       var i=e.parentElement.value;
@@ -1145,7 +1154,9 @@ function updp(e){
      // alert(q);
       var p=e.parentElement.name;
       p.qty=q;
-      basket.parts[i]=p;   navigator.vibrate([100,30])
+      basket.parts[i]=p; 
+      dkit.name=basket;
+        navigator.vibrate([100,30])
       alert("Part "+p.pn+" has been updated");
       //do dthe update....
 }
@@ -1153,7 +1164,8 @@ function delp(e){
     navigator.vibrate([100,30])
     var i=e.parentElement.value;
     basket.parts.splice(i,1);
-    openBask(e);
+    dkit.name=basket;
+    openBask(e);//);
     ibas.innerHTML=basket.parts.length;
 
 
@@ -1162,23 +1174,28 @@ function delp(e){
 
 
 function swba(){
+    basket.parts=dkit.name.parts;
     if(basket.parts.length>0){
      if(confirm("You have "+basket.parts.length+" parts in basket, do you wanto to send them to Clipboard?")){
 GetJ(linkj,function (obj){
        var js=obj.jobs;
-
+       
             var pb=basket.parts; 
         
            for(var b=0;b<pb.length;b++){
                 var enc=false;
                 var i=0;
             for(i=0;i<js.length;i++){
+               // alert(JSON.stringify(js[i]))
                 enc=false;//alert(pb[b].job)
                 if(js[i].parts===undefined) js[i].parts=[];
+            //    alert(js[i].job+"\n\n"+pb[b].job)
                   if(js[i].job===pb[b].job){
+                   //   alert("found.................")
                                         js[i].parts.push(pb[b]);
                        pb.splice(b,1);
                        b--;
+                       i=js.length;
                                         enc=true;
                   }
              }
@@ -1360,10 +1377,9 @@ GetJ(linkkits,function(ob){   navigator.vibrate([100,30])
 
 }
 
-function sendKit(e){   navigator.vibrate([100,30])
+function sendKit(e){  
     navigator.vibrate([100,30])
-   
-  //  alert(dkit.name.parts)
+  
     var pa=dkit.name.parts;
     var j=sjobs2.value;
     if(j==="Select a Job"){
@@ -1372,13 +1388,8 @@ function sendKit(e){   navigator.vibrate([100,30])
         
         }
         else{
-  //  if(sjobs2.value==="Select a Job"){
-   //     j=prompt("Job hasn't been selected, press 'cancel' to go back and select it or type a new job name");
-  //      if(j===null) return;
-
- //   }
+     }
 for(var i=0;i<pa.length;i++){
-
 var o=JSON.parse(JSON.stringify(pa[i]));
 o.job=j;
 o.move="pull";
@@ -1392,7 +1403,7 @@ o.pulled=new Date().toString();
   }
 dkit.style.display="none"
         }
-}
+
 function delpkit(e){   navigator.vibrate([100,30])
 
 //var o=JSON.parse(e.parentElement.name);
@@ -1479,43 +1490,13 @@ btnsjob.style.display="block";
 
         GetJ(linkj,function(ob){
             crPa(ob,j)
-           /*     navigator.vibrate([100,30])
-            var jobs=ob.jobs;
-            for(var h=0;h<jobs.length;h++){
-             if(jobs[h].job===j){ 
-               
-                 var pa=jobs[h].parts;
-                 for(var i=0;i<pa.length;i++){
-                     crPa(pa[i],i)
-                    ar.push(pa[i]);
-                     var d=document.createElement("div");
-           // d.id="k"+o.parts[ii].pn;
-            d.value=i;
-            d.name=pa[i];
-          
-              d.setAttribute("class","ckk");
-                d.innerHTML="<input type='number' class='cpp' value='"+pa[i].qty+"'></input><button class='csl' onclick='showLoc(this)'>Loc</button>"+
-                "<br>P/N: "+pa[i].pn+"<br>Desc: "+pa[i].des+"<br>Job No. "+pa[i].job+
-                "<br>Note: <input class='' value='"+pa[i].note+"'></input>"+
-             "<br><button id='bd' class='cbk'  onclick='delpj(this)'>Delete</button>";//+
-            
-                areak.appendChild(d); 
- }
- dkit.name=jobs[h];
-
-        h=jobs.length;
-            }
-            }
-            
-
-        */ });
+   });
 
     }
 }
 }
 function crPa(ob,j){
-    alert(JSON.stringify(ob))
-     while (areak.firstChild) { areak.removeChild(areak.firstChild);} 
+    while (areak.firstChild) { areak.removeChild(areak.firstChild);} 
       var ar=[];
      navigator.vibrate([100,30])
             var jobs=ob.jobs;
@@ -1524,11 +1505,9 @@ function crPa(ob,j){
                
                  var pa=jobs[h].parts;
                  for(var i=0;i<pa.length;i++){
-                  //   crPa(pa[i],i)
-                    ar.push(pa[i]);
+                     ar.push(pa[i]);
                      var d=document.createElement("div");
-           // d.id="k"+o.parts[ii].pn;
-            d.value=i;
+             d.value=i;
             d.name=pa[i];
           
               d.setAttribute("class","ckk");
@@ -1544,8 +1523,6 @@ function crPa(ob,j){
         h=jobs.length;
             }
             }
-            
-
 }
 
 function delpj(e){   navigator.vibrate([100,30])
@@ -1563,10 +1540,6 @@ function delpj(e){   navigator.vibrate([100,30])
 
                 }
             }
-
- 
-//})
-
 
 
 function updpj(e){    navigator.vibrate([100,30])
@@ -1921,42 +1894,22 @@ function prosesarEditor(e){
  
    try{
         var o=JSON.parse(editor.value.replace(/\n/gi,"")); 
-  dkit.name=o;
-    deditor.style.display="none";
+  //dkit.name=o;
+    deditor.style.display="none";;
+    alert(JSON.stringify(o))
     fillDkits(o);
 
 
-/*   if(btnsbask.style.display==="block"){
-
-alert("From basket");
-openBask(e,o);
-   }
-   if(btnsjob.style.display==="block"){
-  //  loadJob(tie.innerHTML,o);
-alert("from jobs");
-fillDkits(o);
-return;
-   }
- if(btnskit.style.display==="block"){
-   alert("fromkits")
-   kitaction(tie.innerHTML,o)
-   }
-   if(o.name==="main"){
-    alert("from main")
-    */
-
-//}
-   
-    //alert("Changes made... open again your proyect")
    }
   catch(er){alert("There is a mistake, check again...\n\n"+er)}
 
 }
 function fillDkits(ob){
-    dkit.name=ob;
+
     var pa=ob.parts;
     while (areak.firstChild) { areak.removeChild(areak.firstChild);} 
                  for(var i=0;i<pa.length;i++){
+                     if(pa[i]!= null){
                  var d=document.createElement("div");
 
             d.value=i;
@@ -1970,12 +1923,16 @@ function fillDkits(ob){
            //  alert(d.innerHTML)
    
                 areak.appendChild(d);   
-                dkit.style.display="block"
+ 
  }
-
-
-
-
+ else{ 
+     alert(pa[i])
+      pa.splice(i,1);
+ i--;
+ }
+ } 
+ dkit.style.display="block"
+    dkit.name=ob;
 
 }
 </script>
