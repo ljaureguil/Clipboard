@@ -573,7 +573,7 @@ GetJ(linkj,function(obj){ navigator.vibrate([100,30]);
         document.body.getElementsByTagName("style")[0] = st;
     }
 
-    function onScanError(errorMessage) { navigator.vibrate([100,30]);
+    function onScanError(errorMessage) {
         // handle on error condition, with error message
     }
 
@@ -832,7 +832,7 @@ GetJ(linkj,function(obj){ navigator.vibrate([100,30]);
         }
 
     }
-    function filter(pa) { navigator.vibrate([100,30]);
+    function filter(pa) {
 
 while (dinv.firstChild) { dinv.removeChild(dinv.firstChild);}
 for (var i = 0; i < pa.length; i++) { name
@@ -1156,7 +1156,7 @@ function updp(e){
       p.qty=q;
       basket.parts[i]=p; 
       dkit.name=basket;
-        navigator.vibrate([100,30])
+   
       alert("Part "+p.pn+" has been updated");
       //do dthe update....
 }
@@ -1341,7 +1341,7 @@ function selkit(e){   navigator.vibrate([100,30])
 }
 
 
-function editark(e){   navigator.vibrate([100,30])
+function editark(e){  
     alert(e.innerHTML)
     alert("editar mode");
 
