@@ -877,7 +877,7 @@ dinv.appendChild(document.createElement("p"));
         navigator.vibrate([100,30]);
         if(!kitmode){   
        
-        if(sjobs2.value==="Select a Job"){
+        if(sjobs2.value==="Select a Job" && sjobs2.value!="Create Job" ){
         var j=prompt("Job hasn't been selected\n\nPress 'cancel' to go back and select it or type a new job name");
         if(j===null) return;
         else {
@@ -888,6 +888,19 @@ dinv.appendChild(document.createElement("p"));
     
         }
       
+    }
+    if(sjobs2.value==="Create Job"){
+        var o={};
+              //   alert(js.length)
+            //     alert(JSON.stringify(pb[b]))
+                 o.job=prompt("Type jobe name");
+                 if(o.job===null) return;
+                 o.status="Active"
+                 o.moves="";
+                 o.parts=[];
+               //  o.parts.push(pb[b]);
+               //  js.push(o);
+
     }
   
        pno.value=e.name.pn.toUpperCase();
@@ -1171,18 +1184,70 @@ function delp(e){
 
 
 }
-
-
 function swba(){
+    basket.parts=dkit.name.parts;
+    if(basket.parts.length>0){
+     if(confirm("You have "+basket.parts.length+" parts in basket, do you wanto to send them to Clipboard?")){
+
+
+
+        GetJ(linkj,function (obj){
+       var js=obj.jobs;
+            var pb=basket.parts; 
+
+            
+            for(var b=0;b<pb.length;b++){
+                var enc=0;
+                var i=0;
+            for(i=0;i<js.length;i++){
+                if(js[i].parts===undefined) js[i].parts=[];
+                if(js[i].job===pb[b].job){
+                        enc=1;
+                       js[i].parts.push(pb[b]);
+                   //    alert(enc)
+                  }
+  
+}
+if(enc===0){
+                 var o={};
+              //   alert(js.length)
+            //     alert(JSON.stringify(pb[b]))
+                 o.job=pb[b].job;
+                 o.status="Active"
+                 o.moves="";
+                 o.parts=[];
+                 o.parts.push(pb[b]);
+                 js.push(o);
+                 enc=0;
+ 
+             }
+
+
+             }
+ 
+    
+  UpdateJ(linkj,obj,function(){
+         alert("Items send to Clipboard...");
+             basket.parts.length=0; 
+             basket.name="basket"
+           localStorage.setItem("basquet",JSON.stringify(basket))
+           ibas.innerHTML="0";
+           window.location.reload();})  /**/
+
+})
+    }
+}
+else alert("You don't have any item in basket jet...")
+}
+
+function swba2(){
     basket.parts=dkit.name.parts;
     if(basket.parts.length>0){
      if(confirm("You have "+basket.parts.length+" parts in basket, do you wanto to send them to Clipboard?")){
 GetJ(linkj,function (obj){
        var js=obj.jobs;
-       
             var pb=basket.parts; 
-        
-           for(var b=0;b<pb.length;b++){
+            for(var b=0;b<pb.length;b++){
                 var enc=0;
                 var i=0;
             for(i=0;i<js.length;i++){
@@ -1202,14 +1267,15 @@ GetJ(linkj,function (obj){
              }
              if(enc===0){
                  var o={};
-                
+                 alert(b)
+                 alert(JSON.stringify(pb[b]))
                  o.job=pb[b].job;
                  o.status="Active"
                  o.moves="";
                  o.parts=[];
                  o.parts.push(pb[b]);
                  js.push(o);
-            //     alert(JSON.stringify(o))
+                alert(JSON.stringify(o))
                         }
 }
     UpdateJ(linkj,obj,function(){
