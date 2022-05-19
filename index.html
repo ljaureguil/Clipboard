@@ -925,8 +925,11 @@ dinv.appendChild(document.createElement("p"));
                  
                     cla.value = e.name.clase;
                     loc.value = e.name.location;
-                    no.value = prompt("Type a Note");//e.name.note;
-                    if(no.value=null) no.value="";
+                    no.value = prompt("Type a Note");
+                 //   Parts[i].note=no.value;
+                    
+                    e.name.note=no.value;
+                    if(no.value===null) no.value="";
                     mec.value = mecanico;
                   //  dor.style.display='block';
                   if(sjobs2.value==="Select a Job"){
@@ -944,7 +947,7 @@ dinv.appendChild(document.createElement("p"));
                   }
                   jn.value=sjobs.value;
                    
-                if(confirm("Add "+no.value+" To Basquet?") ) addToBasquet();
+                if(confirm("Add "+e.name.pn+" To Basquet?") ) addToBasquet();
 
                 }
             }
@@ -1061,6 +1064,7 @@ function addToBasquet(){ navigator.vibrate([100,30]);
                }
                else{
                 o.pulled=new Date().toString();
+           //     alert(JSON.stringify(o))
                basket.parts.push(o);
              ibas.innerHTML=basket.parts.length;
                basket.name="basket"
@@ -1267,15 +1271,15 @@ GetJ(linkj,function (obj){
              }
              if(enc===0){
                  var o={};
-                 alert(b)
-                 alert(JSON.stringify(pb[b]))
+               //  alert(b)
+               //  alert(JSON.stringify(pb[b]))
                  o.job=pb[b].job;
                  o.status="Active"
                  o.moves="";
                  o.parts=[];
                  o.parts.push(pb[b]);
                  js.push(o);
-                alert(JSON.stringify(o))
+              //  alert(JSON.stringify(o))
                         }
 }
     UpdateJ(linkj,obj,function(){
@@ -1611,10 +1615,7 @@ function delpj(e){   navigator.vibrate([100,30])
 
 
 function updpj(e){    navigator.vibrate([100,30])
-  //     alert("delete "+e.parentElement.name.pn);
- //   alert(dkit.name.job);
-   // alert(titulo.innerHTML)
-
+ 
    if(!confirm("Are you sure you want to modify Job?....................................")) return;
      var els=areak.children;
      var job=dkit.name;
@@ -1629,7 +1630,7 @@ function updpj(e){    navigator.vibrate([100,30])
            job.parts[i].note=ips[1].value;
      }
   //   alert(JSON.stringify(job));
-     GetJ(linkj,function(obj){   navigator.vibrate([100,30]);
+     GetJ(linkj,function(obj){ //  navigator.vibrate([100,30]);
      for(var i=0;i<obj.jobs.length;i++){
         if(obj.jobs[i].job===job.job){
             obj.jobs[i]=job;
@@ -1860,7 +1861,7 @@ function updateKitLoc(){ navigator.vibrate([100,30]);
         for(var ii=0;ii<pis.length;ii++){
             if(np===pis[ii].pn && pis[ii].location!=undefined && pis[ii].location!=""){
                 partsk[u].location=pis[ii].location;
-                alert(JSON.stringify(partsk[u]))
+            //    alert(JSON.stringify(partsk[u]))
                 ii=pis.length;
                 
 
