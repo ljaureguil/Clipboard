@@ -80,7 +80,7 @@
         height: auto;
     }
     #tfil {
-        width: 94%;
+        width: 75%;
         box-shadow: -10px 10px 15px 1px rgba(0, 0, 0, .51);
         text-align: left;
         margin: 3px;
@@ -156,13 +156,11 @@
      #loc{display: none;}
      #kw{display: none;}
      #plus{
-        position:absolute;
-        right:0%;
-       top:0%;
+ 
         width: 55px;
         height: 55px;
           border-radius: 100px;
-        display: block;
+        display: none;
      }
      #ibas{
          background:url(https://icon2.cleanpng.com/20180319/oaw/kisspng-area-text-symbol-brand-shopping-basket-add-5ab04291cd8722.0789780615215008178419.jpg);
@@ -325,8 +323,11 @@ select{
    <option>---------------</option>
  </select><br>
 </div>
- <br><span id="hi">-- Search/Manually...</span></span><br>
- <textarea id="tfil" oninput="search(this.value)" placeholder="Type Key Word..."></textarea><br>
+ <br><span id="hi">-- Search/Manually... </span><br>
+ 
+ <textarea id="tfil" oninput="search(this.value)" placeholder="Type Key Word..."></textarea>
+     <img id="plus" class="cpu" onclick="add=true;addNewPart();" src="https://findicons.com/files/icons/1014/ivista/256/plus.png">
+<br>
 
 <div id="dinv"></div>
 <div id="dparts"></div>
@@ -334,8 +335,7 @@ select{
 <a id="ta" href="" target="_blank"></a>
 
 <div id="dor">
-      <img id="plus" class="cpu" onclick="add=true;send('pull')" src="https://findicons.com/files/icons/1014/ivista/256/plus.png">
- <br>
+  <br>
     Job No.................<select id="sjobs"oninput="jn.value=this.value"><option>Select a Job</option></select>
     <input id="jn" type="text" class="cin" value="">
     <br>Qty:
@@ -815,17 +815,21 @@ GetJ(linkj,function(obj){ navigator.vibrate([100,30]);
         if (v === "") {
             dinv.style.display = "none";
         } else {
+            v=v.trim();
             dinv.style.display = "block";
             var pa = document.getElementsByClassName("ctt");
+                    plus.style.display="block"            
             for (var i = 0; i < pa.length; i++) {
                 var s = JSON.stringify(pa[i]);
                 s = s.toUpperCase();
                 v = v.toUpperCase();
                 if (s.indexOf(v) > -1) {
-                    pa[i].style.display = "block"
+                    pa[i].style.display = "block";
+                    plus.style.display="none";
                     //   ar.push(pa[i]);
                 } else {
-                    pa[i].style.display = "none"
+                    pa[i].style.display = "none";
+
                 }
             }
 
@@ -2002,6 +2006,50 @@ function fillDkits(ob){
  } 
  dkit.style.display="block"
     dkit.name=ob;
+
+}
+function addNewPart(){
+    if (add) {
+        var o = {
+                   "job": "",
+                   "pn": "",
+                   "des": "",
+                   "qty": "",
+                   "qtyObs": "",
+                   "move": "",
+                   "kw": "",
+                   "clase": "other",
+                   "mec": "",
+                   "location": "",
+                   "note": "",
+                   "created": new Date().toString()
+               };
+                   o.clase="other";
+                   o.pn=prompt("Type Part Number",tfil.value);
+                   o.des=prompt("Type Description")
+                   if (o.pn === "" || o.des === "" || o.pn === null || o.des === null) {
+                       alert("Not Part Number or Description");
+                       return;
+                   } else {
+                       var k=prompt("Type Keyword (optional)");
+                       if(k===null)k="";
+                       o.kw=k;
+                       k=prompt("Type Location (optional)");
+                       if(k===null)loc="";
+                       o.des=k;
+
+                       GetJ(linko, function(obj) {
+                        obj.parts.push(o);
+                            if(confirm("Ready to Add "+o.pn+" to 'other' ")){    
+                             UpdateJ(linko, obj, function() { navigator.vibrate([100,30]);
+                            alert("Part has been added to 'other'...");
+                                   window.location.reload();
+                             })
+                            }
+                            else alert("Part hasn't been added...")
+                       });
+                   }
+               }
 
 }
 </script>
