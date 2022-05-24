@@ -160,7 +160,7 @@
         width: 55px;
         height: 55px;
           border-radius: 100px;
-        display: none;
+ 
      }
      #ibas{
          background:url(https://icon2.cleanpng.com/20180319/oaw/kisspng-area-text-symbol-brand-shopping-basket-add-5ab04291cd8722.0789780615215008178419.jpg);
@@ -283,10 +283,15 @@ select{
     height:90%;
     color:black
 }
+.cre{
+    background:red;
+    color: white;
+    border-radius: 100px;
+}
 </style>
 <div id="todo">
     <button id="ibas" onclick="openBask(basket)"></button>
- <select id="menu" oninput="bkobjs(this.value)" >
+ <select id="menu" oninput="bkobjs(this.value)">
 <option>Menu</option>
 <option>bk kits</option>
 <option>bk jobs</option>
@@ -368,11 +373,11 @@ select{
     <br>
    
     <br>
-    <button class="cpu" onclick="addToBasquet()">Add to Basket</button>
-       <button id="bor" class="cpu" onclick="send('order')">Request</button>
+    <button class="ck" onclick="addToBasquet()">Add to Basket</button>
+       <button id="bor" class="ck" onclick="send('order')">Request</button>
   
 
-    <button class="cpu" onclick="dor.style.display='none';">Close</button>
+    <button class="ck" onclick="dor.style.display='none';">Close</button>
  
 </div>
 <textarea id="tx" readonly></textarea><br>
@@ -384,7 +389,7 @@ select{
 <div id="dkit">
     <p id="titulo">Titulo</p>
     <button onclick="openEditor(this)">Editor</button>
-    <button class="ck" style ="width:42%;" onclick="closedlg()">Close</button>
+    <button class="ck" style ="width:42%;"  onclick="closedlg()">Close</button>
     <button id='bu' class='ck'   onclick='spreadSheet(this)'">Spread Sheet</button>
    <div id="btnsjob">
  
@@ -393,7 +398,7 @@ select{
 
    </div>
     <div id="btnsbask">
-        <button class="cpu"   onclick="emptyBasket()">Empty Basket</button>
+        <button class="ck"   onclick="emptyBasket()">Empty Basket</button>
         <button class="ck"   onclick="updBasket()">Update Basket</button>
        <button id="bdelkit" class="ck"  onclick="swba()"">Send To Clipboard</button><br>
       
@@ -469,6 +474,7 @@ else{
   
     var Parts = [], editMode=false;
         Psel = [],
+        arorder=[],
         partsClip = [],upMain=0,upMisc=0,upOther=0;
 
  //   localStorage.removeItem("mec")
@@ -839,7 +845,11 @@ GetJ(linkj,function(obj){ navigator.vibrate([100,30]);
     function filter(pa) {
 
 while (dinv.firstChild) { dinv.removeChild(dinv.firstChild);}
-for (var i = 0; i < pa.length; i++) { name
+for (var i = 0; i < pa.length; i++) { //name
+    var re=document.createElement("button");
+    re.setAttribute("class","cre");
+    re.innerHTML="Order Part";
+    re.setAttribute("onclick","order=true;sel(this.parentElement);");
     bo=document.createElement("button");
     var d=document.createElement("div");
     var p = document.createElement("p");
@@ -847,7 +857,6 @@ for (var i = 0; i < pa.length; i++) { name
     p.setAttribute("class", "ctp");
     d.style.display = "block";
     d.style.background = "white";
-  
         bl=document.createElement("button");
      bl.setAttribute("onclick", "showLoc(this)");
      bl.setAttribute("class","csli");
@@ -866,7 +875,7 @@ for (var i = 0; i < pa.length; i++) { name
        p.setAttribute("onclick", "sel(this.parentElement);");
   
    d.appendChild(p);
-   
+   d.appendChild(re)
  //+
   //  d.innerHTML+="Keyword: <input value='"+pa[i].kw+"''></input><br>Location: <input value='"+pa[i].location+"'></input><br>note: <input value='"+pa[i].note+"'></input><br>";
     dinv.appendChild(d); // fil.appendChild(p)
@@ -876,9 +885,29 @@ for (var i = 0; i < pa.length; i++) { name
 dinv.appendChild(document.createElement("p")); 
     }
 
-
     function sel(e) {
         navigator.vibrate([100,30]);
+        if(order){
+            var p=e.name;
+            q=prompt("How many peaces?");
+            if(q===null){alert("Try again");return};
+            q=q*1;
+            if(isNaN(q)){alert("Not a number try again");return}
+            p.qty=q;
+            q=prompt("How many are left?");
+            if(q===null)q=0
+            p.qtyObs=q;
+            p.note=prompt("Type a Note","")    
+            if(p.note===null)p.note="";        
+  
+            arorder.push(e.name);
+        if(confirm("You have "+arorder.length+" Parts to order, do you want to send the order now?")) {
+            PlaceOrd();
+        }
+        order=false;
+        
+        }
+        else{
         if(!kitmode){   
        
         if(sjobs2.value==="Select a Job" && sjobs2.value!="Create Job" ){
@@ -908,7 +937,7 @@ dinv.appendChild(document.createElement("p"));
     }
   
        pno.value=e.name.pn.toUpperCase();
-       dor.name=e;
+     //  dor.name=e;
      
         var enc = false;
  
@@ -967,7 +996,7 @@ dinv.appendChild(document.createElement("p"));
     else{ 
 
          e.style.background = "#f00";
-        dor.style.display="none";
+    //...    dor.style.display="none";
         for (var i = 0; i < Parts.length; i++) {
                 if (Parts[i].pn === e.name.pn) {
                     enc = true;
@@ -1011,7 +1040,7 @@ e.style.background = "#0f0";
             }
 
     }
-
+        }
     }
 
     function getFe(fr){
@@ -1879,8 +1908,11 @@ function updateKitLoc(){ navigator.vibrate([100,30]);
 })})})
 }
 function bkobjs(v){ navigator.vibrate([100,30]);
+
   
     if(mecanico.toUpperCase().indexOf("LAURO")>-1){
+
+
     if(v==="bk jobs"){
         loadDoc(linkj,function(ob){ navigator.vibrate([100,30]);
             localStorage.setItem("jobs",ob);
@@ -2026,11 +2058,10 @@ function addNewPart(){
                };
                    o.clase="other";
                    o.pn=prompt("Type Part Number",tfil.value);
+                   if(o.pn===null || o.pn===""){ alert("No Part Number,try again");return;}
                    o.des=prompt("Type Description")
-                   if (o.pn === "" || o.des === "" || o.pn === null || o.des === null) {
-                       alert("Not Part Number or Description");
-                       return;
-                   } else {
+                   if(o.des===null || o.des===""){ alert("No Description, try again");return;}
+                 
                        var k=prompt("Type Keyword (optional)");
                        if(k===null)k="";
                        o.kw=k;
@@ -2048,8 +2079,25 @@ function addNewPart(){
                             }
                             else alert("Part hasn't been added...")
                        });
-                   }
+                  // }
                }
+
+}
+function PlaceOrd(){
+
+GetJ(linkord, function(obj) {
+    obj.parts= obj.parts.concat(arorder)
+    UpdateJ(linkord, obj, function() { 
+        navigator.vibrate([100,30]);
+     while(arorder.length > 0) {
+    arorder.pop();
+}
+  
+        alert("Order sent...")
+    })
+});
+
+
 
 }
 </script>
