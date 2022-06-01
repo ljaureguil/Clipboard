@@ -292,8 +292,10 @@ select{
     border-radius: 5px;
        background: black;
        color:#fff;
-    height: 25%;
-    width: 65%;
+       padding: 5px;
+       font-weight: bold;
+    height: 45%;
+    width: 90%;
 }
 </style>
 <div id="todo">
@@ -1941,7 +1943,7 @@ function editarP(e){ navigator.vibrate([100,30]);
       editMode=true;
     var o=e.name;
      e.appendChild(editp);
-     tjson.value=JSON.stringify(o).replace(/,/g,",\n")
+     tjson.value=JSON.stringify(o).replace(/,/g,",\n").replace(/{/g,"{\n").replace(/}/g,"\n}")
     editp.style.display="block";
  //   if(o.kw!=undefined) ekw.value=o.kw;
  //   if(o.location!=undefined) eloc.value=o.location;
@@ -1961,7 +1963,7 @@ function editarP2(e){ navigator.vibrate([100,30]);
       editMode=true;
     var o=e.name;
      e.appendChild(editp);
-     tjson.value=JSON.stringify(o).replace(/,/g,",\n")
+     tjson.value=JSON.stringify(o).replace(/,/g,",\n").replace(/{/g,"{\n").replace(/}/g,"\n}")
     editp.style.display="block";
     if(o.kw!=undefined) ekw.value=o.kw;
     if(o.location!=undefined) eloc.value=o.location;
