@@ -231,8 +231,8 @@
        font-size: 18px;
    }
    #editp{
-       border-style: solid;;
-       background:white;
+      border-radius: 5px;
+       background: #ffffff;;
        color:black;
        display:none;
    }
@@ -287,6 +287,13 @@ select{
     background:red;
     color: white;
     border-radius: 100px;
+}
+#tjson{
+    border-radius: 5px;
+       background: black;
+       color:#fff;
+    height: 25%;
+    width: 65%;
 }
 </style>
 <div id="todo">
@@ -416,9 +423,15 @@ select{
 
 </div>
 <div id="editp">
+ 
+    <textarea id="tjson"></textarea><br>
+    <div id="dde">
     Key Word: <input id="ekw" oninput=""></input><br>
     Location: <input id="eloc" oninput=""></input><br>
     Note: <input id="eno" oninput=""></input><br>
+
+</div>
+
 
     <button onclick="updteInv(this.parentElement)">Update Part</button>
     
@@ -530,8 +543,16 @@ GetJ(linkj,function(obj){ navigator.vibrate([100,30]);
     }
 }
 
-  if(mecanico.toUpperCase()==="LAURO") plus.style.display="block";
-    else plus.style.display="none"
+  if(mecanico.toUpperCase()==="LAURO"){
+       plus.style.display="block";
+       dde.style.display="none"
+    
+    }
+    else {
+        plus.style.display="none";
+        dde.style.display="none"
+
+    }
  
     GetJ(linkkits,function(ob){ navigator.vibrate([100,30]);
 
@@ -1729,6 +1750,92 @@ for(var i=0;i<els.length;i++){
  if(!c) dkit.style.display="none";
 }
 function updteInv(e){ navigator.vibrate([100,30]);
+   
+    editMode=false; 
+      var p=e.parentElement.name;
+     var so=JSON.stringify(p)
+  //   alert(so)
+      if(p.clase==="inv"){
+        for(var i=0;i<invMaster.parts.length;i++){
+            var ip=invMaster.parts[i];
+                    sp=JSON.stringify(ip);
+            if(sp===so){
+                if(confirm("Are you sure you wanto to modify "+ip.pn+" in Main inventory?")){
+                    var k=e.getElementsByTagName("input");
+                    p.kw=k[0].value;
+                    p.location=k[1].value;
+                    p.note=k[2].value;
+                   invMaster.parts[i]=p; 
+                    upMain++;
+                 //   alert("Local inventory updated, remember to update inventory before exit to se changes");
+                   um.innerHTML="Update 'Main' Inventory<br>"+upMain+" Parts Modified";
+                   um.style.display="block";
+                   editp.style.display="none"
+   
+                }
+                i<invMaster.parts.length
+            }
+
+        }
+
+    }
+    if(p.clase==="misc"){
+        for(var i=0;i<invMisc.parts.length;i++){
+            var ip=invMisc.parts[i];
+                    sp=JSON.stringify(ip);
+                 //   alert(sp+"\n\n"+so)
+            if(sp===so){
+                if(confirm("Are you sure you wanto to modify "+ip.pn+" in Misc inventory?")){
+                    var k=e.getElementsByTagName("input");
+                    p.kw=k[0].value;
+                    p.location=k[1].value;
+                    p.note=k[2].value;
+                   invMisc.parts[i]=p; 
+                    upMisc++;
+                   // alert("Local inventory updated, remember to update inventory before exit to se changes")
+                    umi.innerHTML="Update 'Misc' Inventory<br>"+upMisc+" Parts Modified";
+                    umi.style.display="block";
+                    editp.style.display="none"
+                }
+                 i=invMisc.parts.length;  //  alert(invMaster.parts.length)
+            }
+       
+        }
+    }
+    if(p.clase==="other"){
+        for(var i=0;i<invOther.parts.length;i++){
+            var ip=invOther.parts[i];
+                    sp=JSON.stringify(ip);
+            if(sp===so){
+
+
+                if(confirm("Are you sure you wanto to modify "+ip.pn+" in Other inventory?")){
+                    
+                 invOther.parts[i]=JSON.parse(tjson.value);
+    
+                    upOther++;
+                  //  alert("Local inventory updated, remember to update inventory before exit to se changes")
+                    uo.innerHTML="Update 'Other' Inventory<br>"+upOther+" Parts Modified";
+                    uo.style.display="block";
+                    editp.style.display="none";
+                return;
+                 
+
+               
+                }
+               // i=invOther.parts.length;
+     
+            }
+
+        }
+
+    }
+}
+
+
+
+
+function updteInv2(e){ navigator.vibrate([100,30]);
     editMode=false; 
       var p=e.parentElement.name;
      var so=JSON.stringify(p)
@@ -1834,6 +1941,27 @@ function editarP(e){ navigator.vibrate([100,30]);
       editMode=true;
     var o=e.name;
      e.appendChild(editp);
+     tjson.value=JSON.stringify(o).replace(/,/g,",\n")
+    editp.style.display="block";
+ //   if(o.kw!=undefined) ekw.value=o.kw;
+ //   if(o.location!=undefined) eloc.value=o.location;
+  //  if(o.note!=undefined) eno.value=o.note;
+    }
+ }
+
+
+function editarP2(e){ navigator.vibrate([100,30]);
+    if(editMode){
+         editp.style.display="none";
+         editMode=false;
+     //    e.style.background="red"
+    }
+    else{
+    //    e.style.background="none"
+      editMode=true;
+    var o=e.name;
+     e.appendChild(editp);
+     tjson.value=JSON.stringify(o).replace(/,/g,",\n")
     editp.style.display="block";
     if(o.kw!=undefined) ekw.value=o.kw;
     if(o.location!=undefined) eloc.value=o.location;
