@@ -427,14 +427,13 @@ select{
 <div id="editp">
  
     <textarea id="tjson"></textarea><br>
+    <button style="width:5%;color:white; background:red;" onclick="delP(this.parentElement)">Delete Part</button><br>
     <div id="dde">
     Key Word: <input id="ekw" oninput=""></input><br>
     Location: <input id="eloc" oninput=""></input><br>
     Note: <input id="eno" oninput=""></input><br>
 
 </div>
-
-
     <button onclick="updteInv(this.parentElement)">Update Part</button>
     
 </div>
@@ -1300,57 +1299,6 @@ if(enc===0){
 else alert("You don't have any item in basket jet...")
 }
 
-function swba2(){
-    basket.parts=dkit.name.parts;
-    if(basket.parts.length>0){
-     if(confirm("You have "+basket.parts.length+" parts in basket, do you wanto to send them to Clipboard?")){
-GetJ(linkj,function (obj){
-       var js=obj.jobs;
-            var pb=basket.parts; 
-            for(var b=0;b<pb.length;b++){
-                var enc=0;
-                var i=0;
-            for(i=0;i<js.length;i++){
-               // alert(JSON.stringify(js[i]))
-                enc=0;//alert(pb[b].job)
-                if(js[i].parts===undefined) js[i].parts=[];
-            //    alert(js[i].job+"\n\n"+pb[b].job)
-                  if(js[i].job===pb[b].job){
-                   //   alert("found.................")
-                       enc=b*1;
-                       js[i].parts.push(pb[b]);
-                       pb.splice(b,1);
-                       b--;
-                       i=js.length;
-                                    
-                  }
-             }
-             if(enc===0){
-                 var o={};
-               //  alert(b)
-               //  alert(JSON.stringify(pb[b]))
-                 o.job=pb[b].job;
-                 o.status="Active"
-                 o.moves="";
-                 o.parts=[];
-                 o.parts.push(pb[b]);
-                 js.push(o);
-              //  alert(JSON.stringify(o))
-                        }
-}
-    UpdateJ(linkj,obj,function(){
-         alert("Items send to Clipboard...");
-             basket.parts.length=0; 
-             basket.name="basket"
-           localStorage.setItem("basquet",JSON.stringify(basket))
-           ibas.innerHTML="0";
-           window.location.reload();})/**/
-
-})
-    }
-}
-else alert("You don't have any item in basket jet...")
-}
 function emptyBasket(){
     if(confirm("Are you sure?, you will lose all items in basket")){
         basket.parts.length=0;
@@ -1815,87 +1763,6 @@ function updteInv(e){ navigator.vibrate([100,30]);
 
     }
 }
-
-
-
-
-function updteInv2(e){ navigator.vibrate([100,30]);
-    editMode=false; 
-      var p=e.parentElement.name;
-     var so=JSON.stringify(p)
-  //   alert(so)
-      if(p.clase==="inv"){
-        for(var i=0;i<invMaster.parts.length;i++){
-            var ip=invMaster.parts[i];
-                    sp=JSON.stringify(ip);
-            if(sp===so){
-                if(confirm("Are you sure you wanto to modify "+ip.pn+" in Main inventory?")){
-                    var k=e.getElementsByTagName("input");
-                    p.kw=k[0].value;
-                    p.location=k[1].value;
-                    p.note=k[2].value;
-                   invMaster.parts[i]=p; 
-                    upMain++;
-                 //   alert("Local inventory updated, remember to update inventory before exit to se changes");
-                   um.innerHTML="Update 'Main' Inventory<br>"+upMain+" Parts Modified";
-                   um.style.display="block";
-                   editp.style.display="none"
-   
-                }
-                i<invMaster.parts.length
-            }
-
-        }
-
-    }
-    if(p.clase==="misc"){
-        for(var i=0;i<invMisc.parts.length;i++){
-            var ip=invMisc.parts[i];
-                    sp=JSON.stringify(ip);
-                 //   alert(sp+"\n\n"+so)
-            if(sp===so){
-                if(confirm("Are you sure you wanto to modify "+ip.pn+" in Misc inventory?")){
-                    var k=e.getElementsByTagName("input");
-                    p.kw=k[0].value;
-                    p.location=k[1].value;
-                    p.note=k[2].value;
-                   invMisc.parts[i]=p; 
-                    upMisc++;
-                   // alert("Local inventory updated, remember to update inventory before exit to se changes")
-                    umi.innerHTML="Update 'Misc' Inventory<br>"+upMisc+" Parts Modified";
-                    umi.style.display="block";
-                    editp.style.display="none"
-                }
-                 i=invMisc.parts.length;  //  alert(invMaster.parts.length)
-            }
-       
-        }
-    }
-    if(p.clase==="other"){
-        for(var i=0;i<invOther.parts.length;i++){
-            var ip=invOther.parts[i];
-                    sp=JSON.stringify(ip);
-            if(sp===so){
-                if(confirm("Are you sure you wanto to modify "+ip.pn+" in Other inventory?")){
-                    var k=e.getElementsByTagName("input");
-                    p.kw=k[0].value;
-                    p.location=k[1].value;
-                    p.note=k[2].value;
-                   invOther.parts[i]=p; 
-                    upOther++;
-                  //  alert("Local inventory updated, remember to update inventory before exit to se changes")
-                    uo.innerHTML="Update 'Other' Inventory<br>"+upOther+" Parts Modified";
-                    uo.style.display="block";
-                    editp.style.display="none"
-                }
-                i=invOther.parts.length;
-            }
-
-        }
-
-    }
-}
-
 function updIn(link,obj,n){ navigator.vibrate([100,30]);
     //linkp=main
                     if(confirm("Object: '"+obj.name+"' ready to be updated")){
@@ -1921,39 +1788,16 @@ function editarP(e){ navigator.vibrate([100,30]);
      //    e.style.background="red"
     }
     else{
-    //    e.style.background="none"
-      editMode=true;
+       editMode=true;
     var o=e.name;
      e.appendChild(editp);
      tjson.value=JSON.stringify(o).replace(/,/g,",\n").replace(/{/g,"{\n");//.replace(/}/g,"\n}")
- //    tjson.value[tjson.value.length-1]="\n}................";
-  //   alert("ok")
-    editp.style.display="block";
- //   if(o.kw!=undefined) ekw.value=o.kw;
- //   if(o.location!=undefined) eloc.value=o.location;
-  //  if(o.note!=undefined) eno.value=o.note;
+     editp.style.display="block";
+ 
     }
  }
 
 
-function editarP2(e){ navigator.vibrate([100,30]);
-    if(editMode){
-         editp.style.display="none";
-         editMode=false;
-     //    e.style.background="red"
-    }
-    else{
-    //    e.style.background="none"
-      editMode=true;
-    var o=e.name;
-     e.appendChild(editp);
-     tjson.value=JSON.stringify(o).replace(/,/g,",\n").replace(/{/g,"{\n").replace(/}/g,"\n}")
-    editp.style.display="block";
-    if(o.kw!=undefined) ekw.value=o.kw;
-    if(o.location!=undefined) eloc.value=o.location;
-    if(o.note!=undefined) eno.value=o.note;
-    }
- }
  function showLoc(e){ navigator.vibrate([100,30]);
      alert("Location: "+e.parentElement.name.location)
  }
@@ -2181,7 +2025,7 @@ function addNewPart(){
                        o.kw=k;
                        k=prompt("Type Location (optional)");
                        if(k===null)loc="";
-                       o.des=k;
+                       o.loc=k;
 
                        GetJ(linko, function(obj) {
                         obj.parts.push(o);
@@ -2211,8 +2055,66 @@ GetJ(linkord, function(obj) {
     })
 });
 
+}
 
+function delP(e){
+    editMode=false; 
+     var p=e.parentElement.name;
+     var so=JSON.stringify(p);
+       if(p.clase==="inv"){
+        for(var i=0;i<invMaster.parts.length;i++){
+            var ip=invMaster.parts[i];
+                    sp=JSON.stringify(ip);
+            if(sp===so){
+                if(confirm("Are you sure you wanto to Delete permanently "+ip.pn+" from Main inventory?")){
+                invMaster.parts[i]=JSON.parse(tjson.value); 
+                invMaster.parts.splice(i,1);
+              updIn(linkp,invMaster,'Main');
+                   editp.style.display="none";
+                   return;
+   
+                }
+    
+            }
 
+        }
+
+    }
+ 
+    if(p.clase==="misc"){
+        for(var i=0;i<invMisc.parts.length;i++){
+            var ip=invMisc.parts[i];
+                    sp=JSON.stringify(ip);
+           if(sp===so){
+                if(confirm("Are you sure you wanto to Delete permanently "+ip.pn+" from Misc inventory?")){
+                     invMisc.parts.splice(i,1);
+
+                        updIn(linkm,invMisc,'Misc')
+                        editp.style.display="none";
+                    return;
+                }
+   
+            }
+       
+        }
+    }
+      if(p.clase==="other"){
+        for(var i=0;i<invOther.parts.length;i++){
+            var ip=invOther.parts[i];
+            sp=JSON.stringify(ip);
+            if(sp===so){
+                if(confirm("Are you sure you wanto to Delete permanently "+ip.pn+" from Other inventory?")){
+                  invOther.parts.splice(i,1);
+                  updIn(linko,invOther,'Other')
+                    editp.style.display="none";
+                return;
+                 
+                }
+              }
+
+        }
+
+    }
 }
 </script>
 </html>
