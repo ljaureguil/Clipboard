@@ -1018,12 +1018,15 @@ dinv.appendChild(document.createElement("p"));
     else{ 
 
          e.style.background = "#f00";
-    //...    dor.style.display="none";
-        for (var i = 0; i < Parts.length; i++) {
+          for (var i = 0; i < Parts.length; i++) {
+    
                 if (Parts[i].pn === e.name.pn) {
+                    sk=JSON.stringify(arkit);
+                    if(sk.indexOf(e.name.pn)>-1){
+                        alert("Pat can not be duplicated, I Found "+e.name.pn+" part in kit, if you want to modify quantity or note go back and edit part. ");
+                        return;
+                    }
                     enc = true;
-
-
                     var qty=prompt("Qty?");
                     if(qty===null) return;
                   
@@ -1035,7 +1038,7 @@ dinv.appendChild(document.createElement("p"));
                         arkit.push(o)
                     //    e.style.background = "#fff";  
                         ////////
-e.style.background = "#0f0";
+                        e.style.background = "#0f0";
                 
                     qt.value=qty;
                     pno.value = e.name.pn.toUpperCase();
@@ -1165,6 +1168,7 @@ function openBask(e){
     navigator.vibrate([100,30]);
   //  dkit.name=e;
 dkit.style.display="block";
+dkit.value="basket"
 btnsbask.style.display="block";
 btnskit.style.display="none";
 btnsjob.style.display="none"
@@ -1390,6 +1394,7 @@ function kitaction(k){
                 areak.appendChild(d)
          }
          dkit.style.display="block";
+         dkit.value="kit"
          btnsbask.style.display="none";
 btnskit.style.display="block";
 btnsjob.style.display="none"
@@ -1538,7 +1543,8 @@ GetJ(linkkits,function(ob){   navigator.vibrate([100,30])
 });
 
 }
-function addParts(){   navigator.vibrate([100,30])
+function addParts(){
+       navigator.vibrate([100,30])
  kitmode=true;
  arkitn=dkit.name.name;
  arkit=dkit.name.parts;
@@ -1551,6 +1557,7 @@ function addParts(){   navigator.vibrate([100,30])
 function loadJob(j,obe){ 
              titulo.innerHTML=j;
               dkit.style.display="block";
+              dkit.value="job"
     if(obe!=undefined){
   
        crPa(obe,j)
@@ -1781,7 +1788,8 @@ function updIn(link,obj,n){ navigator.vibrate([100,30]);
 
                       }
 }
-function editarP(e){ navigator.vibrate([100,30]);
+function editarP(e){ 
+   // navigator.vibrate([100,30]);
     if(editMode){
          editp.style.display="none";
          editMode=false;
@@ -1802,23 +1810,58 @@ function editarP(e){ navigator.vibrate([100,30]);
      alert("Location: "+e.parentElement.name.location)
  }
 
-function spreadSheet(){ navigator.vibrate([100,30]);
-    var ps=dkit.name.parts;     
+function spreadSheet(f){
+     navigator.vibrate([100,30]);
+    var ps=dkit.name.parts;  
+  
        var e = String.fromCharCode(9);
        var c="";
        var h="";
-   if(confirm("Include Headers?"))h="QTY"+e + "Job No." + e +"P/N" + e + "Description" + e + "Mechanic" + e +"Date" +e + "Time" + e + "Move" + e + "Remaining"+ e + "Note"+"\n";
-
+       var n=dkit.name.name;
+       n=dkit.value;
+       if(n===undefined)n="";
+        var head="";
+        if(n==="job"){
+            head= e+'"Job Number: \n'+dkit.name.parts[0].job+'"\n\n';
+          h=head+"QTY"+e + "Job No." + e +"P/N" + e + "Description" + e + "Mechanic" + e +"Date" +e + "Time" + e + "Move" + e + "Remaining"+ e + "Note"+"\n";
+    
+    }      
+      
+       if(n==="kit"){ head=e+'"Kit Name: \n'+dkit.name.name+'"\n\n';
+       h=head+"QTY"+e +"P/N" + e + "Description" + e+ "From"+ e + "Note"+"\n";
+      
+       }
+       if(n==="basket"){head= e+'"Basket\n\n"\n';
+       h=head+"QTY"+e + "Job No." + e +"P/N" + e + "Description" + e + "Mechanic" + e +"Date" +e + "Time" + e + "Move" + e + "From"+ e + "Note"+"\n";
+       
+       }
+     
     for(var i=0;i<ps.length;i++){
         var p=ps[i]
         var f="";
         if(p.pulled!=undefined) f=getFe(p.created);
         else f=getFe(p.created);
         var jj=dkit.name.job;
-        if(jj===undefined)jj="No Job."
-          c+= p.qty + e + jj + e + p.pn + e + p.des + e + p.mec + e + f.fecha +e + f.tiempo + e + p.move + e + p.qtyObs+e + p.note+"\n";
+        if(jj===undefined)jj=p.job;////+ jj + e 
+        if(jj===undefined)jj="- - -";
+   
+        if(n=="job"){
+            
+             c+= p.qty + e + jj + e + p.pn + e + p.des + e + p.mec + e + f.fecha +e + f.tiempo + e + p.move + e + p.qtyObs+e + p.note+"\n";
+       
+       }
+        if(n==="basket"){
+             c+=p.qty + e + jj + e + p.pn + e + p.des + e + p.mec + e + f.fecha +e + f.tiempo + e + p.move + e + p.clase+e + p.note+"\n";
+    
+     }
+       if(n==="kit"){
+        c+=p.qty + e + p.pn + e + p.des + e + p.clase+e + p.note+"\n";
+
+   }
     }
-    tx.value = h+c;
+    if(confirm("Include Headers?")) tx.value = h+c;
+    else tx.value=c;
+   
     tx.select();document.execCommand("copy");
     alert("The Spread Sheet is in your phone/pc Clipboard\n\nJust Past it to a Spread Sheet Form")
 
@@ -1996,6 +2039,7 @@ function fillDkits(ob){
  } 
  dkit.style.display="block"
     dkit.name=ob;
+   // dkit.value="kit"
 
 }
 function addNewPart(){
